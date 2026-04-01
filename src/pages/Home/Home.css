@@ -1,0 +1,32 @@
+.bg-teal {
+  background-color: var(--primary-color) !important;
+}
+
+.text-navy {
+  color: var(--secondary-color) !important;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.max-w-400 {
+  max-width: 400px;
+}
+
+.last-border-0:last-child {
+  border-bottom: none !important;
+}
+
+.custom-checkbox .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.bg-login-gradient {
+  background: linear-gradient(135deg, #fdfbf7 0%, #f3faf9 50%, #e2f2ef 100%);
+}
+
+.pointer {
+  cursor: pointer;
+}

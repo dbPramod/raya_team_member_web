@@ -1,0 +1,10 @@
+:root {
+  --primary-color: #3d8b8b; /* Teal/Info */
+  --secondary-color: #0f1d3a; /* Navy */
+  --bg-light: #f5f7fa;
+  --bg-white: #ffffff;
+  --text-dark: #1f2d3d;
+  --text-muted: #778ca2;
+  --border-color: #e1e5eb;
+  --accent-color: #ff5a5f; /* Logout/Error red */
+}
