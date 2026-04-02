@@ -1,0 +1,472 @@
+import { useState, useRef } from 'react';
+import { Container, Row, Col, Form, Badge } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import appLogo from '../../assets/images/applogo.png';
+import locationData from '../../data/locationData.json';
+import { STRINGS } from '../../constants/strings';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
+// import { getTimezonesByCountry } from '@countrystatecity/timezones';
+import '../Home/Home.css'; // For bg-login-gradient
+
+/**
+ * [CRITICAL] 
+ * I have moved the location data into 'src/data/locationData.json' 
+ * as requested to keep this component clean and maintainable.
+ */
+
+const CompleteProfile = () => {
+    const navigate = useNavigate();
+    const fileInputRef = useRef(null);
+    const [step, setStep] = useState(1);
+
+    const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [profileImage, setProfileImage] = useState(null);
+    const [timezones, setTimezones] = useState([]);
+    const [selectedTimezone, setSelectedTimezone] = useState('');
+    const [birthDate, setBirthDate] = useState(null);
+    const [hiringDate, setHiringDate] = useState(null);
+
+    // Validation States
+    const [name, setName] = useState('');
+    const [gender, setGender] = useState('');
+    const [phone, setPhone] = useState('');
+    const [phonePrefix, setPhonePrefix] = useState('+1');
+    const [address, setAddress] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [errors, setErrors] = useState({});
+
+    const countriesList = locationData.country;
+    const statesList = selectedCountry ? locationData.states[selectedCountry] : [];
+    const citiesList = selectedState ? (locationData.cities?.[selectedState] || []) : [];
+
+    const handleCountryChange = (e) => {
+        const countryCode = e.target.value;
+        setSelectedCountry(countryCode);
+        setSelectedState('');
+        setSelectedCity('');
+
+        // NOTE: Dynamic timezone fetching is disabled until @countrystatecity/timezones is installed.
+        /*
+        if (countryCode) {
+            try {
+                const tzData = await getTimezonesByCountry(countryCode);
+                setTimezones(tzData || []);
+            } catch (error) {
+                console.error("Failed to fetch timezones:", error);
+                setTimezones([]);
+            }
+        } else {
+            setTimezones([]);
+        }
+        */
+    };
+
+    const handleStateChange = (e) => {
+        const stateCode = e.target.value;
+        console.log('State selection changed to:', stateCode);
+        setSelectedState(stateCode);
+        setSelectedCity('');
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfileImage(URL.createObjectURL(file));
+        }
+    };
+
+    const handleRemoveImage = (e) => {
+        e.stopPropagation();
+        setProfileImage(null);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+    const validateStep1 = () => {
+        const newErrors = {};
+        const { ERRORS } = STRINGS.COMPLETE_PROFILE;
+        if (!name.trim()) newErrors.name = ERRORS.NAME_REQUIRED;
+        else if (name.trim().length < 2) newErrors.name = ERRORS.NAME_MIN;
+
+        if (!gender || gender === STRINGS.COMPLETE_PROFILE.GENDER.PLACEHOLDER) newErrors.gender = ERRORS.GENDER_REQUIRED;
+        if (!birthDate) newErrors.birthDate = ERRORS.BIRTH_DATE_REQUIRED;
+
+        if (!phone.trim()) newErrors.phone = ERRORS.PHONE_REQUIRED;
+        else if (!/^\d{10}$/.test(phone.replace(/\D/g, ''))) newErrors.phone = ERRORS.PHONE_INVALID;
+
+        if (!hiringDate) newErrors.hiringDate = ERRORS.HIRING_DATE_REQUIRED;
+        if (!selectedTimezone || selectedTimezone === STRINGS.COMPLETE_PROFILE.TIMEZONE.PLACEHOLDER) newErrors.selectedTimezone = ERRORS.TIMEZONE_REQUIRED;
+        if (!address.trim()) newErrors.address = ERRORS.ADDRESS_REQUIRED;
+
+        if (!selectedCountry) newErrors.selectedCountry = ERRORS.COUNTRY_REQUIRED;
+        if (!selectedState) newErrors.selectedState = ERRORS.STATE_REQUIRED;
+        if (!selectedCity) newErrors.selectedCity = ERRORS.CITY_REQUIRED;
+
+        if (!zipCode.trim()) newErrors.zipCode = ERRORS.ZIP_REQUIRED;
+        else if (zipCode.trim().length < 5) newErrors.zipCode = ERRORS.ZIP_INVALID;
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleContinue = () => {
+        if (validateStep1()) {
+            setStep(2);
+        }
+    };
+
+    const renderStepOne = () => {
+        const { COMPLETE_PROFILE } = STRINGS;
+        return (
+            <div className="mx-auto d-flex flex-column" style={{ maxWidth: '600px', height: 'calc(100vh - 200px)' }}>
+                <div className="text-center mb-4 flex-shrink-0">
+                    <Badge
+                        pill
+                        className="py-2 px-3 fw-medium border border-dark border-opacity-25 bg-transparent text-dark mb-4"
+                        style={{ letterSpacing: '1px', fontSize: '0.75rem' }}
+                    >
+                        {COMPLETE_PROFILE.STEP_1}
+                    </Badge>
+                    <h2 className="fw-bold mb-2" style={{ color: '#0f1d3a', fontSize: '2.25rem' }}>{COMPLETE_PROFILE.TITLE}</h2>
+                    <p className="text-muted small">{COMPLETE_PROFILE.SUBTITLE}</p>
+                </div>
+
+                <Form className="mt-2 d-flex flex-column overflow-hidden flex-grow-1">
+                    <div className="flex-grow-1 overflow-auto pe-3 custom-scrollbar mb-4">
+                        {/* Name */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.NAME.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                isInvalid={!!errors.name}
+                                placeholder={COMPLETE_PROFILE.NAME.PLACEHOLDER}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        {/* Gender */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.GENDER.LABEL}</Form.Label>
+                            <Form.Select
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                isInvalid={!!errors.gender}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                style={{ fontSize: '0.95rem' }}
+                            >
+                                <option>{COMPLETE_PROFILE.GENDER.PLACEHOLDER}</option>
+                                {COMPLETE_PROFILE.GENDER.OPTIONS.map(opt => <option key={opt}>{opt}</option>)}
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        {/* Profile Photo Upload */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.PHOTO.LABEL}</Form.Label>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                hidden
+                                accept="image/*"
+                            />
+                            <div
+                                onClick={handleUploadClick}
+                                className="border border-2 border-dashed rounded-4 p-4 text-center bg-white bg-opacity-50 pointer transition-all shadow-sm overflow-hidden"
+                                style={{ borderColor: '#D1D5DB', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                            >
+                                {!profileImage ? (
+                                    <div>
+                                        <div className="mb-3">
+                                            <i className="bi bi-upload fs-3 text-muted"></i>
+                                        </div>
+                                        <p className="small text-muted mb-0">{COMPLETE_PROFILE.PHOTO.HINT}</p>
+                                    </div>
+                                ) : (
+                                    <div className="position-relative w-100 h-100 py-2">
+                                        <img
+                                            src={profileImage}
+                                            alt="Profile Preview"
+                                            className="rounded-3 shadow-sm"
+                                            style={{ maxHeight: '120px', maxWidth: '100%', objectFit: 'cover' }}
+                                        />
+                                        <button
+                                            onClick={handleRemoveImage}
+                                            className="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle translate-middle mt-2 me-n2 shadow-sm"
+                                            style={{ width: '24px', height: '24px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                        >
+                                            <i className="bi bi-x fs-6"></i>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </Form.Group>
+
+                        {/* Birth Date */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.BIRTH_DATE.LABEL}</Form.Label>
+                            <div className="position-relative">
+                                <Form.Control
+                                    type="date"
+                                    value={birthDate ? birthDate.toISOString().split('T')[0] : ''}
+                                    onChange={(e) => setBirthDate(e.target.value ? new Date(e.target.value) : null)}
+                                    isInvalid={!!errors.birthDate}
+                                    className="py-3 px-4 border-white shadow-sm rounded-3 bg-white ps-5"
+                                    style={{ fontSize: '0.95rem' }}
+                                />
+                                <i className="bi bi-calendar position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                <Form.Control.Feedback type="invalid">{errors.birthDate}</Form.Control.Feedback>
+                            </div>
+                        </Form.Group>
+
+                        {/* Phone Number */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.PHONE.LABEL}</Form.Label>
+                            <Row className="gx-2">
+                                <Col xs={4}>
+                                    <Form.Select
+                                        value={phonePrefix}
+                                        onChange={(e) => setPhonePrefix(e.target.value)}
+                                        className="py-3 px-2 border-white shadow-sm rounded-3 bg-white text-muted"
+                                        style={{ fontSize: '0.85rem' }}
+                                    >
+                                        {countriesList.map(c => (
+                                            <option key={c.isoCode} value={c.phoneCode}>
+                                                {c.flag} {c.phoneCode}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Col>
+                                <Col xs={8}>
+                                    <Form.Control
+                                        type="text"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        isInvalid={!!errors.phone}
+                                        placeholder={COMPLETE_PROFILE.PHONE.PLACEHOLDER}
+                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                        style={{ fontSize: '0.95rem' }}
+                                    />
+                                    <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
+                                </Col>
+                            </Row>
+                        </Form.Group>
+
+                        {/* Hiring Date */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.HIRING_DATE.LABEL}</Form.Label>
+                            <div className="position-relative">
+                                <Form.Control
+                                    type="date"
+                                    value={hiringDate ? hiringDate.toISOString().split('T')[0] : ''}
+                                    onChange={(e) => setHiringDate(e.target.value ? new Date(e.target.value) : null)}
+                                    isInvalid={!!errors.hiringDate}
+                                    className="py-3 px-4 border-white shadow-sm rounded-3 bg-white ps-5"
+                                    style={{ fontSize: '0.95rem' }}
+                                />
+                                <i className="bi bi-calendar-event position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                <Form.Control.Feedback type="invalid">{errors.hiringDate}</Form.Control.Feedback>
+                            </div>
+                        </Form.Group>
+
+                        {/* Time Zone */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.TIMEZONE.LABEL}</Form.Label>
+                            <Form.Select
+                                value={selectedTimezone}
+                                onChange={(e) => setSelectedTimezone(e.target.value)}
+                                isInvalid={!!errors.selectedTimezone}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                style={{ fontSize: '0.95rem' }}
+                            >
+                                <option>{COMPLETE_PROFILE.TIMEZONE.PLACEHOLDER}</option>
+                                <option>(GMT-05:00) Eastern Time</option>
+                                <option>(GMT+05:30) India Standard Time</option>
+                                <option>(GMT+00:00) London</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">{errors.selectedTimezone}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        {/* Address */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.ADDRESS.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                                isInvalid={!!errors.address}
+                                placeholder={COMPLETE_PROFILE.ADDRESS.PLACEHOLDER}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Row className="gx-4">
+                            <Col md={6}>
+                                {/* Country */}
+                                <Form.Group className="mb-4">
+                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.COUNTRY.LABEL}</Form.Label>
+                                    <Form.Select
+                                        value={selectedCountry}
+                                        onChange={handleCountryChange}
+                                        isInvalid={!!errors.selectedCountry}
+                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                        style={{ fontSize: '0.95rem' }}
+                                    >
+                                        <option value="">{COMPLETE_PROFILE.COUNTRY.PLACEHOLDER}</option>
+                                        {countriesList.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">{errors.selectedCountry}</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                {/* State */}
+                                <Form.Group className="mb-4">
+                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.STATE.LABEL}</Form.Label>
+                                    <Form.Select
+                                        value={selectedState}
+                                        onChange={handleStateChange}
+                                        disabled={!selectedCountry}
+                                        isInvalid={!!errors.selectedState}
+                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                        style={{ fontSize: '0.95rem' }}
+                                    >
+                                        <option value="">{COMPLETE_PROFILE.STATE.PLACEHOLDER}</option>
+                                        {statesList.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">{errors.selectedState}</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className="gx-4">
+                            <Col md={6}>
+                                {/* City */}
+                                <Form.Group className="mb-4">
+                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.CITY.LABEL}</Form.Label>
+                                    <Form.Select
+                                        value={selectedCity}
+                                        onChange={(e) => setSelectedCity(e.target.value)}
+                                        disabled={!selectedState}
+                                        isInvalid={!!errors.selectedCity}
+                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                        style={{ fontSize: '0.95rem' }}
+                                    >
+                                        <option value="">{COMPLETE_PROFILE.CITY.PLACEHOLDER}</option>
+                                        {citiesList.map(city => <option key={city} value={city}>{city}</option>)}
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">{errors.selectedCity}</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                {/* ZIP Code */}
+                                <Form.Group className="mb-5">
+                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.ZIP.LABEL}</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={zipCode}
+                                        onChange={(e) => setZipCode(e.target.value)}
+                                        isInvalid={!!errors.zipCode}
+                                        placeholder={COMPLETE_PROFILE.ZIP.PLACEHOLDER}
+                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                        style={{ fontSize: '0.95rem' }}
+                                    />
+                                    <Form.Control.Feedback type="invalid">{errors.zipCode}</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        {/* Relocated Navigation Buttons */}
+                        <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="btn btn-outline-secondary px-5 py-2 rounded-3 border-secondary border-opacity-50 fs-5 text-muted d-flex align-items-center gap-2"
+                                style={{ color: '#6B7280' }}
+                            >
+                                <i className="bi bi-chevron-left"></i> {COMPLETE_PROFILE.BUTTONS.BACK}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleContinue}
+                                className="btn border-0 px-5 py-2 rounded-3 fs-5 text-white d-flex align-items-center gap-2 shadow-sm"
+                                style={{ backgroundColor: '#40878E' }}
+                            >
+                                {COMPLETE_PROFILE.BUTTONS.CONTINUE} <i className="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </Form>
+            </div>
+        );
+    };
+
+    return (
+        <div className="min-vh-100 bg-login-gradient p-4 p-md-5 overflow-auto">
+            {/* Logo */}
+            <div className="mb-5 ms-md-4">
+                <img
+                    src={appLogo}
+                    alt="Swann Ave"
+                    height="32"
+                    className="pointer"
+                    onClick={() => navigate('/')}
+                />
+            </div>
+
+            <Container className="h-100 mt-5">
+                {step === 1 ? renderStepOne() : (
+                    <div className="text-center py-5">
+                        <Badge pill className="py-2 px-3 fw-medium border border-dark border-opacity-25 bg-transparent text-dark mb-4">
+                            {STRINGS.COMPLETE_PROFILE.STEP_2}
+                        </Badge>
+                        <h2 className="fw-bold mb-2 h1">{STRINGS.COMPLETE_PROFILE.COMING_SOON}</h2>
+                        <button className="btn btn-link mt-4" onClick={() => setStep(1)}>
+                            {STRINGS.COMPLETE_PROFILE.BACK_TO_STEP_1}
+                        </button>
+                    </div>
+                )}
+            </Container>
+
+            <style>{`
+                .pointer { cursor: pointer; }
+                .border-dashed { border-style: dashed !important; }
+                .form-control:focus, .form-select:focus {
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+                    border-color: #fff;
+                }
+                .text-navy { color: #0f1d3a; }
+                .bg-teal { background-color: #40878E; }
+                .react-datepicker-wrapper { width: 100%; }
+                .react-datepicker__input-container input {
+                    width: 100%;
+                    font-size: 0.95rem;
+                }
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(0, 0, 0, 0.1);
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(0, 0, 0, 0.2);
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default CompleteProfile;

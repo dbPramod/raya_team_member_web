@@ -7,4 +7,11 @@
   --text-muted: #778ca2;
   --border-color: #e1e5eb;
   --accent-color: #ff5a5f; /* Logout/Error red */
+  
+  /* Swann Dashboard Tokens */
+  --swann-navy: #0f1d3a;
+  --swann-teal-dark: #3d8b8b;
+  --swann-teal-light: #62a8a8;
+  --swann-health-bg: #9bbba8;
+  --swann-card-bg: #dde5ed;
 }

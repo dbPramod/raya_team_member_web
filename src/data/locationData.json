@@ -1,0 +1,52 @@
+{
+    "country": [
+        { "isoCode": "US", "name": "United States", "flag": "🇺🇸", "phoneCode": "+1" },
+        { "isoCode": "IN", "name": "India", "flag": "🇮🇳", "phoneCode": "+91" },
+        { "isoCode": "CA", "name": "Canada", "flag": "🇨🇦", "phoneCode": "+1" },
+        { "isoCode": "GB", "name": "United Kingdom", "flag": "🇬🇧", "phoneCode": "+44" },
+        { "isoCode": "AU", "name": "Australia", "flag": "🇦🇺", "phoneCode": "+61" },
+        { "isoCode": "DE", "name": "Germany", "flag": "🇩🇪", "phoneCode": "+49" },
+        { "isoCode": "FR", "name": "France", "flag": "🇫🇷", "phoneCode": "+33" },
+        { "isoCode": "JP", "name": "Japan", "flag": "🇯🇵", "phoneCode": "+81" },
+        { "isoCode": "BR", "name": "Brazil", "flag": "🇧🇷", "phoneCode": "+55" },
+        { "isoCode": "ZA", "name": "South Africa", "flag": "🇿🇦", "phoneCode": "+27" }
+    ],
+    "states": {
+        "US": [{ "isoCode": "NY", "name": "New York" }, { "isoCode": "CA", "name": "California" }, { "isoCode": "TX", "name": "Texas" }],
+        "IN": [{ "isoCode": "KA", "name": "Karnataka" }, { "isoCode": "MH", "name": "Maharashtra" }, { "isoCode": "DL", "name": "Delhi" }],
+        "CA": [{ "isoCode": "ON", "name": "Ontario" }, { "isoCode": "BC", "name": "British Columbia" }],
+        "GB": [{ "isoCode": "ENG", "name": "England" }, { "isoCode": "SCT", "name": "Scotland" }],
+        "AU": [{ "isoCode": "NSW", "name": "New South Wales" }, { "isoCode": "VIC", "name": "Victoria" }],
+        "DE": [{ "isoCode": "BE", "name": "Berlin" }, { "isoCode": "BY", "name": "Bavaria" }, { "isoCode": "HH", "name": "Hamburg" }],
+        "FR": [{ "isoCode": "IDF", "name": "Île-de-France" }, { "isoCode": "PAC", "name": "Provence-Alpes-Côte d'Azur" }],
+        "JP": [{ "isoCode": "TYO", "name": "Tokyo" }, { "isoCode": "OSA", "name": "Osaka" }, { "isoCode": "KYT", "name": "Kyoto" }],
+        "BR": [{ "isoCode": "SP", "name": "São Paulo" }, { "isoCode": "RJ", "name": "Rio de Janeiro" }],
+        "ZA": [{ "isoCode": "GP", "name": "Gauteng" }, { "isoCode": "WC", "name": "Western Cape" }]
+    },
+    "cities": {
+        "NY": ["New York City", "Buffalo", "Rochester"],
+        "CA": ["Los Angeles", "San Francisco", "San Diego"],
+        "TX": ["Houston", "Austin", "Dallas"],
+        "KA": ["Bangalore", "Mysore", "Hubli"],
+        "MH": ["Mumbai", "Pune", "Nagpur"],
+        "DL": ["New Delhi", "Noida", "Gurugram"],
+        "ON": ["Toronto", "Ottawa", "Mississauga"],
+        "BC": ["Vancouver", "Victoria", "Surrey"],
+        "ENG": ["London", "Manchester", "Birmingham"],
+        "SCT": ["Edinburgh", "Glasgow", "Aberdeen"],
+        "NSW": ["Sydney", "Newcastle", "Wollongong"],
+        "VIC": ["Melbourne", "Geelong", "Ballarat"],
+        "BE": ["Berlin City", "Spandau", "Pankow"],
+        "BY": ["Munich", "Nuremberg", "Augsburg"],
+        "HH": ["Hamburg City", "Altona", "Bergedorf"],
+        "IDF": ["Paris", "Boulogne-Billancourt", "Saint-Denis"],
+        "PAC": ["Marseille", "Nice", "Toulon"],
+        "TYO": ["Shinjuku", "Shibuya", "Minato"],
+        "OSA": ["Osaka City", "Sakai", "Higashiosaka"],
+        "KYT": ["Kyoto City", "Uji", "Kameoka"],
+        "SP": ["São Paulo City", "Guarulhos", "Campinas"],
+        "RJ": ["Rio de Janeiro City", "Niterói", "Duque de Caxias"],
+        "GP": ["Johannesburg", "Pretoria", "Soweto"],
+        "WC": ["Cape Town", "Stellenbosch", "George"]
+    }
+}

@@ -1,15 +1,17 @@
 import { Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
+import appLogo from '../../assets/images/applogo.png';
 
 const Sidebar = () => {
   const location = useLocation();
   
   const menuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: 'bi-grid' },
-    { name: 'Training', path: '/training', icon: 'bi-journal-bookmark' },
+    { name: 'Training', path: '/training', icon: 'bi-book' },
     { name: 'Projects & Tasks', path: '/projects', icon: 'bi-folder' },
-    { name: 'Assessments', path: '/assessments', icon: 'bi-file-text' },
-    { name: 'Leaderboard', path: '/leaderboard', icon: 'bi-bar-chart' },
+    { name: 'Swann OS', path: '/os', icon: 'bi-file-text' },
+    { name: 'KPIs', path: '/kpis', icon: 'bi-bar-chart' },
+    { name: 'Time Off', path: '/timeoff', icon: 'bi-clock' },
     { name: 'Calendar', path: '/calendar', icon: 'bi-calendar-event' },
     { name: 'Message', path: '/messages', icon: 'bi-chat-dots' },
   ];
@@ -20,36 +22,34 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="bg-navy border-end border-secondary border-opacity-25 vh-100 d-flex flex-column py-4" style={{ width: '260px', minWidth: '260px', backgroundColor: '#0f1d3a' }}>
-      <div className="px-4 mb-5">
-        <h1 className="fw-bold text-white fs-4 mb-0">
-          SWANN <span className="text-teal" style={{ color: '#3d8b8b' }}>AVE</span>
-        </h1>
+    <aside className="bg-navy border-0 border-end border-secondary border-opacity-10 vh-100 d-flex flex-column py-4" style={{ width: '280px', minWidth: '280px', backgroundColor: '#0f1d3a' }}>
+      <div className="px-4 mb-5 pb-2 d-flex align-items-center gap-2">
+        <img src={appLogo} alt="Swann Ave" height="32" style={{ filter: 'brightness(0) invert(1)' }} />
       </div>
       
-      <Nav className="flex-column flex-grow-1 px-3 gap-1">
+      <Nav className="flex-column flex-grow-1 px-3 gap-2">
         {menuItems.map((item) => (
           <Nav.Link 
             key={item.name}
             as={Link} 
             to={item.path} 
-            className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all ${location.pathname === item.path ? 'bg-teal text-white fw-semibold' : 'text-muted-light'}`}
-            style={location.pathname === item.path ? { backgroundColor: '#3d8b8b' } : { color: '#a6b0cf' }}
+            className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all position-relative overflow-hidden ${location.pathname === item.path || (location.pathname === '/' && item.path === '/dashboard') ? 'bg-teal text-white fw-medium shadow-sm' : 'text-muted-light'}`}
+            style={(location.pathname === item.path || (location.pathname === '/' && item.path === '/dashboard')) ? { backgroundColor: '#448b8b' } : { color: '#a6b0cf' }}
           >
             <i className={`bi ${item.icon} fs-5`}></i>
-            <span>{item.name}</span>
+            <span style={{ fontSize: '0.95rem' }}>{item.name}</span>
           </Nav.Link>
         ))}
       </Nav>
 
-      <Nav className="flex-column px-3 mt-auto gap-1 border-top border-white border-opacity-10 pt-4">
+      <Nav className="flex-column px-3 mt-auto gap-2 border-top border-white border-opacity-10 pt-4">
         {bottomItems.map((item) => (
           <Nav.Link 
             key={item.name}
             as={Link} 
             to={item.path} 
             className={`d-flex align-items-center gap-3 px-3 py-2 rounded ${item.color || 'text-muted-light'}`}
-            style={!item.color ? { color: '#a6b0cf' } : {}}
+            style={!item.color ? { color: '#a6b0cf', fontSize: '0.95rem' } : { fontSize: '0.95rem', color: '#e74c3c' }}
           >
             <i className={`bi ${item.icon} fs-5`}></i>
             <span>{item.name}</span>

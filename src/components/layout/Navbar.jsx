@@ -8,19 +8,22 @@ const Navbar = () => {
           <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
           <FormControl
             type="search"
-            placeholder="Search training..."
-            className="ps-5 bg-light border-0 rounded-pill"
+            placeholder="Search..."
+            className="ps-5 bg-white rounded-pill"
+            style={{ fontSize: '0.9rem', borderColor: '#e2e8f0', boxShadow: 'none' }}
             aria-label="Search"
           />
         </div>
       </Form>
       
-      <Nav className="ms-auto d-flex align-items-center gap-3">
-        <Nav.Link href="#" className="text-muted"><i className="bi bi-bell fs-5"></i></Nav.Link>
-        <Nav.Link href="#" className="text-muted"><i className="bi bi-question-circle fs-5"></i></Nav.Link>
-        <div className="d-flex align-items-center gap-2 ms-2 p-1 pe-3 rounded-pill bg-light">
-           <img src="https://i.pravatar.cc/150?u=me" alt="user" className="rounded-circle" width="32" height="32" />
-           <span className="small fw-bold text-dark d-none d-sm-inline">Dinesh B</span>
+      <Nav className="ms-auto d-flex align-items-center gap-4 pe-2">
+        <Nav.Link href="#" className="text-muted p-0"><i className="bi bi-bell text-secondary" style={{ fontSize: '1.2rem' }}></i></Nav.Link>
+        <div className="d-flex align-items-center gap-2 pointer">
+           <img src="https://i.pravatar.cc/150?u=sapphire" alt="Sapphire Bright" className="rounded-circle border border-2 border-white shadow-sm" width="36" height="36" />
+           <div className="d-none d-sm-flex flex-column lh-1">
+             <span className="small fw-semibold text-dark" style={{ fontSize: '0.9rem' }}>Sapphire Bright</span>
+             <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px' }}>Role</span>
+           </div>
         </div>
       </Nav>
     </BsNavbar>
