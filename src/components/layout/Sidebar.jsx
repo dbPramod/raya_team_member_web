@@ -28,18 +28,21 @@ const Sidebar = () => {
       </div>
       
       <Nav className="flex-column flex-grow-1 px-3 gap-2">
-        {menuItems.map((item) => (
-          <Nav.Link 
-            key={item.name}
-            as={Link} 
-            to={item.path} 
-            className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all position-relative overflow-hidden ${location.pathname === item.path || (location.pathname === '/' && item.path === '/dashboard') ? 'bg-teal text-white fw-medium shadow-sm' : 'text-muted-light'}`}
-            style={(location.pathname === item.path || (location.pathname === '/' && item.path === '/dashboard')) ? { backgroundColor: '#448b8b' } : { color: '#a6b0cf' }}
-          >
-            <i className={`bi ${item.icon} fs-5`}></i>
-            <span style={{ fontSize: '0.95rem' }}>{item.name}</span>
-          </Nav.Link>
-        ))}
+        {menuItems.map((item) => {
+          const isActive = location.pathname.startsWith(item.path) || (location.pathname === '/' && item.path === '/dashboard');
+          return (
+            <Nav.Link 
+              key={item.name}
+              as={Link} 
+              to={item.path} 
+              className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all position-relative overflow-hidden ${isActive ? 'bg-teal text-white fw-medium shadow-sm' : 'text-muted-light'}`}
+              style={isActive ? { backgroundColor: '#448b8b' } : { color: '#a6b0cf' }}
+            >
+              <i className={`bi ${item.icon} fs-5`}></i>
+              <span style={{ fontSize: '0.95rem' }}>{item.name}</span>
+            </Nav.Link>
+          );
+        })}
       </Nav>
 
       <Nav className="flex-column px-3 mt-auto gap-2 border-top border-white border-opacity-10 pt-4">
@@ -48,8 +51,8 @@ const Sidebar = () => {
             key={item.name}
             as={Link} 
             to={item.path} 
-            className={`d-flex align-items-center gap-3 px-3 py-2 rounded ${item.color || 'text-muted-light'}`}
-            style={!item.color ? { color: '#a6b0cf', fontSize: '0.95rem' } : { fontSize: '0.95rem', color: '#e74c3c' }}
+            className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all ${location.pathname === item.path ? 'bg-teal text-white fw-medium shadow-sm' : (item.color || 'text-muted-light')}`}
+            style={location.pathname === item.path ? { backgroundColor: '#448b8b' } : (!item.color ? { color: '#a6b0cf', fontSize: '0.95rem' } : { fontSize: '0.95rem', color: '#e74c3c' })}
           >
             <i className={`bi ${item.icon} fs-5`}></i>
             <span>{item.name}</span>

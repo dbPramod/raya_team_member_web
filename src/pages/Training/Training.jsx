@@ -97,7 +97,13 @@ const Training = () => {
                     
                     <button 
                         className="w-100 border-0 py-2 fw-medium transition-all" 
-                        onClick={() => (status === 'notStarted' || status === 'inProgress') && navigate('/training/detail')}
+                        onClick={() => {
+                            if (status === 'completed') {
+                                navigate('/training/certificate');
+                            } else {
+                                navigate('/training/detail');
+                            }
+                        }}
                         style={{ 
                             backgroundColor: buttonBg, 
                             color: buttonColor, 

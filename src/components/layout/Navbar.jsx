@@ -1,4 +1,5 @@
 import { Container, Navbar as BsNavbar, Nav, Form, FormControl } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -18,13 +19,13 @@ const Navbar = () => {
       
       <Nav className="ms-auto d-flex align-items-center gap-4 pe-2">
         <Nav.Link href="#" className="text-muted p-0"><i className="bi bi-bell text-secondary" style={{ fontSize: '1.2rem' }}></i></Nav.Link>
-        <div className="d-flex align-items-center gap-2 pointer">
+        <Link to="/settings" className="text-decoration-none d-flex align-items-center gap-2 pointer border-0 bg-transparent p-0">
            <img src="https://i.pravatar.cc/150?u=sapphire" alt="Sapphire Bright" className="rounded-circle border border-2 border-white shadow-sm" width="36" height="36" />
-           <div className="d-none d-sm-flex flex-column lh-1">
+           <div className="d-none d-sm-flex flex-column lh-1 text-start">
              <span className="small fw-semibold text-dark" style={{ fontSize: '0.9rem' }}>Sapphire Bright</span>
              <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px' }}>Role</span>
            </div>
-        </div>
+        </Link>
       </Nav>
     </BsNavbar>
   );

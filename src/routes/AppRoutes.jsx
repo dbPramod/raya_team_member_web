@@ -11,6 +11,13 @@ import Verification from '../pages/Auth/Verification';
 import ResetPassword from '../pages/Auth/ResetPassword';
 import ResetSuccess from '../pages/Auth/ResetSuccess';
 import CompleteProfile from '../pages/CompleteProfile/CompleteProfile';
+import Settings from '../pages/Settings/Settings';
+import TrainingCertificate from '../pages/Training/TrainingCertificate';
+import ProjectsTasks from '../pages/ProjectsTasks/ProjectsTasks';
+import ProjectDetail from '../pages/ProjectsTasks/ProjectDetail';
+import TaskDetail from '../pages/ProjectsTasks/TaskDetail';
+import TodoHistory from '../pages/ProjectsTasks/TodoHistory';
+import SwannOS from '../pages/SwannOS/SwannOS';
 import Logout from '../pages/Auth/Logout';
 
 const AppRoutes = () => {
@@ -21,8 +28,14 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/training" element={<Training />} />
         <Route path="/training/detail" element={<TrainingDetail />} />
+        <Route path="/training/certificate" element={<TrainingCertificate />} />
+        <Route path="/projects" element={<ProjectsTasks />} />
+        <Route path="/projects/detail" element={<ProjectDetail />} />
+        <Route path="/projects/task-detail" element={<TaskDetail />} />
+        <Route path="/projects/todo-history" element={<TodoHistory />} />
+        <Route path="/os" element={<SwannOS />} />
         <Route path="/members" element={<div className="container py-4"><h1>Members</h1></div>} />
-        <Route path="/settings" element={<div className="container py-4"><h1>Settings</h1></div>} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

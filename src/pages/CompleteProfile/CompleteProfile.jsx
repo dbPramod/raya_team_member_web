@@ -38,6 +38,16 @@ const CompleteProfile = () => {
     const [zipCode, setZipCode] = useState('');
     const [errors, setErrors] = useState({});
 
+    // Step 2 States
+    const [isMarried, setIsMarried] = useState('');
+    const [hasKids, setHasKids] = useState('');
+    const [hasPets, setHasPets] = useState('');
+    const [favoriteFlower, setFavoriteFlower] = useState('');
+    const [favoriteCake, setFavoriteCake] = useState('');
+    const [favoriteOnlineStore, setFavoriteOnlineStore] = useState('');
+    const [favoriteLocalBusiness, setFavoriteLocalBusiness] = useState('');
+    const [favoriteRestaurant, setFavoriteRestaurant] = useState('');
+
     const countriesList = locationData.country;
     const statesList = selectedCountry ? locationData.states[selectedCountry] : [];
     const citiesList = selectedState ? (locationData.cities?.[selectedState] || []) : [];
@@ -114,16 +124,42 @@ const CompleteProfile = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    const validateStep2 = () => {
+        const newErrors = {};
+        const { ERRORS } = STRINGS.COMPLETE_PROFILE;
+        
+        if (!isMarried) newErrors.isMarried = ERRORS.SELECTION_REQUIRED;
+        if (!hasKids) newErrors.hasKids = ERRORS.SELECTION_REQUIRED;
+        if (!hasPets) newErrors.hasPets = ERRORS.SELECTION_REQUIRED;
+        
+        // Favorites are optional for now, but we can add validation here if needed
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleContinue = () => {
-        if (validateStep1()) {
-            setStep(2);
+        if (step === 1) {
+            if (validateStep1()) {
+                setStep(2);
+                setErrors({});
+            }
+        } else {
+            if (validateStep2()) {
+                // Final submission logic
+                console.log('Final Data:', {
+                    name, gender, birthDate, phone, hiringDate, selectedTimezone, address, selectedCountry, selectedState, selectedCity, zipCode,
+                    isMarried, hasKids, hasPets, favoriteFlower, favoriteCake, favoriteOnlineStore, favoriteLocalBusiness, favoriteRestaurant
+                });
+                navigate('/');
+            }
         }
     };
 
     const renderStepOne = () => {
         const { COMPLETE_PROFILE } = STRINGS;
         return (
-            <div className="mx-auto d-flex flex-column" style={{ maxWidth: '600px', height: 'calc(100vh - 200px)' }}>
+            <div className="mx-auto d-flex flex-column" style={{ maxWidth: '600px', minHeight: 'auto' }}>
                 <div className="text-center mb-4 flex-shrink-0">
                     <Badge
                         pill
@@ -136,7 +172,7 @@ const CompleteProfile = () => {
                     <p className="text-muted small">{COMPLETE_PROFILE.SUBTITLE}</p>
                 </div>
 
-                <Form className="mt-2 d-flex flex-column overflow-hidden flex-grow-1">
+                <Form className="mt-2 d-flex flex-column overflow-hidden flex-grow-1" style={{ maxHeight: 'calc(100vh - 250px)' }}>
                     <div className="flex-grow-1 overflow-auto pe-3 custom-scrollbar mb-4">
                         {/* Name */}
                         <Form.Group className="mb-4">
@@ -409,6 +445,144 @@ const CompleteProfile = () => {
             </div>
         );
     };
+    const renderStepTwo = () => {
+        const { COMPLETE_PROFILE } = STRINGS;
+        const { LIFESTYLE, FAVORITES, BUTTONS } = COMPLETE_PROFILE;
+
+        const renderRadioGroup = (label, value, setter, error) => (
+            <Form.Group className="mb-4">
+                <Form.Label className="fw-medium small mb-3 d-block text-dark opacity-75">{label}</Form.Label>
+                <div className="d-flex gap-4">
+                    <Form.Check
+                        type="radio"
+                        label={LIFESTYLE.YES}
+                        name={label}
+                        id={`${label}-yes`}
+                        checked={value === 'Yes'}
+                        onChange={() => { setter('Yes'); setErrors(prev => ({ ...prev, [error]: null })); }}
+                        className="custom-radio"
+                        isInvalid={!!errors[error]}
+                    />
+                    <Form.Check
+                        type="radio"
+                        label={LIFESTYLE.NO}
+                        name={label}
+                        id={`${label}-no`}
+                        checked={value === 'No'}
+                        onChange={() => { setter('No'); setErrors(prev => ({ ...prev, [error]: null })); }}
+                        className="custom-radio"
+                        isInvalid={!!errors[error]}
+                    />
+                </div>
+                {errors[error] && <div className="text-danger small mt-2">{errors[error]}</div>}
+            </Form.Group>
+        );
+
+        return (
+            <div className="mx-auto d-flex flex-column" style={{ maxWidth: '600px', minHeight: 'auto' }}>
+                <div className="text-center mb-4 flex-shrink-0">
+                    <Badge
+                        pill
+                        className="py-2 px-3 fw-medium border border-dark border-opacity-25 bg-transparent text-dark mb-4"
+                        style={{ letterSpacing: '1px', fontSize: '0.75rem' }}
+                    >
+                        {COMPLETE_PROFILE.STEP_2}
+                    </Badge>
+                    <h2 className="fw-bold mb-2" style={{ color: '#0f1d3a', fontSize: '2.25rem' }}>{COMPLETE_PROFILE.TITLE}</h2>
+                    <p className="text-muted small">{COMPLETE_PROFILE.SUBTITLE}</p>
+                </div>
+
+                <Form className="mt-2 d-flex flex-column overflow-hidden flex-grow-1" style={{ maxHeight: 'calc(100vh - 250px)' }}>
+                    <div className="flex-grow-1 overflow-auto pe-3 custom-scrollbar mb-4">
+                        {renderRadioGroup(LIFESTYLE.MARRIED, isMarried, setIsMarried, 'isMarried')}
+                        {renderRadioGroup(LIFESTYLE.KIDS, hasKids, setHasKids, 'hasKids')}
+                        {renderRadioGroup(LIFESTYLE.PETS, hasPets, setHasPets, 'hasPets')}
+
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2 text-dark opacity-75">{FAVORITES.FLOWER.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder={FAVORITES.FLOWER.PLACEHOLDER}
+                                value={favoriteFlower}
+                                onChange={(e) => setFavoriteFlower(e.target.value)}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2 text-dark opacity-75">{FAVORITES.CAKE.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder={FAVORITES.CAKE.PLACEHOLDER}
+                                value={favoriteCake}
+                                onChange={(e) => setFavoriteCake(e.target.value)}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2 text-dark opacity-75">{FAVORITES.STORE.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder={FAVORITES.STORE.PLACEHOLDER}
+                                value={favoriteOnlineStore}
+                                onChange={(e) => setFavoriteOnlineStore(e.target.value)}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2 text-dark opacity-75">{FAVORITES.BUSINESS.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder={FAVORITES.BUSINESS.PLACEHOLDER}
+                                value={favoriteLocalBusiness}
+                                onChange={(e) => setFavoriteLocalBusiness(e.target.value)}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2 text-dark opacity-75">{FAVORITES.RESTAURANT.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder={FAVORITES.RESTAURANT.PLACEHOLDER}
+                                value={favoriteRestaurant}
+                                onChange={(e) => setFavoriteRestaurant(e.target.value)}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                        </Form.Group>
+
+                        {/* Navigation Buttons */}
+                        <div className="d-flex align-items-center justify-content-between mt-4 mb-2">
+                            <button
+                                type="button"
+                                onClick={() => { setStep(1); setErrors({}); }}
+                                className="btn btn-outline-secondary px-5 py-2 rounded-3 border-secondary border-opacity-50 fs-5 text-muted d-flex align-items-center gap-2"
+                                style={{ color: '#6B7280' }}
+                            >
+                                <i className="bi bi-chevron-left"></i> {BUTTONS.BACK}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleContinue}
+                                className="btn border-0 px-5 py-2 rounded-3 fs-5 text-white d-flex align-items-center gap-2 shadow-sm"
+                                style={{ backgroundColor: '#40878E' }}
+                            >
+                                {BUTTONS.CONTINUE} <i className="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </Form>
+            </div>
+        );
+    };
+
 
     return (
         <div className="min-vh-100 bg-login-gradient p-4 p-md-5 overflow-auto">
@@ -423,18 +597,8 @@ const CompleteProfile = () => {
                 />
             </div>
 
-            <Container className="h-100 mt-5">
-                {step === 1 ? renderStepOne() : (
-                    <div className="text-center py-5">
-                        <Badge pill className="py-2 px-3 fw-medium border border-dark border-opacity-25 bg-transparent text-dark mb-4">
-                            {STRINGS.COMPLETE_PROFILE.STEP_2}
-                        </Badge>
-                        <h2 className="fw-bold mb-2 h1">{STRINGS.COMPLETE_PROFILE.COMING_SOON}</h2>
-                        <button className="btn btn-link mt-4" onClick={() => setStep(1)}>
-                            {STRINGS.COMPLETE_PROFILE.BACK_TO_STEP_1}
-                        </button>
-                    </div>
-                )}
+            <Container className="mt-5">
+                {step === 1 ? renderStepOne() : renderStepTwo()}
             </Container>
 
             <style>{`
@@ -463,6 +627,23 @@ const CompleteProfile = () => {
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                     background: rgba(0, 0, 0, 0.2);
+                }
+
+                .custom-radio .form-check-input {
+                    width: 24px;
+                    height: 24px;
+                    margin-top: 0.1rem;
+                    cursor: pointer;
+                    border: 2px solid #dee2e6;
+                }
+                .custom-radio .form-check-input:checked {
+                    background-color: #4a8b8f;
+                    border-color: #4a8b8f;
+                }
+                .custom-radio .form-check-label {
+                    cursor: pointer;
+                    margin-left: 0.5rem;
+                    color: #495057;
                 }
             `}</style>
         </div>

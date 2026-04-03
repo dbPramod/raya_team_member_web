@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, ProgressBar, Badge, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Button';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [mentalHealthValue, setMentalHealthValue] = useState(1);
 
   const trainings = [
@@ -62,7 +64,13 @@ const Dashboard = () => {
               ))}
             </div>
             <div className="text-center mt-2">
-              <a href="#" className="small fw-medium text-decoration-none" style={{ color: '#7a8b9a' }}>View All</a>
+              <span 
+                className="small fw-medium text-decoration-none pointer transition-all" 
+                style={{ color: '#7a8b9a', cursor: 'pointer' }}
+                onClick={() => navigate('/training')}
+              >
+                View All
+              </span>
             </div>
           </div>
 

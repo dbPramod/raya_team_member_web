@@ -58,8 +58,8 @@ export const STRINGS = {
   COMPLETE_PROFILE: {
     STEP_1: 'STEP 1 OF 2',
     STEP_2: 'STEP 2 OF 2',
-    TITLE: 'Complete Your Profile',
-    SUBTITLE: 'This information allows us to customize your profile',
+    TITLE: 'Help Us Get to Know You',
+    SUBTITLE: 'Please provide a few more details to complete your profile setup.',
     NAME: {
       LABEL: 'Name',
       PLACEHOLDER: 'Enter your name'
@@ -116,20 +116,139 @@ export const STRINGS = {
     COMING_SOON: 'Coming Soon',
     BACK_TO_STEP_1: 'Back to Step 1',
     ERRORS: {
-      NAME_REQUIRED: 'Name is required',
-      NAME_MIN: 'Name must be at least 2 characters',
-      GENDER_REQUIRED: 'Gender is required',
-      BIRTH_DATE_REQUIRED: 'Birth date is required',
-      PHONE_REQUIRED: 'Phone number is required',
-      PHONE_INVALID: 'Phone must be 10 digits',
-      HIRING_DATE_REQUIRED: 'Hiring date is required',
-      TIMEZONE_REQUIRED: 'Time zone is required',
-      ADDRESS_REQUIRED: 'Address is required',
-      COUNTRY_REQUIRED: 'Country is required',
-      STATE_REQUIRED: 'State is required',
-      CITY_REQUIRED: 'City is required',
-      ZIP_REQUIRED: 'ZIP code is required',
-      ZIP_INVALID: 'ZIP code is invalid'
+      NAME_REQUIRED: 'Please enter your full name',
+      NAME_MIN: 'Full name should be at least 2 characters long',
+      GENDER_REQUIRED: 'Please select your gender',
+      BIRTH_DATE_REQUIRED: 'Please choose your date of birth',
+      PHONE_REQUIRED: 'Please provide your phone number',
+      PHONE_INVALID: 'Phone number should be exactly 10 digits',
+      HIRING_DATE_REQUIRED: 'Please select your hiring date',
+      TIMEZONE_REQUIRED: 'Please select your local time zone',
+      ADDRESS_REQUIRED: 'Please provide your street address',
+      COUNTRY_REQUIRED: 'Please choose your country',
+      STATE_REQUIRED: 'Please choose your state',
+      CITY_REQUIRED: 'Please choose your city',
+      ZIP_REQUIRED: 'Please provide your ZIP code',
+      ZIP_INVALID: 'Please enter a valid ZIP code',
+      SELECTION_REQUIRED: 'Please select an option'
+    },
+    LIFESTYLE: {
+      MARRIED: 'Are you married?',
+      KIDS: 'Do you have any kids?',
+      PETS: 'Do you own any pets?',
+      YES: 'Yes',
+      NO: 'No'
+    },
+    FAVORITES: {
+      FLOWER: {
+        LABEL: 'Favorite Flower',
+        PLACEHOLDER: 'Enter your favorite flower'
+      },
+      CAKE: {
+        LABEL: 'Favorite Cake Flavor',
+        PLACEHOLDER: 'Enter your favorite flavor'
+      },
+      STORE: {
+        LABEL: 'Favorite Online Store',
+        PLACEHOLDER: 'Enter your favorite store'
+      },
+      BUSINESS: {
+        LABEL: 'Favorite Local Business',
+        PLACEHOLDER: 'Enter your favorite business'
+      },
+      RESTAURANT: {
+        LABEL: 'Favorite Restaurant',
+        PLACEHOLDER: 'Enter your favorite restaurant'
+      }
+    }
+  },
+  SETTINGS: {
+    TITLE: 'Settings',
+    BUTTONS: {
+      CHANGE_PASSWORD: 'Change Password',
+      DELETE_ACCOUNT: 'Delete Account',
+      CANCEL: 'Cancel',
+      CHANGE: 'Change'
+    },
+    PROFILE: {
+      JOINED_ON: 'Joined on',
+      NAME_LABEL: 'NAME',
+      NAME_PLACEHOLDER: 'Enter your first name',
+      HIRING_DATE_LABEL: 'HIRING DATE',
+      HIRING_DATE_PLACEHOLDER: 'Select hiring date',
+      DEPARTMENT_LABEL: 'DEPARTMENT',
+      DEPARTMENT_PLACEHOLDER: 'Select department',
+      REMOVE_PHOTO: 'Remove',
+      CHANGE_PHOTO: 'Change Photo'
+    },
+    PERSONAL: {
+      TITLE: 'Personal Details',
+      EMAIL: 'EMAIL',
+      EMAIL_PLACEHOLDER: 'Enter email',
+      PHONE: 'PHONE NUMBER',
+      PHONE_PLACEHOLDER: '000-000-0000',
+      GENDER: 'GENDER',
+      GENDER_PLACEHOLDER: 'Select gender',
+      ADDRESS: 'ADDRESS',
+      ADDRESS_PLACEHOLDER: 'Enter address',
+      DOB: 'BIRTH DATE',
+      DOB_PLACEHOLDER: 'Select due date'
+    },
+    FAMILY: {
+      TITLE: 'Family Details',
+      SPOUSE_NAME: 'SPOUSE NAME',
+      SPOUSE_PLACEHOLDER: 'Enter spouse name',
+      ANNIVERSARY: 'ANNIVERSARY',
+      ANNIVERSARY_PLACEHOLDER: 'Select due date',
+      GENDER: 'GENDER',
+      GENDER_PLACEHOLDER: 'Select gender',
+      KIDS_NAME: 'KIDS NAME',
+      KIDS_NAME_PLACEHOLDER: 'Enter kids name',
+      KIDS_BIRTHDAY: 'BIRTHDAY',
+      KIDS_BIRTHDAY_PLACEHOLDER: 'Select birthday',
+      PET_NAME: 'Pets name',
+      PET_NAME_PLACEHOLDER: 'Enter age',
+      PET_AGE: 'Pets age',
+      PET_AGE_PLACEHOLDER: 'Enter age'
+    },
+    NOTIFICATIONS: {
+      TITLE: 'Notification Preferences',
+      TASK_UPDATE: {
+        LABEL: 'TASK UPDATE',
+        DESC: 'Get notified about tasks, assignments, and chat'
+      }
+    },
+    APPLICATION: {
+      TITLE: 'Application Preference',
+      TIMEZONE: 'TIME ZONE'
+    },
+    FAVORITES: {
+      TITLE: 'Favorites',
+      FLOWER: 'FLOWERS',
+      CAKE: 'CAKE FLAVOR',
+      STORE: 'ONLINE STORE',
+      BUSINESS: 'LOCAL BUSINESS',
+      RESTAURANT: 'RESTAURANT',
+      PLACEHOLDERS: {
+        STORE: 'Enter your favorite store',
+        BUSINESS: 'Enter your favorite local busin...',
+        RESTAURANT: 'Enter your favorite restaurant'
+      }
+    },
+    CHANGE_PASSWORD_MODAL: {
+      TITLE: 'Change Password',
+      NEW_PASSWORD_LABEL: 'New Password',
+      NEW_PASSWORD_PLACEHOLDER: 'Enter new password',
+      CONFIRM_PASSWORD_LABEL: 'Confirm Password',
+      CONFIRM_PASSWORD_PLACEHOLDER: 'Re-enter new password',
+      BUTTON: 'Reset'
+    },
+    DELETE_ACCOUNT_MODAL: {
+      TITLE: 'Delete Account',
+      MESSAGE: 'Are you sure you want to delete this account?',
+      WARNING: 'Deleting this account will permanently remove all associated information and cannot be restored.',
+      CANCEL_BUTTON: 'Cancel',
+      DELETE_BUTTON: 'Delete'
     }
   }
 };

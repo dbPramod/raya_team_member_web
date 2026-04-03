@@ -1,0 +1,128 @@
+/* Custom Styles for Projects & Tasks Module */
+
+/* Global Typography */
+.projects-container, 
+.projects-container h1, 
+.projects-container h2, 
+.projects-container h3, 
+.projects-container h4, 
+.projects-container h5, 
+.projects-container h6, 
+.projects-container span, 
+.projects-container p, 
+.projects-container label, 
+.projects-container .nav-link {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* Utility Classes */
+.pointer { cursor: pointer; }
+.transition-all { transition: all 0.3s ease-in-out; }
+.ls-1 { letter-spacing: 0.05em; }
+.bg-opacity-25 { background-color: rgba(255, 255, 255, 0.25) !important; }
+
+/* Colors & Hover Effects */
+.text-teal { color: #3d8b8b !important; }
+.hover-teal:hover { color: #3d8b8b !important; transition: all 0.2s; cursor: pointer; }
+.border-bottom-teal { border-bottom: 2px solid #3d8b8b !important; }
+
+.hover-shadow:hover { 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important; 
+    transform: translateY(-2px); 
+}
+
+.hover-translate:hover { 
+    transform: translateY(-5px); 
+    cursor: pointer;
+}
+
+.hover-bg-light:hover { 
+    background-color: var(--bg-light); 
+    cursor: pointer; 
+}
+
+/* Custom Progress Bar Gradient */
+.custom-progress-gradient .progress-bar {
+    background: linear-gradient(90deg, #40878E 0%, #EFECE4 100%) !important;
+    border-radius: 10px !important;
+}
+
+/* Premium Custom Select */
+.custom-select-premium {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230f1d3a' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 3rem !important;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.custom-select-premium:focus {
+    box-shadow: 0 0 0 0.25rem rgba(64, 135, 142, 0.15) !important;
+    border: none;
+}
+
+.custom-select-premium:hover {
+    background-color: #f8f9fa;
+}
+
+.bg-light-blue {
+    background-color: #dbeafe !important;
+}
+
+/* Task Detail Specific Styles */
+.task-detail-row {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.task-detail-row:last-child {
+    border-bottom: none;
+}
+
+.attachment-card {
+    border: 1.5px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.2s;
+    background: #fff;
+    cursor: pointer;
+    min-width: 280px;
+}
+.attachment-card:hover {
+    border-color: var(--swann-teal);
+    background-color: #f8fbff;
+    transform: translateY(-2px);
+}
+
+.file-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+.bg-doc { background-color: #eef2ff; color: #4f46e5; }
+.bg-pdf { background-color: #fff1f2; color: #e11d48; }
+
+.badge-status {
+    padding: 0.5rem 1.5rem;
+    border-radius: 50rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.badge-due {
+    background-color: #F8D7DA !important;
+    color: #842029 !important;
+}
+
+.badge-completed {
+    background-color: #D1E7DD !important;
+    color: #0F5132 !important;
+}
