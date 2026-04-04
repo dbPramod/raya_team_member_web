@@ -18,6 +18,9 @@ import ProjectDetail from '../pages/ProjectsTasks/ProjectDetail';
 import TaskDetail from '../pages/ProjectsTasks/TaskDetail';
 import TodoHistory from '../pages/ProjectsTasks/TodoHistory';
 import SwannOS from '../pages/SwannOS/SwannOS';
+import KPIs from '../pages/KPIs/KPIs';
+import KPIHistory from '../pages/KPIs/KPIHistory';
+import TimeOff from '../pages/TimeOff/TimeOff';
 import Logout from '../pages/Auth/Logout';
 
 const AppRoutes = () => {
@@ -34,6 +37,9 @@ const AppRoutes = () => {
         <Route path="/projects/task-detail" element={<TaskDetail />} />
         <Route path="/projects/todo-history" element={<TodoHistory />} />
         <Route path="/os" element={<SwannOS />} />
+        <Route path="/kpis" element={<KPIs />} />
+        <Route path="/kpis/history" element={<KPIHistory />} />
+        <Route path="/timeoff" element={<TimeOff />} />
         <Route path="/members" element={<div className="container py-4"><h1>Members</h1></div>} />
         <Route path="/settings" element={<Settings />} />
       </Route>
