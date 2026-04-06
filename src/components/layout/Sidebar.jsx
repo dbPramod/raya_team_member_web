@@ -2,7 +2,7 @@ import { Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import appLogo from '../../assets/images/applogo.png';
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
   const location = useLocation();
   
   const menuItems = [
@@ -37,6 +37,7 @@ const Sidebar = () => {
               to={item.path} 
               className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all position-relative overflow-hidden ${isActive ? 'bg-teal text-white fw-medium shadow-sm' : 'text-muted-light'}`}
               style={isActive ? { backgroundColor: '#448b8b' } : { color: '#a6b0cf' }}
+              onClick={onClose}
             >
               <i className={`bi ${item.icon} fs-5`}></i>
               <span style={{ fontSize: '0.95rem' }}>{item.name}</span>
@@ -53,6 +54,7 @@ const Sidebar = () => {
             to={item.path} 
             className={`d-flex align-items-center gap-3 px-3 py-2 rounded transition-all ${location.pathname === item.path ? 'bg-teal text-white fw-medium shadow-sm' : (item.color || 'text-muted-light')}`}
             style={location.pathname === item.path ? { backgroundColor: '#448b8b' } : (!item.color ? { color: '#a6b0cf', fontSize: '0.95rem' } : { fontSize: '0.95rem', color: '#e74c3c' })}
+            onClick={onClose}
           >
             <i className={`bi ${item.icon} fs-5`}></i>
             <span>{item.name}</span>

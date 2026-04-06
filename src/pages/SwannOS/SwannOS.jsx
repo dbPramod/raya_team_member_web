@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Container, Nav, Row, Col, Badge, Button, Card, Modal } from 'react-bootstrap';
-import './SwannOS.css';
-
 const SwannOS = () => {
     const [activeTab, setActiveTab] = useState('assessments');
     const [showModal, setShowModal] = useState(false);

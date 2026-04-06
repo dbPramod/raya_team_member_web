@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, ProgressBar, Badge, Form, Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './ProjectsTasks.css';
-
 const ProjectDetail = () => {
     const navigate = useNavigate();
 

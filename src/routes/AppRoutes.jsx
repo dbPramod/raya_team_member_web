@@ -21,6 +21,9 @@ import SwannOS from '../pages/SwannOS/SwannOS';
 import KPIs from '../pages/KPIs/KPIs';
 import KPIHistory from '../pages/KPIs/KPIHistory';
 import TimeOff from '../pages/TimeOff/TimeOff';
+import Calendar from '../pages/Calendar/Calendar';
+import Messages from '../pages/Messages/Messages';
+import Notifications from '../pages/Notifications/Notifications';
 import Logout from '../pages/Auth/Logout';
 
 const AppRoutes = () => {
@@ -40,6 +43,9 @@ const AppRoutes = () => {
         <Route path="/kpis" element={<KPIs />} />
         <Route path="/kpis/history" element={<KPIHistory />} />
         <Route path="/timeoff" element={<TimeOff />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/notifications" element={<Notifications />} />
         <Route path="/members" element={<div className="container py-4"><h1>Members</h1></div>} />
         <Route path="/settings" element={<Settings />} />
       </Route>

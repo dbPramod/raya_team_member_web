@@ -1,7 +1,5 @@
 import { Container, Row, Col, Badge, Form, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './ProjectsTasks.css';
-
 const TaskDetail = () => {
     const navigate = useNavigate();
 

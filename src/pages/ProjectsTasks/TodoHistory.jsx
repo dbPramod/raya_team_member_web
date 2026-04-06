@@ -1,7 +1,5 @@
 import { Container, Row, Col, Badge, Nav, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './ProjectsTasks.css';
-
 const TodoHistory = () => {
     const navigate = useNavigate();
 

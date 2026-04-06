@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 import Button from '../../components/common/Button';
 import { Link } from 'react-router-dom';
-import './Home.css';
-
 const Home = () => {
   return (
     <Container className="py-5">

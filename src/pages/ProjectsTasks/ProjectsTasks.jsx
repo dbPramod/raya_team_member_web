@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, ProgressBar, Badge, Form, Nav, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './ProjectsTasks.css';
-
 const ProjectsTasks = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('project'); // 'todo' or 'project'

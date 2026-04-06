@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Container, Modal, Form, Row, Col } from 'react-bootstrap';
-import './TimeOff.css';
-
 /* ══════════════════════════════════════════════
    Status Badge
 ══════════════════════════════════════════════ */
@@ -24,7 +22,7 @@ const StatusBadge = ({ status }) => {
 ══════════════════════════════════════════════ */
 const RequestModal = ({ show, onHide }) => {
     const [form, setForm] = useState({
-        to: '', from: '', reason: '', fullDay: false, halfDay: false
+        to: '', from: '', reason: '', fullDay: false, halfDay: false, halfDayType: 'first'
     });
 
     const handleChange = (e) => {
@@ -65,7 +63,7 @@ const RequestModal = ({ show, onHide }) => {
                             name="to"
                             value={form.to}
                             onChange={handleChange}
-                            className="rto-input"
+                            className={`rto-input ${form.to ? 'has-value' : ''}`}
                             placeholder="Select date"
                         />
                         {!form.to && <span className="rto-placeholder">Select date</span>}
@@ -82,7 +80,7 @@ const RequestModal = ({ show, onHide }) => {
                             name="from"
                             value={form.from}
                             onChange={handleChange}
-                            className="rto-input"
+                            className={`rto-input ${form.from ? 'has-value' : ''}`}
                             placeholder="Select date"
                         />
                         {!form.from && <span className="rto-placeholder">Select date</span>}
@@ -103,27 +101,56 @@ const RequestModal = ({ show, onHide }) => {
                 </div>
 
                 {/* Day Type Checkboxes */}
-                <div className="rto-checkboxes">
-                    <label className="rto-check-label">
-                        <input
-                            type="checkbox"
-                            name="fullDay"
-                            checked={form.fullDay}
-                            onChange={handleChange}
-                            className="rto-checkbox"
-                        />
-                        Full Day
-                    </label>
-                    <label className="rto-check-label">
-                        <input
-                            type="checkbox"
-                            name="halfDay"
-                            checked={form.halfDay}
-                            onChange={handleChange}
-                            className="rto-checkbox"
-                        />
-                        Half Day
-                    </label>
+                <div>
+                    <div className="rto-checkboxes mb-2">
+                        <label className="rto-check-label">
+                            <input
+                                type="checkbox"
+                                name="fullDay"
+                                checked={form.fullDay}
+                                onChange={handleChange}
+                                className="rto-checkbox"
+                            />
+                            Full Day
+                        </label>
+                        <label className="rto-check-label">
+                            <input
+                                type="checkbox"
+                                name="halfDay"
+                                checked={form.halfDay}
+                                onChange={handleChange}
+                                className="rto-checkbox"
+                            />
+                            Half Day
+                        </label>
+                    </div>
+
+                    {form.halfDay && (
+                        <div className="rto-half-day-options">
+                            <label className="rto-radio-label">
+                                <input
+                                    type="radio"
+                                    name="halfDayType"
+                                    value="first"
+                                    checked={form.halfDayType === 'first'}
+                                    onChange={handleChange}
+                                    className="rto-radio"
+                                />
+                                First Half
+                            </label>
+                            <label className="rto-radio-label">
+                                <input
+                                    type="radio"
+                                    name="halfDayType"
+                                    value="second"
+                                    checked={form.halfDayType === 'second'}
+                                    onChange={handleChange}
+                                    className="rto-radio"
+                                />
+                                Second Half
+                            </label>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -132,6 +159,107 @@ const RequestModal = ({ show, onHide }) => {
                 <button className="rto-btn-cancel" onClick={onHide}>Cancel</button>
                 <button className="rto-btn-apply" onClick={handleApply}>Apply</button>
             </div>
+        </Modal>
+    );
+};
+
+/* ══════════════════════════════════════════════
+   View / Request Change Modal
+══════════════════════════════════════════════ */
+const ViewLeaveModal = ({ show, onHide, data }) => {
+    const [form, setForm] = useState({ to: '', from: '' });
+
+    React.useEffect(() => {
+        if (show) setForm({ to: '', from: '' });
+    }, [show, data]);
+
+    if (!data) return null;
+
+    const isRequestChange = data.status === 'Request Change';
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+    };
+
+    return (
+        <Modal show={show} onHide={onHide} centered size="md" className="timeoff-modal view-leave-modal">
+            <div className="rto-modal-header">
+                <button className="rto-close-btn" onClick={onHide}>
+                    <i className="bi bi-x"></i>
+                </button>
+                <h5 className="rto-modal-title">{isRequestChange ? 'Request Change' : 'Leave Details'}</h5>
+            </div>
+
+            <div className="rto-modal-body">
+                <div className="vlm-details-list">
+                    <div className="vlm-detail-row">
+                        <span className="vlm-detail-label">Status</span>
+                        <span className="vlm-detail-value"><StatusBadge status={data.status} /></span>
+                    </div>
+                    <div className="vlm-detail-row">
+                        <span className="vlm-detail-label">Reason</span>
+                        <span className="vlm-detail-value">{data.reason}</span>
+                    </div>
+                    <div className="vlm-detail-row">
+                        <span className="vlm-detail-label">Approved by</span>
+                        <span className="vlm-detail-value">Business owner</span>
+                    </div>
+                    <div className="vlm-detail-row">
+                        <span className="vlm-detail-label">From</span>
+                        <span className="vlm-detail-value">{data.from}</span>
+                    </div>
+                    <div className="vlm-detail-row">
+                        <span className="vlm-detail-label">To</span>
+                        <span className="vlm-detail-value">{data.to}</span>
+                    </div>
+                </div>
+
+                {isRequestChange && (
+                    <div className="vlm-new-dates-section">
+                        <h6 className="vlm-section-title">New Dates</h6>
+
+                        <div className="rto-field">
+                            <label className="rto-label">To</label>
+                            <div className="rto-date-input">
+                                <i className="bi bi-calendar3 rto-cal-icon"></i>
+                                <input
+                                    type="date"
+                                    name="to"
+                                    value={form.to}
+                                    onChange={handleChange}
+                                    className={`rto-input ${form.to ? 'has-value' : ''}`}
+                                    placeholder="Select date"
+                                />
+                                {!form.to && <span className="rto-placeholder">Select date</span>}
+                            </div>
+                        </div>
+
+                        <div className="rto-field">
+                            <label className="rto-label">From</label>
+                            <div className="rto-date-input">
+                                <i className="bi bi-calendar3 rto-cal-icon"></i>
+                                <input
+                                    type="date"
+                                    name="from"
+                                    value={form.from}
+                                    onChange={handleChange}
+                                    className={`rto-input ${form.from ? 'has-value' : ''}`}
+                                    placeholder="Select date"
+                                />
+                                {!form.from && <span className="rto-placeholder">Select date</span>}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {isRequestChange && (
+                <div className="rto-modal-footer vlm-footer">
+                    <button className="rto-btn-cancel vlm-btn" onClick={onHide}>Cancel</button>
+                    <button className="rto-btn-apply vlm-btn" onClick={onHide}>Apply</button>
+                </div>
+            )}
         </Modal>
     );
 };
@@ -163,6 +291,13 @@ const stats = [
 const TimeOff = () => {
     const [showModal, setShowModal] = useState(false);
     const [activeFilter, setActiveFilter] = useState('total'); // 'availed' | 'remaining' | 'total'
+    const [selectedLeave, setSelectedLeave] = useState(null);
+    const [showViewModal, setShowViewModal] = useState(false);
+
+    const handleViewClick = (leave) => {
+        setSelectedLeave(leave);
+        setShowViewModal(true);
+    };
 
     /* Filter logic */
     const filteredLeaves = leaves.filter((row) => {
@@ -245,7 +380,7 @@ const TimeOff = () => {
                                     <StatusBadge status={row.status} />
                                 </td>
                                 <td>
-                                    <button className="btn-view-row">View</button>
+                                    <button className="btn-view-row" onClick={() => handleViewClick(row)}>View</button>
                                 </td>
                             </tr>
                         )) : (
@@ -265,6 +400,13 @@ const TimeOff = () => {
             <RequestModal
                 show={showModal}
                 onHide={() => setShowModal(false)}
+            />
+
+            {/* ── View/Request Change Modal ── */}
+            <ViewLeaveModal
+                show={showViewModal}
+                onHide={() => setShowViewModal(false)}
+                data={selectedLeave}
             />
         </Container>
     );

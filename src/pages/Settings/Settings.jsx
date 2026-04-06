@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Badge, Modal } from 'react-bootstrap';
 import { STRINGS } from '../../constants/strings';
-import './Settings.css';
-
 const Settings = () => {
     const { SETTINGS } = STRINGS;
     const [editingSection, setEditingSection] = useState(null);

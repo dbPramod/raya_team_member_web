@@ -127,11 +127,11 @@ const CompleteProfile = () => {
     const validateStep2 = () => {
         const newErrors = {};
         const { ERRORS } = STRINGS.COMPLETE_PROFILE;
-        
+
         if (!isMarried) newErrors.isMarried = ERRORS.SELECTION_REQUIRED;
         if (!hasKids) newErrors.hasKids = ERRORS.SELECTION_REQUIRED;
         if (!hasPets) newErrors.hasPets = ERRORS.SELECTION_REQUIRED;
-        
+
         // Favorites are optional for now, but we can add validation here if needed
 
         setErrors(newErrors);
@@ -347,80 +347,76 @@ const CompleteProfile = () => {
                             <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
                         </Form.Group>
 
-                        <Row className="gx-4">
-                            <Col md={6}>
-                                {/* Country */}
-                                <Form.Group className="mb-4">
-                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.COUNTRY.LABEL}</Form.Label>
-                                    <Form.Select
-                                        value={selectedCountry}
-                                        onChange={handleCountryChange}
-                                        isInvalid={!!errors.selectedCountry}
-                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                        style={{ fontSize: '0.95rem' }}
-                                    >
-                                        <option value="">{COMPLETE_PROFILE.COUNTRY.PLACEHOLDER}</option>
-                                        {countriesList.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
-                                    </Form.Select>
-                                    <Form.Control.Feedback type="invalid">{errors.selectedCountry}</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                {/* State */}
-                                <Form.Group className="mb-4">
-                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.STATE.LABEL}</Form.Label>
-                                    <Form.Select
-                                        value={selectedState}
-                                        onChange={handleStateChange}
-                                        disabled={!selectedCountry}
-                                        isInvalid={!!errors.selectedState}
-                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                        style={{ fontSize: '0.95rem' }}
-                                    >
-                                        <option value="">{COMPLETE_PROFILE.STATE.PLACEHOLDER}</option>
-                                        {statesList.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
-                                    </Form.Select>
-                                    <Form.Control.Feedback type="invalid">{errors.selectedState}</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                        </Row>
 
-                        <Row className="gx-4">
-                            <Col md={6}>
-                                {/* City */}
-                                <Form.Group className="mb-4">
-                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.CITY.LABEL}</Form.Label>
-                                    <Form.Select
-                                        value={selectedCity}
-                                        onChange={(e) => setSelectedCity(e.target.value)}
-                                        disabled={!selectedState}
-                                        isInvalid={!!errors.selectedCity}
-                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                        style={{ fontSize: '0.95rem' }}
-                                    >
-                                        <option value="">{COMPLETE_PROFILE.CITY.PLACEHOLDER}</option>
-                                        {citiesList.map(city => <option key={city} value={city}>{city}</option>)}
-                                    </Form.Select>
-                                    <Form.Control.Feedback type="invalid">{errors.selectedCity}</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                {/* ZIP Code */}
-                                <Form.Group className="mb-5">
-                                    <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.ZIP.LABEL}</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        value={zipCode}
-                                        onChange={(e) => setZipCode(e.target.value)}
-                                        isInvalid={!!errors.zipCode}
-                                        placeholder={COMPLETE_PROFILE.ZIP.PLACEHOLDER}
-                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
-                                        style={{ fontSize: '0.95rem' }}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.zipCode}</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        {/* Country */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.COUNTRY.LABEL}</Form.Label>
+                            <Form.Select
+                                value={selectedCountry}
+                                onChange={handleCountryChange}
+                                isInvalid={!!errors.selectedCountry}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                style={{ fontSize: '0.95rem' }}
+                            >
+                                <option value="">{COMPLETE_PROFILE.COUNTRY.PLACEHOLDER}</option>
+                                {countriesList.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">{errors.selectedCountry}</Form.Control.Feedback>
+                        </Form.Group>
+
+
+                        {/* State */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.STATE.LABEL}</Form.Label>
+                            <Form.Select
+                                value={selectedState}
+                                onChange={handleStateChange}
+                                disabled={!selectedCountry}
+                                isInvalid={!!errors.selectedState}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                style={{ fontSize: '0.95rem' }}
+                            >
+                                <option value="">{COMPLETE_PROFILE.STATE.PLACEHOLDER}</option>
+                                {statesList.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">{errors.selectedState}</Form.Control.Feedback>
+                        </Form.Group>
+
+
+
+                        {/* City */}
+                        <Form.Group className="mb-4">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.CITY.LABEL}</Form.Label>
+                            <Form.Select
+                                value={selectedCity}
+                                onChange={(e) => setSelectedCity(e.target.value)}
+                                disabled={!selectedState}
+                                isInvalid={!!errors.selectedCity}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
+                                style={{ fontSize: '0.95rem' }}
+                            >
+                                <option value="">{COMPLETE_PROFILE.CITY.PLACEHOLDER}</option>
+                                {citiesList.map(city => <option key={city} value={city}>{city}</option>)}
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">{errors.selectedCity}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        {/* ZIP Code */}
+                        <Form.Group className="mb-5">
+                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.ZIP.LABEL}</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={zipCode}
+                                onChange={(e) => setZipCode(e.target.value)}
+                                isInvalid={!!errors.zipCode}
+                                placeholder={COMPLETE_PROFILE.ZIP.PLACEHOLDER}
+                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                style={{ fontSize: '0.95rem' }}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.zipCode}</Form.Control.Feedback>
+                        </Form.Group>
+
+
 
                         {/* Relocated Navigation Buttons */}
                         <div className="d-flex align-items-center justify-content-between mt-4 mb-2">

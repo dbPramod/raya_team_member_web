@@ -64,8 +64,8 @@ const Dashboard = () => {
               ))}
             </div>
             <div className="text-center mt-2">
-              <span 
-                className="small fw-medium text-decoration-none pointer transition-all" 
+              <span
+                className="small fw-medium text-decoration-none pointer transition-all"
                 style={{ color: '#7a8b9a', cursor: 'pointer' }}
                 onClick={() => navigate('/training')}
               >
@@ -101,7 +101,13 @@ const Dashboard = () => {
               ))}
             </div>
             <div className="text-center mt-4">
-              <a href="#" className="small fw-medium text-decoration-none" style={{ color: '#7a8b9a' }}>View All</a>
+              <span
+                className="small fw-medium text-decoration-none pointer transition-all"
+                style={{ color: '#7a8b9a', cursor: 'pointer' }}
+                onClick={() => navigate('/kpis')}
+              >
+                View All
+              </span>
             </div>
           </div>
 
@@ -171,7 +177,13 @@ const Dashboard = () => {
             </div>
 
             <div className="text-center mt-auto">
-              <a href="#" className="small fw-medium text-decoration-none" style={{ color: '#7a8b9a' }}>View All Events</a>
+              <span
+                className="small fw-medium text-decoration-none pointer transition-all"
+                style={{ color: '#7a8b9a', cursor: 'pointer' }}
+                onClick={() => navigate('/calendar')}
+              >
+                View All Events
+              </span>
             </div>
           </div>
 
@@ -199,7 +211,13 @@ const Dashboard = () => {
             </div>
 
             <div className="text-center mt-auto">
-              <a href="#" className="small fw-medium text-decoration-none" style={{ color: '#7a8b9a' }}>View All</a>
+              <span
+                className="small fw-medium text-decoration-none pointer transition-all"
+                style={{ color: '#7a8b9a', cursor: 'pointer' }}
+                onClick={() => navigate('/messages')}
+              >
+                View All
+              </span>
             </div>
           </div>
 
