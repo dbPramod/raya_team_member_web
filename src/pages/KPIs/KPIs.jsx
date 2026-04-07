@@ -254,9 +254,9 @@ const KPIHistoryView = ({ onBack }) => (
             </div>
         </div>
 
-        <div className="kpi-footer">
+        {/* <div className="kpi-footer">
             <button className="btn-view-foundation">View Foundation</button>
-        </div>
+        </div> */}
     </div>
 );
 

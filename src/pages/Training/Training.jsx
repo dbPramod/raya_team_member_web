@@ -76,27 +76,27 @@ const Training = () => {
                     <p className="small text-muted mb-4" style={{ fontSize: '0.85rem', lineHeight: '1.6', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                         {item.description}
                     </p>
-                    
+
                     {status === 'inProgress' && (
                         <div className="mb-4">
                             <div className="d-flex justify-content-end mb-2">
                                 <span className="fw-bold" style={{ fontSize: '0.75rem', color: '#6B7280' }}>{item.progress}%</span>
                             </div>
                             <div className="progress" style={{ height: '6px', backgroundColor: '#E5E7EB', borderRadius: '10px' }}>
-                                <div 
-                                    className="progress-bar" 
-                                    role="progressbar" 
-                                    style={{ width: `${item.progress}%`, backgroundColor: '#3d8b8b' }} 
-                                    aria-valuenow={item.progress} 
-                                    aria-valuemin="0" 
+                                <div
+                                    className="progress-bar"
+                                    role="progressbar"
+                                    style={{ width: `${item.progress}%`, backgroundColor: '#3d8b8b' }}
+                                    aria-valuenow={item.progress}
+                                    aria-valuemin="0"
                                     aria-valuemax="100"
                                 ></div>
                             </div>
                         </div>
                     )}
-                    
-                    <button 
-                        className="w-100 border-0 py-2 fw-medium transition-all" 
+
+                    <button
+                        className={`w-100 border-0 py-2 fw-medium transition-all training-btn btn-${status}`}
                         onClick={() => {
                             if (status === 'completed') {
                                 navigate('/training/certificate');
@@ -104,10 +104,10 @@ const Training = () => {
                                 navigate('/training/detail');
                             }
                         }}
-                        style={{ 
-                            backgroundColor: buttonBg, 
-                            color: buttonColor, 
-                            borderRadius: '8px', 
+                        style={{
+                            backgroundColor: buttonBg,
+                            color: buttonColor,
+                            borderRadius: '8px',
                             fontSize: '0.85rem',
                             fontFamily: "'Plus Jakarta Sans', sans-serif"
                         }}
@@ -122,7 +122,7 @@ const Training = () => {
     return (
         <Container fluid className="px-lg-4 py-4 h-100 overflow-auto bg-white">
             <h3 className="fw-bold mb-4 ms-2" style={{ color: '#000000', fontSize: '1.75rem', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Training</h3>
-            
+
             <Row className="gx-4 mx-0">
                 {/* Not started column */}
                 <Col md={4} className="mb-4">
@@ -177,11 +177,27 @@ const Training = () => {
                 .progress-bar {
                     background-color: #0f1d3a !important;
                 }
+                .training-btn {
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .training-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                }
+                .btn-notStarted:hover {
+                    background-color: #3d8b8b !important;
+                    color: #ffffff !important;
+                }
+                .btn-inProgress:hover {
+                    background-color: #f97316 !important;
+                    color: #ffffff !important;
+                }
+                .btn-completed:hover {
+                    background-color: #3d8b8b !important;
+                    color: #ffffff !important;
+                }
                 .transition-all {
                     transition: all 0.2s ease-in-out;
-                }
-                .transition-all:hover {
-                    opacity: 0.8;
                 }
             `}</style>
         </Container>

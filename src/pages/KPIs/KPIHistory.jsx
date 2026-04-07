@@ -226,9 +226,9 @@ const KPIHistory = () => {
             ))}
 
             {/* Footer */}
-            <div className="kpi-history-footer">
+            {/* <div className="kpi-history-footer">
                 <button className="btn-view-foundation">View Foundation</button>
-            </div>
+            </div> */}
         </Container>
     );
 };

@@ -4,13 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const ProjectsTasks = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('project'); // 'todo' or 'project'
-
-    const stats = [
-        { label: 'Active Projects', value: 20, icon: 'bi-window-stack', bg: '#D6E5F2' },
-        { label: 'Total Tasks', value: 5, icon: 'bi-clipboard-check', bg: '#D6E5F2' },
-        { label: 'Completed', value: 15, icon: 'bi-journal-check', bg: '#D6E5F2' },
-        { label: 'Pending', value: 15, icon: 'bi-journal-text', bg: '#D6E5F2' },
-    ];
+    const [projectFilter, setProjectFilter] = useState('All');
 
     const projects = [
         {
@@ -18,30 +12,54 @@ const ProjectsTasks = () => {
             description: 'Modernize the customer-facing portal with new UI/UX',
             progress: 45,
             tasks: '12/20',
-            dueDate: '07/01/2026'
+            dueDate: '07/01/2026',
+            status: 'In-progress'
         },
         {
             title: 'Q4 Training Initiative',
             description: 'Roll out new training programs for all departments',
             progress: 85,
             tasks: '1/4',
-            dueDate: '10/01/2026'
+            dueDate: '10/01/2026',
+            status: 'Completed'
         },
         {
-            title: 'Customer Portal Redesign',
-            description: 'Modernize the customer-facing portal with new UI/UX',
-            progress: 45,
-            tasks: '12/20',
-            dueDate: '07/01/2026'
+            title: 'Marketing Site Update',
+            description: 'Update the main marketing site with new branding',
+            progress: 0,
+            tasks: '0/15',
+            dueDate: '08/15/2026',
+            status: 'Scheduled'
         },
         {
-            title: 'Q4 Training Initiative',
-            description: 'Roll out new training programs for all departments',
-            progress: 85,
-            tasks: '1/4',
-            dueDate: '10/01/2026'
+            title: 'Inventory System Migration',
+            description: 'Migrate legacy inventory data to the new cloud system',
+            progress: 15,
+            tasks: '3/25',
+            dueDate: '09/01/2026',
+            status: 'In-progress'
         }
     ];
+
+    const stats = [
+        { label: 'All Projects', value: projects.length, icon: 'bi-grid-fill', filter: 'All' },
+        { label: 'Scheduled', value: projects.filter(p => p.status === 'Scheduled').length, icon: 'bi-calendar-event', filter: 'Scheduled' },
+        { label: 'In-progress', value: projects.filter(p => p.status === 'In-progress').length, icon: 'bi-play-circle', filter: 'In-progress' },
+        { label: 'Completed', value: projects.filter(p => p.status === 'Completed').length, icon: 'bi-check-circle', filter: 'Completed' },
+    ];
+
+    const filteredProjects = projectFilter === 'All' 
+        ? projects 
+        : projects.filter(p => p.status === projectFilter);
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'Completed': return '#28a745';
+            case 'In-progress': return '#40878E';
+            case 'Scheduled': return '#ffc107';
+            default: return '#6c757d';
+        }
+    };
 
     const todoSections = [
         {
@@ -62,7 +80,7 @@ const ProjectsTasks = () => {
     ];
 
     return (
-        <Container fluid className="px-lg-4 py-3 h-100 d-flex flex-column bg-white overflow-auto projects-container" style={{ maxWidth: '1400px' }}>
+        <Container fluid className="px-3 py-3 h-100 d-flex flex-column bg-white overflow-auto projects-container">
             {/* Tabs Header */}
             <div className="d-flex align-items-center mb-4 border-bottom">
                 <Nav variant="tabs" className="border-0 gap-4" activeKey={activeTab}>
@@ -106,7 +124,20 @@ const ProjectsTasks = () => {
                         <Row className="g-4 mb-5">
                             {stats.map((stat, i) => (
                                 <Col key={i} sm={6} lg={3}>
-                                    <div className="p-3 rounded-4 d-flex align-items-center gap-3 transition-all hover-shadow" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)', borderColor: '#DCDCDC', borderWidth: 1 }}>
+                                    <div 
+                                        onClick={() => setProjectFilter(stat.filter)}
+                                        className={`p-3 rounded-4 d-flex align-items-center gap-3 transition-all hover-shadow pointer ${projectFilter === stat.filter ? 'active-filter-card' : ''}`} 
+                                        style={{ 
+                                            background: projectFilter === stat.filter 
+                                                ? 'linear-gradient(259.82deg, #3d8b8b -24.5%, #0f1d3a 99.17%)' 
+                                                : 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)', 
+                                            borderColor: projectFilter === stat.filter ? '#0f1d3a' : '#DCDCDC', 
+                                            borderWidth: 2,
+                                            borderStyle: 'solid',
+                                            cursor: 'pointer',
+                                            transform: projectFilter === stat.filter ? 'scale(1.02)' : 'none'
+                                        }}
+                                    >
                                         <div className="bg-white bg-opacity-25 rounded-3 d-flex align-items-center justify-content-center" style={{ width: '56px', height: '56px', backdropFilter: 'blur(4px)' }}>
                                             <i className={`bi ${stat.icon} fs-4 text-white`}></i>
                                         </div>
@@ -121,13 +152,27 @@ const ProjectsTasks = () => {
 
                         {/* Project Grid */}
                         <Row className="g-4 mb-5">
-                            {projects.map((proj, i) => (
+                            {filteredProjects.map((proj, i) => (
                                 <Col key={i} md={6}>
                                     <Card className="border-1 rounded-4 transition-all hover-translate shadow-sm h-100" style={{ borderColor: '#A7B0C0', backgroundColor: '#FCFAF7' }}>
                                         <Card.Body className="p-4 p-xl-5 d-flex flex-column">
-                                            <div className="mb-4">
-                                                <h4 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>{proj.title}</h4>
-                                                <p className="text-muted small mb-0">{proj.description}</p>
+                                            <div className="mb-4 d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h4 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>{proj.title}</h4>
+                                                    <p className="text-muted small mb-0">{proj.description}</p>
+                                                </div>
+                                                <Badge 
+                                                    bg="transparent" 
+                                                    className="rounded-pill px-3 py-2 fw-bold" 
+                                                    style={{ 
+                                                        fontSize: '0.75rem', 
+                                                        color: getStatusColor(proj.status),
+                                                        backgroundColor: `${getStatusColor(proj.status)}15`,
+                                                        border: `1px solid ${getStatusColor(proj.status)}40`
+                                                    }}
+                                                >
+                                                    {proj.status}
+                                                </Badge>
                                             </div>
 
                                             <Card className="border-0 rounded-4 shadow-sm mb-4" style={{ backgroundColor: '#ffffff' }}>

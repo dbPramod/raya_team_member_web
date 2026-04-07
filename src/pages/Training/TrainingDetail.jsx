@@ -14,6 +14,7 @@ const TrainingDetail = () => {
         progress: 100,
         lessonsCount: 1,
         quizzesCount: 2,
+        videoUrl: 'https://archive.org/download/SampleVideo1280x7205mb/SampleVideo_1280x720_5mb.mp4',
         transcription: 'Learn essential workplace safety guidelines, hazard prevention, and emergency procedures hazard prevention, and emergency procedures. Understand data security principles, privacy regulations, and best practices for handling sensitive information. Explore agile methodologies, sprint planning, and team collaboration to enhance project delivery. Explore agile methodologies, sprint planning, and team collaboration to enhance project delivery.'
     };
 
@@ -61,8 +62,8 @@ const TrainingDetail = () => {
         <Container fluid className="px-lg-5 py-4 vh-100 d-flex flex-column bg-white overflow-hidden">
             {/* Header with Back Arrow */}
             <div className="d-flex align-items-center gap-3 mb-5">
-                <button 
-                    onClick={() => navigate('/training')} 
+                <button
+                    onClick={() => navigate('/training')}
                     className="border-0 bg-transparent p-0 d-flex align-items-center justify-content-center text-dark"
                 >
                     <i className="bi bi-arrow-left fs-3" style={{ color: '#0f1d3a' }}></i>
@@ -79,19 +80,20 @@ const TrainingDetail = () => {
                             <p className="text-muted mb-4" style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
                                 {lessonData.description}
                             </p>
-                            
+
                             <div className="mt-auto pt-2">
                                 <div className="d-flex justify-content-end mb-2">
                                     <span className="fw-bold" style={{ fontSize: '0.85rem', color: '#3d8b8b' }}>{lessonData.progress}%</span>
                                 </div>
-                                <ProgressBar 
-                                    now={lessonData.progress} 
-                                    style={{ height: '8px', backgroundColor: '#e9ecef', borderRadius: '10px' }} 
+                                <ProgressBar
+                                    now={lessonData.progress}
+                                    style={{ height: '8px', backgroundColor: '#e9ecef', borderRadius: '10px' }}
                                     className="custom-progress mb-3"
                                 />
                                 {lessonData.progress === 100 && (
-                                    <Button 
-                                        variant="outline-primary" 
+                                    <Button
+                                        variant="outline-primary"
+
                                         className="w-100 fw-bold border-1 py-2"
                                         style={{ color: '#3d8b8b', borderColor: '#3d8b8b', borderRadius: '10px', fontSize: '0.9rem' }}
                                         onClick={() => navigate('/training/certificate')}
@@ -105,7 +107,7 @@ const TrainingDetail = () => {
                     </Card>
 
                     <div className="rounded-4 overflow-hidden shadow-sm" style={{ border: '1px solid #e9ecef' }}>
-                        <div 
+                        <div
                             className={`d-flex align-items-center justify-content-between p-3 border-bottom pointer transition-all ${activeTab === 'lesson' ? 'bg-aliceblue' : 'bg-white'}`}
                             onClick={() => setActiveTab('lesson')}
                         >
@@ -119,7 +121,7 @@ const TrainingDetail = () => {
                                 <i className="bi bi-check-lg"></i>
                             </div>
                         </div>
-                        <div 
+                        <div
                             className={`d-flex align-items-center justify-content-between p-3 pointer transition-all ${activeTab === 'quiz' ? 'bg-aliceblue' : 'bg-white'}`}
                             onClick={() => setActiveTab('quiz')}
                         >
@@ -140,33 +142,19 @@ const TrainingDetail = () => {
                 <Col lg={8} className="h-100 overflow-y-auto custom-scrollbar pb-5">
                     {activeTab === 'lesson' ? (
                         <>
-                            {/* Video Player UI */}
-                            <div className="position-relative overflow-hidden rounded-4 shadow-lg bg-dark" style={{ aspectRatio: '16/9' }}>
-                                <img 
-                                    src={trainingAvatar} 
-                                    alt="Training Content" 
-                                    className="w-100 h-100 object-fit-cover opacity-75"
-                                />
-                                
-                                {/* Video Controls Overlay Mockup */}
-                                <div className="position-absolute bottom-0 start-0 w-100 p-4 pb-3" style={{ background: 'linear-gradient(transparent, rgba(0,0,0,0.85))' }}>
-                                    <div className="d-flex flex-column gap-3">
-                                        <div className="position-relative" style={{ height: '4px', background: 'rgba(255,255,255,0.25)', borderRadius: '2px' }}>
-                                            <div className="position-absolute start-0 top-0 h-100" style={{ width: '70%', background: '#3d8b8b', borderRadius: '2px' }}></div>
-                                            <div className="position-absolute shadow" style={{ left: '70%', top: '-6px', width: '16px', height: '16px', background: '#ffffff', borderRadius: '50%', border: '2px solid #3d8b8b' }}></div>
-                                        </div>
-
-                                        <div className="d-flex align-items-center justify-content-center gap-5 text-white">
-                                            <i className="bi bi-chevron-double-left fs-4 pointer opacity-75 hover-opacity-100"></i>
-                                            <div className="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm pointer" style={{ width: '64px', height: '64px' }}>
-                                                <i className="bi bi-play-fill" style={{ fontSize: '2.5rem', color: '#0f1d3a', marginLeft: '4px' }}></i>
-                                            </div>
-                                            <i className="bi bi-chevron-double-right fs-4 pointer opacity-75 hover-opacity-100"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                            {/* Real Video Player */}
+                            <div className="position-relative overflow-hidden rounded-4 shadow-lg bg-dark" style={{ aspectRatio: '16/9', border: '1px solid #e2e8f0' }}>
+                                <video
+                                    className="w-100 h-100 object-fit-contain"
+                                    controls
+                                    poster={trainingAvatar}
+                                    playsInline
+                                >
+                                    <source src={lessonData.videoUrl} type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
-                            
+
                             {/* Transcription Section for Lesson */}
                             <div className="mt-5 pt-3 mb-5 border-top border-light">
                                 <h5 className="fw-bold mb-4" style={{ color: '#0f1d3a', fontSize: '1.25rem' }}>Transcription</h5>
@@ -183,12 +171,12 @@ const TrainingDetail = () => {
                                     <h5 className="fw-bold mb-4" style={{ color: '#0f1d3a', fontSize: '1.1rem', lineHeight: '1.5' }}>{q.question}</h5>
                                     <div className="d-flex flex-column gap-3">
                                         {q.options.map((option, idx) => (
-                                            <div 
+                                            <div
                                                 key={idx}
                                                 className={`option-card p-3 rounded-3 pointer transition-all ${selectedAnswers[q.id] === option ? 'border-teal bg-white shadow-sm' : 'border-light bg-white'}`}
                                                 onClick={() => handleOptionSelect(q.id, option)}
-                                                style={{ 
-                                                    border: '1px solid', 
+                                                style={{
+                                                    border: '1px solid',
                                                     borderColor: selectedAnswers[q.id] === option ? '#3d8b8b' : '#eff2f5',
                                                     fontSize: '0.95rem',
                                                     color: '#495057'
@@ -200,19 +188,19 @@ const TrainingDetail = () => {
                                     </div>
                                 </div>
                             ))}
-                            
+
                             <div className="d-flex justify-content-end mt-4 mb-5 gap-3">
                                 {lessonData.progress === 100 ? (
-                                    <Button 
-                                        className="px-5 py-2 fw-bold border-0 shadow-sm" 
+                                    <Button
+                                        className="px-5 py-2 fw-bold border-0 shadow-sm"
                                         style={{ backgroundColor: '#3d8b8b', borderRadius: '10px' }}
                                         onClick={() => navigate('/training/certificate')}
                                     >
-                                        View Certificate
+                                        Submit
                                     </Button>
                                 ) : (
-                                    <Button 
-                                        className="px-5 py-2 fw-bold border-0" 
+                                    <Button
+                                        className="px-5 py-2 fw-bold border-0"
                                         style={{ backgroundColor: '#3d8b8b', borderRadius: '10px' }}
                                         onClick={() => navigate('/training/certificate')}
                                     >

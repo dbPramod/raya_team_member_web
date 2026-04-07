@@ -28,10 +28,10 @@ const TrainingCertificate = () => {
                     <Card className="border-1 p-0 overflow-hidden shadow-lg" style={{ borderRadius: '24px', borderColor: '#0f1d3a', minHeight: '550px' }}>
                         <Card.Body className="p-0 position-relative d-flex flex-column align-items-center text-center justify-content-center overflow-hidden">
                             {/* Decorative Background SVG */}
-                            <img 
-                                src={certificateBg} 
-                                alt="" 
-                                className="certificate-bg-svg-img" 
+                            <img
+                                src={certificateBg}
+                                alt=""
+                                className="certificate-bg-svg-img"
                             />
 
                             <div className="position-relative z-1 py-5 px-4 w-100 mt-4">
@@ -75,13 +75,7 @@ const TrainingCertificate = () => {
                         <i className="bi bi-printer"></i>
                         Print Certificate
                     </Button>
-                    <Button
-                        className="px-5 py-2 fw-bold border-0 shadow-sm transition-all hover-scale"
-                        style={{ backgroundColor: '#3d8b8b', borderRadius: '10px' }}
-                        onClick={() => navigate('/training')}
-                    >
-                        View Foundation
-                    </Button>
+
                 </div>
             </div>
 

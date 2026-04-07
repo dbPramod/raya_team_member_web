@@ -8,6 +8,7 @@ const Settings = () => {
     const [isTimezoneOpen, setIsTimezoneOpen] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showAddKidModal, setShowAddKidModal] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -37,9 +38,9 @@ const Settings = () => {
         spouseName: 'Neel Johnson',
         anniversary: '2024-09-16',
         familyGender: 'Male',
-        kidsName: 'Olivia Johnson',
-        kidsBirthday: '2023-04-04',
-        kidsGender: 'Female',
+        kids: [
+            { id: 1, name: 'Olivia Johnson', birthday: '2023-04-04', gender: 'Female' }
+        ],
         petName: 'Roli',
         petAge: '2 years',
         timezone: 'Pacific Time - US & Canada',
@@ -63,6 +64,21 @@ const Settings = () => {
     const handleSave = () => {
         // Save logic here
         setEditingSection(null);
+    };
+
+    const handleAddKid = (kidData) => {
+        setUserProfile({
+            ...userProfile,
+            kids: [...userProfile.kids, { id: Date.now(), ...kidData }]
+        });
+        setShowAddKidModal(false);
+    };
+
+    const handleKidChange = (id, field, value) => {
+        setUserProfile({
+            ...userProfile,
+            kids: userProfile.kids.map(kid => kid.id === id ? { ...kid, [field]: value } : kid)
+        });
     };
 
     const renderEditIcon = (section) => (
@@ -203,10 +219,80 @@ const Settings = () => {
         </Modal>
     );
 
+    const renderAddKidModal = () => (
+        <Modal 
+            show={showAddKidModal} 
+            onHide={() => setShowAddKidModal(false)}
+            centered
+            contentClassName="rounded-4 border-0 shadow custom-modal"
+            size="md"
+        >
+            <Modal.Header className="border-0 pb-0 pt-2 px-3 position-relative d-flex justify-content-end">
+                <button 
+                    type="button"
+                    className="btn-close shadow-none" 
+                    onClick={() => setShowAddKidModal(false)}
+                    aria-label="Close"
+                    style={{ fontSize: '0.8rem' }}
+                ></button>
+            </Modal.Header>
+            <Modal.Body className="px-5 pb-5 pt-0">
+                <div className="text-center mb-4">
+                    <h4 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>Add Kid's Information</h4>
+                </div>
+                <Form onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    handleAddKid({
+                        name: formData.get('name'),
+                        gender: formData.get('gender'),
+                        birthday: formData.get('birthday')
+                    });
+                }}>
+                    <Form.Group className="mb-3">
+                        <Form.Label className="text-muted small fw-medium mb-1">Kid's Name</Form.Label>
+                        <Form.Control 
+                            name="name"
+                            placeholder="Enter kid's name"
+                            className="bg-light border-0 py-2 rounded-3 shadow-none"
+                            required
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label className="text-muted small fw-medium mb-1">Gender</Form.Label>
+                        <Form.Select name="gender" className="bg-light border-0 py-2 rounded-3 shadow-none custom-select" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </Form.Select>
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <Form.Label className="text-muted small fw-medium mb-1">Birthday</Form.Label>
+                        <Form.Control 
+                            name="birthday"
+                            type="date"
+                            className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
+                            required
+                        />
+                    </Form.Group>
+                    <button 
+                        type="submit" 
+                        className="btn w-100 py-2 rounded-3 fw-medium text-white shadow-sm"
+                        style={{ backgroundColor: '#4a8b8f' }}
+                    >
+                        Add Kid
+                    </button>
+                </Form>
+            </Modal.Body>
+        </Modal>
+    );
+
     return (
         <Container fluid className="settings-container pb-5">
             {renderChangePasswordModal()}
             {renderDeleteAccountModal()}
+            {renderAddKidModal()}
             {/* Header */}
             <div className="d-flex justify-content-between align-items-center mb-4 pt-2 flex-wrap gap-3">
                 <h2 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.TITLE}</h2>
@@ -261,6 +347,7 @@ const Settings = () => {
                                                     type="text" 
                                                     placeholder={SETTINGS.PROFILE.NAME_PLACEHOLDER}
                                                     value={userProfile.name}
+                                                    onChange={(e) => setUserProfile({...userProfile, name: e.target.value})}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -283,9 +370,13 @@ const Settings = () => {
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PROFILE.DEPARTMENT_LABEL}</Form.Label>
                                                 <div className="position-relative">
-                                                    <Form.Select className="bg-light border-0 py-2 pe-5 rounded-3 custom-select">
+                                                    <Form.Select 
+                                                        className="bg-light border-0 py-2 pe-5 rounded-3 custom-select"
+                                                        value={userProfile.department}
+                                                        onChange={(e) => setUserProfile({...userProfile, department: e.target.value})}
+                                                    >
                                                         <option>{SETTINGS.PROFILE.DEPARTMENT_PLACEHOLDER}</option>
-                                                        <option value="Dev">Development</option>
+                                                        <option value="Development">Development</option>
                                                         <option value="Design">Design</option>
                                                         <option value="Product">Product</option>
                                                     </Form.Select>
@@ -344,6 +435,7 @@ const Settings = () => {
                                                     type="email" 
                                                     placeholder={SETTINGS.PERSONAL.EMAIL_PLACEHOLDER}
                                                     value={userProfile.email}
+                                                    onChange={(e) => setUserProfile({...userProfile, email: e.target.value})}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -359,7 +451,8 @@ const Settings = () => {
                                                     <Form.Control 
                                                         type="text" 
                                                         placeholder={SETTINGS.PERSONAL.PHONE_PLACEHOLDER}
-                                                        value={userProfile.phone.split(' ')[1]}
+                                                        value={userProfile.phone.split(' ')[1] || ''}
+                                                        onChange={(e) => setUserProfile({...userProfile, phone: `${userProfile.phone.split(' ')[0]} ${e.target.value}`})}
                                                         className="bg-light border-0 py-2 flex-grow-1 rounded-3"
                                                     />
                                                 </div>
@@ -368,7 +461,11 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PERSONAL.GENDER}</Form.Label>
-                                                <Form.Select className="bg-light border-0 py-2 rounded-3 custom-select">
+                                                <Form.Select 
+                                                    className="bg-light border-0 py-2 rounded-3 custom-select"
+                                                    value={userProfile.gender}
+                                                    onChange={(e) => setUserProfile({...userProfile, gender: e.target.value})}
+                                                >
                                                     <option>{SETTINGS.PERSONAL.GENDER_PLACEHOLDER}</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -396,6 +493,7 @@ const Settings = () => {
                                                     type="text" 
                                                     placeholder={SETTINGS.PERSONAL.ADDRESS_PLACEHOLDER}
                                                     value={userProfile.address}
+                                                    onChange={(e) => setUserProfile({...userProfile, address: e.target.value})}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -453,6 +551,7 @@ const Settings = () => {
                                                     type="text" 
                                                     placeholder={SETTINGS.FAMILY.SPOUSE_PLACEHOLDER}
                                                     value={userProfile.spouseName}
+                                                    onChange={(e) => setUserProfile({...userProfile, spouseName: e.target.value})}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -460,7 +559,11 @@ const Settings = () => {
                                         <Col md={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.GENDER}</Form.Label>
-                                                <Form.Select className="bg-light border-0 py-2 rounded-3 custom-select">
+                                                <Form.Select 
+                                                    className="bg-light border-0 py-2 rounded-3 custom-select"
+                                                    value={userProfile.familyGender}
+                                                    onChange={(e) => setUserProfile({...userProfile, familyGender: e.target.value})}
+                                                >
                                                     <option>{SETTINGS.FAMILY.GENDER_PLACEHOLDER}</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -485,38 +588,49 @@ const Settings = () => {
                                     
                                     <div className="d-flex align-items-center gap-2 mb-4">
                                         <label className="text-muted small mb-0 fw-medium">{SETTINGS.FAMILY.KIDS_NAME}</label>
-                                        <i className="bi bi-plus-circle text-primary pointer"></i>
+                                        <i className="bi bi-plus-circle text-primary pointer" onClick={() => setShowAddKidModal(true)}></i>
                                     </div>
-                                    <Row className="gy-4 mb-4">
-                                        <Col md={6}>
-                                            <Form.Control 
-                                                type="text" 
-                                                placeholder={SETTINGS.FAMILY.KIDS_NAME_PLACEHOLDER}
-                                                className="bg-light border-0 py-2 rounded-3"
-                                            />
-                                        </Col>
-                                        <Col md={6}>
-                                            <Form.Select className="bg-light border-0 py-2 rounded-3 custom-select">
-                                                <option>{SETTINGS.FAMILY.GENDER_PLACEHOLDER}</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                            </Form.Select>
-                                        </Col>
-                                        <Col md={6}>
-                                            <Form.Group>
-                                                <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.KIDS_BIRTHDAY}</Form.Label>
-                                                <div className="position-relative">
+                                    
+                                    {userProfile.kids.map((kid, index) => (
+                                        <Row key={kid.id} className="gy-4 mb-4 pb-3 border-bottom border-light border-opacity-50">
+                                            <Col md={6}>
+                                                <Form.Group>
+                                                    <Form.Label className="text-muted small mb-2">Kid's Name</Form.Label>
+                                                    <Form.Control 
+                                                        type="text" 
+                                                        value={kid.name}
+                                                        onChange={(e) => handleKidChange(kid.id, 'name', e.target.value)}
+                                                        className="bg-light border-0 py-2 rounded-3"
+                                                    />
+                                                </Form.Group>
+                                            </Col>
+                                            <Col md={6}>
+                                                <Form.Group>
+                                                    <Form.Label className="text-muted small mb-2">Gender</Form.Label>
+                                                    <Form.Select 
+                                                        value={kid.gender}
+                                                        onChange={(e) => handleKidChange(kid.id, 'gender', e.target.value)}
+                                                        className="bg-light border-0 py-2 rounded-3 custom-select"
+                                                    >
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Other">Other</option>
+                                                    </Form.Select>
+                                                </Form.Group>
+                                            </Col>
+                                            <Col md={6}>
+                                                <Form.Group>
+                                                    <Form.Label className="text-muted small mb-2">Birthday</Form.Label>
                                                     <Form.Control 
                                                         type="date" 
-                                                        placeholder={SETTINGS.FAMILY.KIDS_BIRTHDAY_PLACEHOLDER}
-                                                        value={userProfile.kidsBirthday}
-                                                        onChange={(e) => setUserProfile({...userProfile, kidsBirthday: e.target.value})}
+                                                        value={kid.birthday}
+                                                        onChange={(e) => handleKidChange(kid.id, 'birthday', e.target.value)}
                                                         className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
                                                     />
-                                                </div>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
+                                    ))}
 
                                     <Row className="gy-4">
                                         <Col md={6}>
@@ -525,6 +639,8 @@ const Settings = () => {
                                                 <Form.Control 
                                                     type="text" 
                                                     placeholder={SETTINGS.FAMILY.PET_NAME_PLACEHOLDER}
+                                                    value={userProfile.petName}
+                                                    onChange={(e) => setUserProfile({...userProfile, petName: e.target.value})}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -535,6 +651,8 @@ const Settings = () => {
                                                 <Form.Control 
                                                     type="text" 
                                                     placeholder={SETTINGS.FAMILY.PET_AGE_PLACEHOLDER}
+                                                    value={userProfile.petAge}
+                                                    onChange={(e) => setUserProfile({...userProfile, petAge: e.target.value})}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -561,20 +679,22 @@ const Settings = () => {
                                         <span className="fw-medium text-dark">{userProfile.familyGender}</span>
                                     </Col>
                                 </Row>
-                                <Row className="gy-4 mb-4">
-                                    <Col md={4}>
-                                        <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.KIDS_NAME}</label>
-                                        <span className="fw-medium text-dark">{userProfile.kidsName}</span>
-                                    </Col>
-                                    <Col md={4}>
-                                        <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.KIDS_BIRTHDAY}</label>
-                                        <span className="fw-medium text-dark">{userProfile.kidsBirthday}</span>
-                                    </Col>
-                                    <Col md={4}>
-                                        <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.GENDER}</label>
-                                        <span className="fw-medium text-dark">{userProfile.kidsGender}</span>
-                                    </Col>
-                                </Row>
+                                {userProfile.kids.map((kid) => (
+                                    <Row key={kid.id} className="gy-4 mb-4 pb-3 border-bottom border-light border-opacity-50 last-child-no-border">
+                                        <Col md={4}>
+                                            <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.KIDS_NAME}</label>
+                                            <span className="fw-medium text-dark">{kid.name}</span>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.KIDS_BIRTHDAY}</label>
+                                            <span className="fw-medium text-dark">{kid.birthday}</span>
+                                        </Col>
+                                        <Col md={4}>
+                                            <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.GENDER}</label>
+                                            <span className="fw-medium text-dark">{kid.gender}</span>
+                                        </Col>
+                                    </Row>
+                                ))}
                                 <Row className="gy-4">
                                     <Col md={4}>
                                         <label className="text-muted small d-block mb-1">{SETTINGS.FAMILY.PET_NAME}</label>
