@@ -5,10 +5,22 @@ const Settings = () => {
     const { SETTINGS } = STRINGS;
     const [editingSection, setEditingSection] = useState(null);
     const [notifications, setNotifications] = useState(true);
+    const [isTimezoneOpen, setIsTimezoneOpen] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const timezones = [
+        'Pacific Time - US & Canada',
+        'Alaska Time',
+        'Hawaii–Aleutian Time',
+        'Mountain Time',
+        'Central Time',
+        'Eastern Time',
+        'Atlantic Time',
+        'Newfoundland Time'
+    ];
 
     const [userProfile, setUserProfile] = useState({
         name: 'Sapphire Bright',
@@ -196,18 +208,18 @@ const Settings = () => {
             {renderChangePasswordModal()}
             {renderDeleteAccountModal()}
             {/* Header */}
-            <div className="d-flex justify-content-between align-items-center mb-4 pt-2">
+            <div className="d-flex justify-content-between align-items-center mb-4 pt-2 flex-wrap gap-3">
                 <h2 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.TITLE}</h2>
-                <div className="d-flex gap-3">
+                <div className="d-flex gap-2 gap-sm-3 flex-wrap">
                     <button 
-                        className="btn btn-outline-primary border-secondary text-dark rounded-3 px-4 py-2 bg-white shadow-sm fw-medium" 
+                        className="btn btn-outline-primary border-secondary text-dark rounded-3 px-3 px-sm-4 py-2 bg-white shadow-sm fw-medium small" 
                         style={{ borderColor: '#dee2e6 !important' }}
                         onClick={() => setShowPasswordModal(true)}
                     >
                         {SETTINGS.BUTTONS.CHANGE_PASSWORD}
                     </button>
                     <button 
-                        className="btn btn-link text-danger text-decoration-none bg-danger bg-opacity-10 rounded-3 px-4 py-2 border-0 fw-medium"
+                        className="btn btn-link text-danger text-decoration-none bg-danger bg-opacity-10 rounded-3 px-3 px-sm-4 py-2 border-0 fw-medium small"
                         onClick={() => setShowDeleteModal(true)}
                     >
                         {SETTINGS.BUTTONS.DELETE_ACCOUNT}
@@ -606,12 +618,66 @@ const Settings = () => {
                         <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.APPLICATION.TITLE}</h5>
                         {renderEditIcon('application')}
                     </div>
-                    <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
-                        <Card.Body className="p-4 py-3">
-                            <label className="text-muted small d-block mb-1">{SETTINGS.APPLICATION.TIMEZONE}</label>
-                            <span className="fw-medium text-dark">{userProfile.timezone}</span>
-                        </Card.Body>
-                    </Card>
+                    {editingSection === 'application' ? (
+                        <Card className="border-0 shadow-sm rounded-4 overflow-visible">
+                            <Card.Body className="p-4">
+                                <Form>
+                                    <div className="mb-4">
+                                        <label className="text-muted small fw-bold mb-3 text-uppercase" style={{ letterSpacing: '0.05em' }}>{SETTINGS.APPLICATION.TIMEZONE}</label>
+                                        <div className="position-relative">
+                                            <div 
+                                                className="bg-light border-0 py-3 px-4 rounded-3 d-flex justify-content-between align-items-center pointer transition-all"
+                                                onClick={() => setIsTimezoneOpen(!isTimezoneOpen)}
+                                                style={{ 
+                                                    backgroundColor: '#f8fafc',
+                                                    color: userProfile.timezone ? '#0f172a' : '#94a3b8',
+                                                    fontWeight: userProfile.timezone ? '500' : '400'
+                                                }}
+                                            >
+                                                <span>{userProfile.timezone || 'Select time zone'}</span>
+                                                <i className={`bi bi-chevron-${isTimezoneOpen ? 'up' : 'down'} text-muted`}></i>
+                                            </div>
+
+                                            {isTimezoneOpen && (
+                                                <div 
+                                                    className="position-absolute w-100 mt-2 bg-white rounded-3 shadow-lg overflow-hidden" 
+                                                    style={{ zIndex: 1000, border: '1px solid #f1f5f9' }}
+                                                >
+                                                    <div className="py-1">
+                                                        {timezones.map((tz) => (
+                                                            <div 
+                                                                key={tz}
+                                                                className="px-4 py-3 pointer dropdown-item-custom transition-all"
+                                                                style={{ 
+                                                                    backgroundColor: userProfile.timezone === tz ? '#f0f9fa' : 'transparent',
+                                                                    color: userProfile.timezone === tz ? '#40878e' : '#334155',
+                                                                    fontWeight: userProfile.timezone === tz ? '600' : '400'
+                                                                }}
+                                                                onClick={() => {
+                                                                    setUserProfile({ ...userProfile, timezone: tz });
+                                                                    setIsTimezoneOpen(false);
+                                                                }}
+                                                            >
+                                                                {tz}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    {renderEditActions()}
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    ) : (
+                        <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+                            <Card.Body className="p-4 py-3">
+                                <label className="text-muted small d-block mb-1">{SETTINGS.APPLICATION.TIMEZONE}</label>
+                                <span className="fw-medium text-dark">{userProfile.timezone}</span>
+                            </Card.Body>
+                        </Card>
+                    )}
                 </div>
 
                 {/* Favorites Section */}

@@ -105,12 +105,12 @@ const SwannOS = () => {
             </div>
 
             {/* DISC Profile Detail */}
-            <div className="disc-chart-container shadow-sm p-4 bg-white border-0">
+            <div className="disc-chart-container shadow-sm p-3 p-md-4 bg-white border-0 overflow-hidden">
                 <Row className="align-items-start g-4">
-                    <Col lg={7}>
+                    <Col md={12} lg={7}>
                         <div className="d-flex align-items-start h-100 ps-2">
                             {/* Y-Axis Labels */}
-                            <div className="y-axis-container pt-2 mt-5" style={{ height: '220px', marginTop: '105px' }}>
+                            <div className="y-axis-container pt-2 d-none d-sm-flex flex-column justify-content-between" style={{ height: '200px', marginTop: '125px', fontSize: '0.8rem', color: '#94a3b8', minWidth: '35px' }}>
                                 <span>100</span>
                                 <span>80</span>
                                 <span>60</span>
@@ -124,20 +124,20 @@ const SwannOS = () => {
                                 {discData.map((bar, i) => (
                                     <div key={i} className="text-center d-flex flex-column align-items-center">
                                         {/* Label Section (TOP) */}
-                                        <div className="mb-4" style={{ minHeight: '80px' }}>
-                                            <div className="fw-bold text-dark mb-2" style={{ fontSize: '0.9rem', color: bar.color, whiteSpace: 'nowrap' }}>{bar.label}</div>
+                                        <div className="mb-4 d-flex flex-column align-items-center" style={{ minHeight: '100px' }}>
+                                            <div className="fw-bold text-dark mb-2 text-center" style={{ fontSize: '0.85rem', color: bar.color, maxWidth: '100px', lineHeight: '1.2' }}>{bar.label}</div>
                                             <i className="bi bi-question-circle text-muted fs-5 pointer"></i>
                                         </div>
 
                                         {/* Bar Section */}
-                                        <div className="d-flex flex-column align-items-center justify-content-end mb-3" style={{ height: '220px', width: '60px' }}>
+                                        <div className="d-flex flex-column align-items-center justify-content-end mb-3" style={{ height: '200px', width: '50px' }}>
                                             <div
                                                 className="bar-pill shadow-sm"
                                                 style={{
                                                     height: `${bar.value}%`,
                                                     backgroundColor: bar.color,
-                                                    width: '50px',
-                                                    borderRadius: '12px'
+                                                    width: '40px',
+                                                    borderRadius: '10px'
                                                 }}
                                             ></div>
                                         </div>
@@ -151,14 +151,14 @@ const SwannOS = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col lg={5} className="ps-lg-5 pt-4">
-                        <div className="border-start ps-lg-5 h-100 d-flex flex-column justify-content-center" style={{ minHeight: '350px' }}>
-                            <h2 className="fw-bold mb-4" style={{ color: '#0f1d3a', fontSize: '2.2rem' }}>You are dual mode operator</h2>
+                    <Col md={12} lg={5} className="ps-lg-5 pt-0 pt-lg-4">
+                        <div className="border-start-md-0 border-start-lg ps-lg-5 h-100 d-flex flex-column justify-content-center" style={{ minHeight: '250px' }}>
+                            <h2 className="fw-bold mb-4" style={{ color: '#0f1d3a', fontSize: '1.8rem' }}>You are dual mode operator</h2>
                             <div className="mb-4">
-                                <h5 className="fw-bold text-dark mb-3">Primary Mode: <span className="text-secondary fw-normal">Engine (D)</span></h5>
-                                <h5 className="fw-bold text-dark mb-0">Secondary Mode: <span className="text-secondary fw-normal">Navigation System (C)</span></h5>
+                                <h5 className="fw-bold text-dark mb-3" style={{ fontSize: '1.1rem' }}>Primary Mode: <span className="text-secondary fw-normal">Engine (D)</span></h5>
+                                <h5 className="fw-bold text-dark mb-0" style={{ fontSize: '1.1rem' }}>Secondary Mode: <span className="text-secondary fw-normal">Navigation System (C)</span></h5>
                             </div>
-                            <p className="text-secondary mb-0 lh-base" style={{ fontSize: '1.05rem' }}>
+                            <p className="text-secondary mb-0 lh-base" style={{ fontSize: '1rem' }}>
                                 You are highly adaptable and adjust your approach based on context, pressure, and responsibility.
                             </p>
                         </div>

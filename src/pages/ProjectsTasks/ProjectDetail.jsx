@@ -34,7 +34,7 @@ const ProjectDetail = () => {
     ]);
 
     const toggleTask = (id) => {
-        setTasks(tasks.map(task => 
+        setTasks(tasks.map(task =>
             task.id === id ? { ...task, completed: !task.completed } : task
         ));
     };
@@ -76,7 +76,7 @@ const ProjectDetail = () => {
                             <h2 className="fw-bold mb-0 text-white text-nowrap" style={{ fontSize: '2.5rem' }}>12/12/2025</h2>
                         </Col>
                     </Row>
-                    
+
                     <div className="mt-4 pt-2">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <span className="fw-bold text-uppercase ls-1 opacity-75">Progress</span>
@@ -103,41 +103,45 @@ const ProjectDetail = () => {
                             <option>Low</option>
                         </Form.Select>
                     </div>
-                    
+
                     <div className="p-4 rounded-4 shadow-sm" style={{ backgroundColor: '#D6E5F2' }}>
                         {tasks.map((task, i) => (
                             <Card key={task.id} className={`border-0 rounded-4 shadow-sm mb-4 transition-all hover-translate hover-shadow ${task.completed ? 'opacity-75' : ''}`} style={{ backgroundColor: '#ffffff' }}>
                                 <Card.Body className="p-4">
                                     <div className="d-flex justify-content-between align-items-center mb-4 text-muted small text-uppercase fw-bold ls-1 opacity-50">
                                         <span>Due date <span className="ms-2 text-dark opacity-100">{task.dueDate}</span></span>
-                                        <span 
+                                        <span
                                             className="pointer hover-teal transition-all"
                                             onClick={() => navigate('/projects/task-detail')}
                                         >View More</span>
                                     </div>
                                     <div className="d-flex gap-4">
                                         <div className="pt-1">
-                                            <div className="rounded-circle d-flex align-items-center justify-content-center pointer transition-all" 
+                                            <div className="pointer transition-all hover-scale"
                                                 onClick={() => toggleTask(task.id)}
-                                                style={{ 
-                                                    width: '32px', 
-                                                    height: '32px', 
-                                                    border: `2px solid ${task.completed ? 'var(--swann-teal)' : '#0F1D3A'}`, 
-                                                    color: task.completed ? 'var(--swann-teal)' : '#0F1D3A',
-                                                    backgroundColor: task.completed ? 'var(--swann-teal-light)' : 'transparent'
+                                                style={{
+                                                    width: '32px',
+                                                    height: '32px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
                                                 }}>
-                                                <i className={`bi ${task.completed ? 'bi-check-circle-fill' : 'bi-circle'} fs-5`}></i>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="12" cy="12" r="10" stroke="#0F1D3A" strokeWidth="2"/>
+                                                    <circle cx="12" cy="12" r="5" stroke="#0F1D3A" strokeWidth="1.5"/>
+                                                    {task.completed && <circle cx="12" cy="12" r="3" fill="#0F1D3A"/>}
+                                                </svg>
                                             </div>
                                         </div>
                                         <div className="flex-grow-1">
                                             <div className="d-flex justify-content-between align-items-start mb-2">
-                                                <h4 className="fw-bold mb-0" style={{ 
-                                                    color: 'var(--swann-navy)', 
-                                                    fontSize: '1.5rem', 
+                                                <h4 className="fw-bold mb-0" style={{
+                                                    color: 'var(--swann-navy)',
+                                                    fontSize: '1.5rem',
                                                     letterSpacing: '-0.01em',
                                                     opacity: task.completed ? 0.8 : 1
                                                 }}>{task.title}</h4>
-                                                
+
                                                 {task.completed && (
                                                     <Badge bg="success" className="bg-opacity-10 text-success rounded-pill px-3 py-2 fw-bold" style={{ fontSize: '0.85rem', backgroundColor: '#D1F8D1', color: '#2D6A2D' }}>
                                                         Completed
@@ -145,12 +149,12 @@ const ProjectDetail = () => {
                                                 )}
                                             </div>
 
-                                            <p className="text-muted mb-4" style={{ 
-                                                lineHeight: '1.6', 
+                                            <p className="text-muted mb-4" style={{
+                                                lineHeight: '1.6',
                                                 fontSize: '1rem',
                                                 opacity: task.completed ? 0.6 : 1
                                             }}>{task.description}</p>
-                                            
+
                                             {!task.completed && (
                                                 <div className="d-flex gap-3">
                                                     <Badge bg="danger" className="bg-opacity-10 text-danger rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2" style={{ fontSize: '0.85rem' }}>
@@ -173,10 +177,10 @@ const ProjectDetail = () => {
                 <Col lg={3}>
                     <div className="p-4 rounded-4 shadow-sm h-100" style={{ backgroundColor: '#D6E5F2' }}>
                         <h4 className="fw-bold mb-4" style={{ color: 'var(--swann-navy)', fontSize: '1.5rem' }}>Team</h4>
-                        
+
                         <div className="bg-white rounded-4 shadow-sm overflow-hidden">
                             {teamMembers.map((member, i) => (
-                                <div key={i} 
+                                <div key={i}
                                     className={`p-3 d-flex align-items-center gap-3 transition-all hover-bg-light ${i !== teamMembers.length - 1 ? 'border-bottom' : ''}`}
                                     style={{ borderColor: 'rgba(0,0,0,0.05)' }}>
                                     <Image

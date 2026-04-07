@@ -314,13 +314,13 @@ const TimeOff = () => {
         <Container fluid className="timeoff-container px-4 py-3">
 
             {/* ── Header ── */}
-            <div className="d-flex align-items-center justify-content-between mb-4">
+            <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
                 <div className="d-flex align-items-center gap-2">
                     <h1 className="timeoff-page-title">Time Off</h1>
                     <i className="bi bi-question-circle timeoff-help-icon"></i>
                 </div>
                 <button
-                    className="btn-request-timeoff"
+                    className="btn-request-timeoff flex-grow-1 flex-sm-grow-0"
                     onClick={() => setShowModal(true)}
                 >
                     <i className="bi bi-plus-lg"></i>
@@ -347,7 +347,7 @@ const TimeOff = () => {
             </div>
 
             {/* ── Leave Table ── */}
-            <div className="timeoff-table-wrapper mb-4">
+            <div className="timeoff-table-wrapper mb-4 table-responsive-custom">
                 {/* Filter label */}
                 {activeFilter !== 'total' && (
                     <div className="filter-active-bar">

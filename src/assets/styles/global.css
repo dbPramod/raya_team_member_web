@@ -202,6 +202,10 @@ code {
     background-size: 16px 12px;
 }
 
+.dropdown-item-custom:hover {
+    background-color: #f8fafc !important;
+}
+
 
 /* --- pages/Home/Home.css --- */
 .bg-teal {
@@ -235,6 +239,34 @@ code {
 
 .pointer {
   cursor: pointer;
+}
+
+/* --- pages/Dashboard/Dashboard.jsx inline styles --- */
+.custom-range-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.9;
+}
+.custom-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e9ecef;
+  cursor: pointer;
+  border: 2px solid #9bbba8;
+  box-shadow: 0 0 0 2px #fff;
+}
+.leaderboard-progress .progress-bar {
+  background-color: #0f1d3a !important;
+}
+.trainings-progress .progress-bar {
+  background-color: #bbd3d8 !important;
 }
 
 /* --- pages/Messages/RoomInfo.css --- */
@@ -699,6 +731,51 @@ code {
     border-radius: 3px;
 }
 
+
+/* Messages Responsiveness */
+@media (max-width: 768px) {
+    .messages-page-wrapper {
+        margin: -1rem !important;
+        height: calc(100vh - 130px) !important;
+        max-height: calc(100vh - 130px) !important;
+    }
+
+    .msg-sidebar {
+        width: 100% !important;
+        border-right: none;
+    }
+
+    .messages-page-wrapper.chat-active .msg-sidebar {
+        display: none;
+    }
+
+    .messages-page-wrapper:not(.chat-active) .msg-main-pane,
+    .messages-page-wrapper:not(.chat-active) .room-info-pane {
+        display: none !important;
+    }
+
+    .msg-main-pane, .room-info-pane {
+        width: 100%;
+    }
+
+    .msg-header, .ri-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .msg-chat-history {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .msg-bubble {
+        max-width: 85%;
+    }
+
+    .msg-input-area {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+}
 
 /* --- pages/Calendar/MeetHistory.css --- */
 /* Meet History View */
@@ -3010,7 +3087,8 @@ code {
 
 /* Responsive Sidebar Options */
 .sidebar-wrapper {
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  z-index: 1050;
 }
 
 @media (max-width: 991.98px) {
@@ -3019,15 +3097,76 @@ code {
     top: 0;
     left: 0;
     height: 100vh;
+    width: 280px;
     transform: translateX(-100%);
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
   }
   .sidebar-wrapper.sidebar-open {
     transform: translateX(0);
   }
+  
+  /* Prevent horizontal overflow on mobile body */
+  body, html {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  /* Global utility for responsive headers */
+  .responsive-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  
+  .responsive-header .d-flex {
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+
+  .settings-container, .calendar-page-container, .dashboard-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }
+
 @media (min-width: 992px) {
   .sidebar-wrapper {
     position: relative;
     transform: none !important;
+    flex-shrink: 0;
+  }
+}
+
+/* Table responsiveness */
+.table-responsive-custom {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Borders */
+@media (max-width: 991.98px) {
+  .border-start-md-0 {
+    border-left: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .border-start-lg {
+    border-left: 1px solid #e2e8f0 !important;
+  }
+}
+
+/* Swann OS Specific Transitions & Fixes */
+.disc-chart-container {
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 575.98px) {
+  .y-axis-container {
+    display: none !important;
+  }
+  .disc-chart-container .d-flex.align-items-start.h-100.ps-2 {
+    padding-left: 0 !important;
   }
 }

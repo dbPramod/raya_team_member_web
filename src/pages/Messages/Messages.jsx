@@ -37,9 +37,10 @@ const MOCK_CHAT = [
 const Messages = () => {
     const [tab, setTab] = useState('Team');
     const [showRoomInfo, setShowRoomInfo] = useState(false);
+    const [isChatActive, setIsChatActive] = useState(false);
 
     return (
-        <div className="messages-page-wrapper">
+        <div className={`messages-page-wrapper ${(isChatActive || (showRoomInfo && tab === 'Rooms')) ? 'chat-active' : ''}`}>
             <div className="msg-sidebar">
                 <h2 className="msg-title">Messages</h2>
                 <div className="msg-tab-toggle">
@@ -66,7 +67,11 @@ const Messages = () => {
 
                 <div className="msg-list-wrapper custom-scrollbar">
                     {(tab === 'Rooms' ? MOCK_ROOMS : MOCK_TEAM).map((item) => (
-                        <div key={item.id} className={`msg-list-item ${item.active ? 'active-chat' : ''}`}>
+                        <div 
+                            key={item.id} 
+                            className={`msg-list-item ${item.active ? 'active-chat' : ''}`}
+                            onClick={() => setIsChatActive(true)}
+                        >
                             {item.avatar.startsWith('http') ? (
                                 <img src={item.avatar} alt={item.name} className="msg-list-avatar" />
                             ) : (
@@ -95,10 +100,19 @@ const Messages = () => {
             </div>
 
             {showRoomInfo && tab === 'Rooms' ? (
-                <RoomInfo room={MOCK_ROOMS[0]} onBack={() => setShowRoomInfo(false)} />
+                <RoomInfo room={MOCK_ROOMS[0]} onBack={() => {
+                    setShowRoomInfo(false);
+                    setIsChatActive(false);
+                }} />
             ) : (
                 <div className="msg-main-pane">
-                    <div className="msg-header">
+                    <div className="msg-header d-flex align-items-center">
+                        <button 
+                            className="btn btn-link text-dark d-md-none me-3 p-0" 
+                            onClick={() => setIsChatActive(false)}
+                        >
+                            <i className="bi bi-arrow-left fs-4"></i>
+                        </button>
                         {tab === 'Rooms' ? (
                             <div className="d-flex align-items-center" style={{ cursor: 'pointer' }} onClick={() => setShowRoomInfo(true)}>
                                 <div className="msg-list-avatar-text me-3" style={{ backgroundColor: '#dc2626', color: 'white', width: '48px', height: '48px' }}>J&J</div>

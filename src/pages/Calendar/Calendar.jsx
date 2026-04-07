@@ -112,31 +112,31 @@ const Calendar = () => {
             ) : (
                 <>
                     {/* Top Bar */}
-                    <div className="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
+                    <div className="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-4 px-1">
                         <div className="d-flex align-items-center flex-wrap gap-3 gap-md-4">
                             <h1 className="calendar-page-title m-0">Calendar</h1>
-                            <div className="cal-view-toggles d-flex bg-light p-1 rounded-3 border-light shadow-sm">
-                                <button className={`btn-view-toggle ${viewType === 'monthly' ? 'active' : ''}`} onClick={() => setViewType('monthly')}>Monthly</button>
-                                <button className={`btn-view-toggle ${viewType === 'weekly' ? 'active' : ''}`} onClick={() => setViewType('weekly')}>Weekly</button>
-                                <button className={`btn-view-toggle ${viewType === 'yearly' ? 'active' : ''}`} onClick={() => setViewType('yearly')}>Yearly</button>
+                            <div className="cal-view-toggles d-flex bg-light p-1 rounded-3 border-light shadow-sm flex-wrap">
+                                <button className={`btn-view-toggle flex-fill ${viewType === 'monthly' ? 'active' : ''}`} onClick={() => setViewType('monthly')}>Monthly</button>
+                                <button className={`btn-view-toggle flex-fill ${viewType === 'weekly' ? 'active' : ''}`} onClick={() => setViewType('weekly')}>Weekly</button>
+                                <button className={`btn-view-toggle flex-fill ${viewType === 'yearly' ? 'active' : ''}`} onClick={() => setViewType('yearly')}>Yearly</button>
                             </div>
                         </div>
-                        <div className="d-flex flex-wrap gap-2 mt-2 mt-md-0">
-                            <button className="btn-calendar-outline" onClick={() => setShowMeetHistory(true)}>Meet History</button>
-                            <button className="btn-calendar-primary" onClick={() => handleOpenAddEvent()}>
+                        <div className="d-flex flex-wrap gap-2 mt-0">
+                            <button className="btn-calendar-outline flex-grow-1" onClick={() => setShowMeetHistory(true)}>Meet History</button>
+                            <button className="btn-calendar-primary flex-grow-1" onClick={() => handleOpenAddEvent()}>
                                 <i className="bi bi-plus me-1"></i> Add Event
                             </button>
                         </div>
                     </div>
 
                     {/* Secondary Bar */}
-                    <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+                    <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-4 px-1">
                         <div className="d-flex align-items-center flex-wrap gap-3">
-                            <div className="cal-indicator-box">
+                            <div className="cal-indicator-box flex-shrink-0">
                                 <div className="cal-ind-month">{MONTH_NAMES[today.getMonth()].substring(0, 3).toUpperCase()}</div>
                                 <div className="cal-ind-day">{today.getDate()}</div>
                             </div>
-                            <div>
+                            <div className="flex-grow-1">
                                 <h4 className="cal-current-title m-0">
                                     {MONTH_NAMES[displayMonth]} {displayYear === today.getFullYear() && displayMonth === today.getMonth() ? selectedDate : "1"}
                                 </h4>
@@ -146,21 +146,21 @@ const Calendar = () => {
                             </div>
                         </div>
 
-                        <div className="d-flex align-items-center flex-wrap gap-3">
-                            <div className="cal-active-meeting-badge flex-shrink-0">
+                        <div className="d-flex align-items-center flex-wrap gap-3 w-sm-100 justify-content-md-end">
+                            <div className="cal-active-meeting-badge flex-shrink-0 w-100 w-md-auto text-center">
                                 Team Meeting: 10:00 am - 11:00 am
                             </div>
 
-                            <div className="cal-nav-controls d-flex align-items-center flex-wrap gap-2">
+                            <div className="cal-nav-controls d-flex align-items-center flex-wrap gap-2 justify-content-center">
                                 <button className="btn-cal-nav" onClick={handlePrevMonth}><i className="bi bi-arrow-left"></i></button>
-                                <div className="cal-nav-month fw-bold">{MONTH_NAMES[displayMonth]}</div>
+                                <div className="cal-nav-month fw-bold" style={{ minWidth: '80px', textAlign: 'center' }}>{MONTH_NAMES[displayMonth].substring(0, 3)}</div>
                                 <button className="btn-cal-nav" onClick={handleNextMonth}><i className="bi bi-arrow-right"></i></button>
 
                                 <select
-                                    className="form-select cal-nav-year"
+                                    className="form-select cal-nav-year border-0 shadow-none bg-light"
                                     value={displayYear}
                                     onChange={(e) => setDisplayYear(parseInt(e.target.value))}
-                                    style={{ width: '100px' }}
+                                    style={{ width: '90px', borderRadius: '8px' }}
                                 >
                                     {[2024, 2025, 2026, 2027, 2028].map(y => (
                                         <option key={y} value={y}>{y}</option>
@@ -171,7 +171,7 @@ const Calendar = () => {
                     </div>
 
                     {/* Calendar Grid */}
-                    <div className="calendar-grid-wrapper bg-white">
+                    <div className="calendar-grid-wrapper bg-white table-responsive-custom">
                         {/* Header Row */}
                         <div className="calendar-grid-header">
                             {WEEK_DAYS.map((d, i) => (

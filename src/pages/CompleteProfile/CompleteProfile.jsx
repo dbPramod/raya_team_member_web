@@ -4,10 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import appLogo from '../../assets/images/applogo.png';
 import locationData from '../../data/locationData.json';
 import { STRINGS } from '../../constants/strings';
-// import DatePicker from 'react-datepicker';
-// import 'react-datepicker/dist/react-datepicker.css';
-// import { getTimezonesByCountry } from '@countrystatecity/timezones';
-import '../Home/Home.css'; // For bg-login-gradient
 
 /**
  * [CRITICAL] 
@@ -28,6 +24,24 @@ const CompleteProfile = () => {
     const [selectedTimezone, setSelectedTimezone] = useState('');
     const [birthDate, setBirthDate] = useState(null);
     const [hiringDate, setHiringDate] = useState(null);
+
+    // Custom dropdown open states
+    const [openDropdown, setOpenDropdown] = useState(null); // 'gender' | 'timezone' | 'country' | 'state' | 'city'
+
+    const TIMEZONES = [
+        'Pacific Time - US & Canada',
+        'Mountain Time',
+        'Central Time',
+        'Eastern Time',
+        'Atlantic Time',
+        'Alaska Time',
+        'Hawaii–Aleutian Time',
+        'Newfoundland Time',
+        '(GMT+00:00) London',
+        '(GMT+05:30) India Standard Time',
+        '(GMT+08:00) Beijing',
+        '(GMT+09:00) Tokyo',
+    ];
 
     // Validation States
     const [name, setName] = useState('');
@@ -156,6 +170,62 @@ const CompleteProfile = () => {
         }
     };
 
+    // Reusable custom dropdown renderer
+    const renderCustomDropdown = ({
+        id, label, value, placeholder, options, onSelect, error, disabled = false, labelKey, valueKey
+    }) => {
+        const isOpen = openDropdown === id;
+        const toggle = () => {
+            if (!disabled) setOpenDropdown(isOpen ? null : id);
+        };
+        const displayLabel = value
+            ? (labelKey ? options.find(o => o[valueKey] === value)?.[labelKey] || value : value)
+            : placeholder;
+        return (
+            <Form.Group className="mb-4">
+                <Form.Label className="fw-medium small mb-2">{label}</Form.Label>
+                <div className="position-relative">
+                    <div
+                        className={`py-3 px-4 rounded-3 bg-white shadow-sm d-flex justify-content-between align-items-center pointer transition-all${disabled ? ' opacity-50' : ''}${error ? ' border border-danger' : ''}`}
+                        onClick={toggle}
+                        style={{ fontSize: '0.95rem', color: value ? '#0f172a' : '#6c757d', fontWeight: value ? '500' : '400', userSelect: 'none' }}
+                    >
+                        <span>{displayLabel}</span>
+                        <i className={`bi bi-chevron-${isOpen ? 'up' : 'down'} text-muted`}></i>
+                    </div>
+                    {isOpen && (
+                        <div
+                            className="position-absolute w-100 mt-1 bg-white rounded-3 shadow-lg overflow-auto"
+                            style={{ zIndex: 1050, border: '1px solid #f1f5f9', maxHeight: '220px' }}
+                        >
+                            {options.map((opt) => {
+                                const optValue = valueKey ? opt[valueKey] : opt;
+                                const optLabel = labelKey ? opt[labelKey] : opt;
+                                const isSelected = value === optValue;
+                                return (
+                                    <div
+                                        key={optValue}
+                                        className="px-4 py-3 pointer dropdown-item-custom"
+                                        style={{
+                                            backgroundColor: isSelected ? '#f0f9fa' : 'transparent',
+                                            color: isSelected ? '#40878e' : '#334155',
+                                            fontWeight: isSelected ? '600' : '400',
+                                            fontSize: '0.95rem'
+                                        }}
+                                        onClick={() => { onSelect(optValue); setOpenDropdown(null); }}
+                                    >
+                                        {optLabel}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+                {error && <div className="text-danger small mt-1">{error}</div>}
+            </Form.Group>
+        );
+    };
+
     const renderStepOne = () => {
         const { COMPLETE_PROFILE } = STRINGS;
         return (
@@ -190,20 +260,15 @@ const CompleteProfile = () => {
                         </Form.Group>
 
                         {/* Gender */}
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.GENDER.LABEL}</Form.Label>
-                            <Form.Select
-                                value={gender}
-                                onChange={(e) => setGender(e.target.value)}
-                                isInvalid={!!errors.gender}
-                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                style={{ fontSize: '0.95rem' }}
-                            >
-                                <option>{COMPLETE_PROFILE.GENDER.PLACEHOLDER}</option>
-                                {COMPLETE_PROFILE.GENDER.OPTIONS.map(opt => <option key={opt}>{opt}</option>)}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
-                        </Form.Group>
+                        {renderCustomDropdown({
+                            id: 'gender',
+                            label: COMPLETE_PROFILE.GENDER.LABEL,
+                            value: gender,
+                            placeholder: COMPLETE_PROFILE.GENDER.PLACEHOLDER,
+                            options: COMPLETE_PROFILE.GENDER.OPTIONS,
+                            onSelect: setGender,
+                            error: errors.gender
+                        })}
 
                         {/* Profile Photo Upload */}
                         <Form.Group className="mb-4">
@@ -315,22 +380,15 @@ const CompleteProfile = () => {
                         </Form.Group>
 
                         {/* Time Zone */}
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.TIMEZONE.LABEL}</Form.Label>
-                            <Form.Select
-                                value={selectedTimezone}
-                                onChange={(e) => setSelectedTimezone(e.target.value)}
-                                isInvalid={!!errors.selectedTimezone}
-                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                style={{ fontSize: '0.95rem' }}
-                            >
-                                <option>{COMPLETE_PROFILE.TIMEZONE.PLACEHOLDER}</option>
-                                <option>(GMT-05:00) Eastern Time</option>
-                                <option>(GMT+05:30) India Standard Time</option>
-                                <option>(GMT+00:00) London</option>
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errors.selectedTimezone}</Form.Control.Feedback>
-                        </Form.Group>
+                        {renderCustomDropdown({
+                            id: 'timezone',
+                            label: COMPLETE_PROFILE.TIMEZONE.LABEL,
+                            value: selectedTimezone,
+                            placeholder: COMPLETE_PROFILE.TIMEZONE.PLACEHOLDER,
+                            options: TIMEZONES,
+                            onSelect: setSelectedTimezone,
+                            error: errors.selectedTimezone
+                        })}
 
                         {/* Address */}
                         <Form.Group className="mb-4">
@@ -349,57 +407,46 @@ const CompleteProfile = () => {
 
 
                         {/* Country */}
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.COUNTRY.LABEL}</Form.Label>
-                            <Form.Select
-                                value={selectedCountry}
-                                onChange={handleCountryChange}
-                                isInvalid={!!errors.selectedCountry}
-                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                style={{ fontSize: '0.95rem' }}
-                            >
-                                <option value="">{COMPLETE_PROFILE.COUNTRY.PLACEHOLDER}</option>
-                                {countriesList.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errors.selectedCountry}</Form.Control.Feedback>
-                        </Form.Group>
+                        {renderCustomDropdown({
+                            id: 'country',
+                            label: COMPLETE_PROFILE.COUNTRY.LABEL,
+                            value: selectedCountry,
+                            placeholder: COMPLETE_PROFILE.COUNTRY.PLACEHOLDER,
+                            options: countriesList,
+                            onSelect: (val) => { handleCountryChange({ target: { value: val } }); },
+                            error: errors.selectedCountry,
+                            labelKey: 'name',
+                            valueKey: 'isoCode'
+                        })}
 
 
                         {/* State */}
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.STATE.LABEL}</Form.Label>
-                            <Form.Select
-                                value={selectedState}
-                                onChange={handleStateChange}
-                                disabled={!selectedCountry}
-                                isInvalid={!!errors.selectedState}
-                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                style={{ fontSize: '0.95rem' }}
-                            >
-                                <option value="">{COMPLETE_PROFILE.STATE.PLACEHOLDER}</option>
-                                {statesList.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errors.selectedState}</Form.Control.Feedback>
-                        </Form.Group>
+                        {renderCustomDropdown({
+                            id: 'state',
+                            label: COMPLETE_PROFILE.STATE.LABEL,
+                            value: selectedState,
+                            placeholder: COMPLETE_PROFILE.STATE.PLACEHOLDER,
+                            options: statesList,
+                            onSelect: (val) => { handleStateChange({ target: { value: val } }); },
+                            error: errors.selectedState,
+                            disabled: !selectedCountry,
+                            labelKey: 'name',
+                            valueKey: 'isoCode'
+                        })}
 
 
 
                         {/* City */}
-                        <Form.Group className="mb-4">
-                            <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.CITY.LABEL}</Form.Label>
-                            <Form.Select
-                                value={selectedCity}
-                                onChange={(e) => setSelectedCity(e.target.value)}
-                                disabled={!selectedState}
-                                isInvalid={!!errors.selectedCity}
-                                className="py-3 px-4 border-white shadow-sm rounded-3 bg-white text-muted"
-                                style={{ fontSize: '0.95rem' }}
-                            >
-                                <option value="">{COMPLETE_PROFILE.CITY.PLACEHOLDER}</option>
-                                {citiesList.map(city => <option key={city} value={city}>{city}</option>)}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errors.selectedCity}</Form.Control.Feedback>
-                        </Form.Group>
+                        {renderCustomDropdown({
+                            id: 'city',
+                            label: COMPLETE_PROFILE.CITY.LABEL,
+                            value: selectedCity,
+                            placeholder: COMPLETE_PROFILE.CITY.PLACEHOLDER,
+                            options: citiesList,
+                            onSelect: setSelectedCity,
+                            error: errors.selectedCity,
+                            disabled: !selectedState
+                        })}
 
                         {/* ZIP Code */}
                         <Form.Group className="mb-5">

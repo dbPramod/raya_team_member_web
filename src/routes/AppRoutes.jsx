@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
-import Home from '../pages/Home/Home';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import Dashboard from '../pages/Dashboard/Dashboard';
@@ -24,13 +23,13 @@ import TimeOff from '../pages/TimeOff/TimeOff';
 import Calendar from '../pages/Calendar/Calendar';
 import Messages from '../pages/Messages/Messages';
 import Notifications from '../pages/Notifications/Notifications';
+import Search from '../pages/Search/Search';
 import Logout from '../pages/Auth/Logout';
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/training" element={<Training />} />
         <Route path="/training/detail" element={<TrainingDetail />} />
@@ -46,6 +45,7 @@ const AppRoutes = () => {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/members" element={<div className="container py-4"><h1>Members</h1></div>} />
         <Route path="/settings" element={<Settings />} />
       </Route>

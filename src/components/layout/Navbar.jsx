@@ -1,17 +1,29 @@
+import React, { useState } from 'react';
 import { Container, Navbar as BsNavbar, Nav, Form, FormControl } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = ({ onToggleSidebar }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   return (
     <BsNavbar bg="white" className="px-3 py-3 border-bottom border-light d-flex flex-row flex-nowrap align-items-center justify-content-between">
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center flex-grow-1 me-2">
         <button
           className="btn btn-link text-dark p-0 me-3 d-lg-none flex-shrink-0"
           onClick={onToggleSidebar}
         >
           <i className="bi bi-list fs-2"></i>
         </button>
-        <Form className="d-none d-lg-flex flex-grow-1" style={{ width: '450px' }}>
+        
+        <Form onSubmit={handleSearch} className="d-none d-lg-flex flex-grow-1" style={{ maxWidth: '600px' }}>
           <div className="position-relative w-100">
             <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3" style={{ color: '#94a3b8', fontSize: '1.05rem' }}></i>
             <FormControl
@@ -20,12 +32,21 @@ const Navbar = ({ onToggleSidebar }) => {
               className="ps-5 bg-white shadow-none"
               style={{ fontSize: '0.95rem', borderRadius: '10px', border: '1px solid #e2e8f0', padding: '0.7rem 1rem', color: '#334155' }}
               aria-label="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </Form>
       </div>
 
-      <Nav className="ms-auto d-flex flex-row flex-nowrap align-items-center gap-3 pe-2">
+      <Nav className="ms-auto d-flex flex-row flex-nowrap align-items-center gap-2 gap-sm-3 pe-0">
+        <Link
+          to="/search"
+          className="d-lg-none d-flex align-items-center justify-content-center text-decoration-none bg-white"
+          style={{ width: '42px', height: '42px', borderRadius: '50%', border: '1.5px solid #e2e8f0', color: '#64748b', transition: 'all 0.2s', flexShrink: 0 }}
+        >
+          <i className="bi bi-search" style={{ fontSize: '1.1rem' }}></i>
+        </Link>
         <Link
           to="/notifications"
           className="d-flex align-items-center justify-content-center text-decoration-none bg-white"

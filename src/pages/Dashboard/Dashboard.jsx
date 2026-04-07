@@ -224,35 +224,6 @@ const Dashboard = () => {
         </Col>
       </Row>
 
-      {/* Dynamic CSS injected directly for minimal impact tweaks */}
-      <style>{`
-        .custom-range-slider {
-          -webkit-appearance: none;
-          width: 100%;
-          height: 8px;
-          background: #ffffff;
-          border-radius: 5px;
-          outline: none;
-          opacity: 0.9;
-        }
-        .custom-range-slider::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          background: #e9ecef;
-          cursor: pointer;
-          border: 2px solid #9bbba8;
-          box-shadow: 0 0 0 2px #fff;
-        }
-        .leaderboard-progress .progress-bar {
-          background-color: #0f1d3a !important;
-        }
-        .trainings-progress .progress-bar {
-          background-color: #bbd3d8 !important;
-        }
-      `}</style>
     </Container>
   );
 };

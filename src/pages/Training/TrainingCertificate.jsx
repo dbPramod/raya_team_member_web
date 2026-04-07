@@ -2,12 +2,13 @@ import React from 'react';
 import { Container, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import appLogo from '../../assets/images/applogo.png';
+import certificateBg from '../../assets/svg/Certificate_bg.svg';
 
 const TrainingCertificate = () => {
     const navigate = useNavigate();
 
     return (
-        <Container fluid className="px-lg-5 py-4 vh-100 d-flex flex-column bg-white overflow-auto certificate-container">
+        <Container fluid className="px-lg-5 py-4 min-vh-100 d-flex flex-column bg-white certificate-container">
             {/* Header with Back Arrow */}
             <div className="d-flex align-items-center gap-3 mb-5">
                 <button
@@ -19,44 +20,43 @@ const TrainingCertificate = () => {
                 <h3 className="fw-bold mb-0" style={{ fontSize: '1.4rem', color: '#0f1d3a', letterSpacing: '-0.02em' }}>Workplace Safety Basics Certificate</h3>
             </div>
 
-            <div className="flex-grow-1 d-flex flex-column align-items-center justify-content-center py-4">
-                <h2 className="fw-bold mb-5 text-center" style={{ color: '#0f1d3a' }}>Here’s your certificate!</h2>
+            <div className="flex-grow-1 d-flex flex-column align-items-center justify-content-center py-3 py-md-4 px-2">
+                <h2 className="fw-bold mb-4 mb-md-5 text-center certificate-title" style={{ color: '#0f1d3a' }}>Here’s your certificate!</h2>
 
                 {/* Certificate Card */}
                 <div className="certificate-wrapper position-relative p-1" style={{ maxWidth: '900px', width: '100%' }}>
                     <Card className="border-1 p-0 overflow-hidden shadow-lg" style={{ borderRadius: '24px', borderColor: '#0f1d3a', minHeight: '550px' }}>
-                        <Card.Body className="p-0 position-relative d-flex flex-column align-items-center text-center justify-content-center">
-
-                            {/* Decorative Background Elements */}
-                            <div className="certificate-bg-left"></div>
-                            <div className="certificate-bg-right"></div>
+                        <Card.Body className="p-0 position-relative d-flex flex-column align-items-center text-center justify-content-center overflow-hidden">
+                            {/* Decorative Background SVG */}
+                            <img 
+                                src={certificateBg} 
+                                alt="" 
+                                className="certificate-bg-svg-img" 
+                            />
 
                             <div className="position-relative z-1 py-5 px-4 w-100 mt-4">
-                                <h4 className="fw-bold mb-1" style={{ color: '#2c5282', fontSize: '2rem' }}>Congratulations!</h4>
-
-                                <div className="my-4">
-                                    <h1 className="fw-bold mb-0" style={{ color: '#2c5282', fontSize: '3.5rem' }}>80%</h1>
-                                    <p className="text-muted" style={{ fontSize: '1rem' }}>Your score</p>
+                                <h4 className="fw-bold mb-1 congratulations-text" style={{ color: '#2c5282', fontSize: '2rem' }}>Congratulations!</h4>
+                                <div className="my-3 my-md-4">
+                                    <h1 className="fw-bold mb-0 score-text" style={{ color: '#2c5282', fontSize: '3.5rem' }}>80%</h1>
+                                    <p className="text-muted score-label" style={{ fontSize: '1rem' }}>Your score</p>
                                 </div>
-
-                                <div className="mt-4 mb-3">
-                                    <p className="text-muted mb-2" style={{ fontSize: '1.1rem' }}>This is to certify that</p>
-                                    <h2 className="fw-bold mb-2" style={{ color: '#000', fontSize: '2.2rem' }}>Member Name</h2>
+                                <div className="mt-3 mt-md-4 mb-2 mb-md-3">
+                                    <p className="text-muted mb-1 mb-md-2 certify-text" style={{ fontSize: '1.1rem' }}>This is to certify that</p>
+                                    <h2 className="fw-bold mb-1 mb-md-2 name-text" style={{ color: '#000', fontSize: '2.2rem' }}>Member Name</h2>
                                     <p className="text-muted" style={{ fontSize: '1rem' }}>has successfully completed the course</p>
                                 </div>
+                                <h4 className="fw-bold mb-4 mb-md-5 course-text" style={{ color: '#000', fontSize: '1.5rem' }}>Workplace Safety Basics</h4>
 
-                                <h4 className="fw-bold mb-5" style={{ color: '#000', fontSize: '1.5rem' }}>Workplace Safety Basics</h4>
-
-                                <div className="d-flex justify-content-center gap-5 mt-4 mb-5 pb-4">
-                                    <div>
-                                        <p className="text-muted mb-1 text-uppercase small ls-wide">Issued Date</p>
-                                        <p className="fw-bold mb-0" style={{ color: '#000', fontSize: '1.1rem' }}>01/18/2026</p>
+                                <div className="d-flex justify-content-center gap-3 gap-md-5 mt-3 mt-md-4 mb-4 mb-md-5 pb-3 pb-md-4">
+                                    <div className="text-start">
+                                        <p className="text-muted mb-1 text-uppercase small ls-wide" style={{ fontSize: '0.7rem' }}>Issued Date</p>
+                                        <p className="fw-bold mb-0 info-text" style={{ color: '#000', fontSize: '1.1rem' }}>01/18/2026</p>
                                     </div>
                                     <div className="d-flex flex-column align-items-center">
-                                        <p className="text-muted mb-2 text-uppercase small ls-wide">Issued By</p>
+                                        <p className="text-muted mb-1 text-uppercase small ls-wide" style={{ fontSize: '0.7rem' }}>Issued By</p>
                                         <div className="d-flex align-items-center gap-2">
-                                            <img src={appLogo} alt="Swann Ave" height="28" className="mb-1" />
-                                            <span className="fw-bold" style={{ fontSize: '1.3rem', color: '#000', letterSpacing: '0.05em' }}>SWANN AVE</span>
+                                            <img src={appLogo} alt="Swann Ave" height="20" className="mb-1 d-md-inline" />
+                                            <span className="fw-bold info-text" style={{ fontSize: '1.1rem', color: '#000', letterSpacing: '0.05em' }}>SWANN AVE</span>
                                         </div>
                                     </div>
                                 </div>
@@ -86,28 +86,16 @@ const TrainingCertificate = () => {
             </div>
 
             <style>{`
-                .ls-wide {
-                    letter-spacing: 0.1em;
-                }
-                .certificate-bg-left {
+                .certificate-bg-svg-img {
                     position: absolute;
                     top: 0;
                     left: 0;
-                    width: 40%;
+                    width: 100%;
                     height: 100%;
-                    background: radial-gradient(circle at 0% 50%, rgba(68, 139, 139, 0.08) 0%, transparent 70%);
+                    object-fit: cover;
                     z-index: 0;
                     pointer-events: none;
-                }
-                .certificate-bg-right {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 40%;
-                    height: 100%;
-                    background: radial-gradient(circle at 100% 50%, rgba(243, 235, 222, 0.6) 0%, transparent 70%);
-                    z-index: 0;
-                    pointer-events: none;
+                    opacity: 0.6;
                 }
                 .certificate-wrapper::after {
                    content: '';
@@ -180,8 +168,8 @@ const TrainingCertificate = () => {
                         box-shadow: none !important;
                     }
                     
-                    /* Ensure background graphics are preserved */
-                    .certificate-bg-left, .certificate-bg-right {
+                    /* Ensure background SVG is preserved */
+                    .certificate-bg-svg-img {
                         visibility: visible !important;
                         display: block !important;
                         print-color-adjust: exact !important;
@@ -190,6 +178,25 @@ const TrainingCertificate = () => {
                 }
                 h1, h2, h3, h4, p, span {
                     font-family: 'Plus Jakarta Sans', sans-serif !important;
+                }
+                @media (max-width: 768px) {
+                    .certificate-title { font-size: 1.5rem !important; }
+                    .congratulations-text { font-size: 1.4rem !important; }
+                    .score-text { font-size: 2.5rem !important; }
+                    .name-text { font-size: 1.6rem !important; }
+                    .course-text { font-size: 1.1rem !important; }
+                    .certify-text { font-size: 0.9rem !important; }
+                    .info-text { font-size: 0.9rem !important; }
+                    .card { min-height: 400px !important; }
+                    .ls-wide { letter-spacing: 0.05em; }
+                }
+                @media (max-width: 480px) {
+                    .certificate-wrapper { padding: 0 !important; }
+                    .card { border-radius: 16px !important; }
+                    .score-text { font-size: 2rem !important; }
+                    .name-text { font-size: 1.3rem !important; }
+                    .course-text { font-size: 1rem !important; }
+                    .congratulations-text { font-size: 1.2rem !important; }
                 }
             `}</style>
         </Container>
