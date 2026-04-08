@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import { Container, Row, Col, Card, ProgressBar, Badge, Form, Button, Image } from 'react-bootstrap';
+import { Container, Row, Col, Card, ProgressBar, Badge, Button, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import CustomSelect from '../../components/common/CustomSelect';
 const ProjectDetail = () => {
     const navigate = useNavigate();
+    const priorityOptions = [
+        { value: 'Priority', label: 'Priority' },
+        { value: 'High', label: 'High' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'Low', label: 'Low' }
+    ];
 
     const teamMembers = [
         { name: 'Emerald Muse', avatar: 'https://i.pravatar.cc/150?u=1' },
@@ -32,6 +39,7 @@ const ProjectDetail = () => {
             completed: false
         }
     ]);
+    const [priorityFilter, setPriorityFilter] = useState('Priority');
 
     const toggleTask = (id) => {
         setTasks(tasks.map(task =>
@@ -96,12 +104,15 @@ const ProjectDetail = () => {
                 <Col lg={9}>
                     <div className="d-flex align-items-center justify-content-between mb-4">
                         <h4 className="fw-bold mb-0" style={{ color: 'var(--swann-navy)', fontSize: '1.75rem' }}>Tasks</h4>
-                        <Form.Select className="w-auto border-0 shadow-sm rounded-3 px-4 py-2 custom-select-premium" style={{ fontSize: '0.95rem', color: 'var(--swann-navy)', fontWeight: '600' }}>
-                            <option>Priority</option>
-                            <option>High</option>
-                            <option>Medium</option>
-                            <option>Low</option>
-                        </Form.Select>
+                        <div style={{ minWidth: '168px' }}>
+                            <CustomSelect
+                                options={priorityOptions}
+                                value={priorityFilter}
+                                onChange={(event) => setPriorityFilter(event.target.value)}
+                                placeholder="Priority"
+                                className="custom-select-premium-wrapper"
+                            />
+                        </div>
                     </div>
 
                     <div className="p-4 rounded-4 shadow-sm" style={{ backgroundColor: '#D6E5F2' }}>

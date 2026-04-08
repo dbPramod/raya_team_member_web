@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Badge, Modal } from 'react-bootstrap';
 import { STRINGS } from '../../constants/strings';
+import CustomSelect from '../../components/common/CustomSelect';
 const Settings = () => {
     const { SETTINGS } = STRINGS;
     const [editingSection, setEditingSection] = useState(null);
@@ -11,6 +12,7 @@ const Settings = () => {
     const [showAddKidModal, setShowAddKidModal] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [newKidGender, setNewKidGender] = useState('');
 
     const timezones = [
         'Pacific Time - US & Canada',
@@ -21,6 +23,20 @@ const Settings = () => {
         'Eastern Time',
         'Atlantic Time',
         'Newfoundland Time'
+    ];
+    const genderOptions = [
+        { value: 'Male', label: 'Male' },
+        { value: 'Female', label: 'Female' },
+        { value: 'Other', label: 'Other' }
+    ];
+    const departmentOptions = [
+        { value: 'Development', label: 'Development' },
+        { value: 'Design', label: 'Design' },
+        { value: 'Product', label: 'Product' }
+    ];
+    const countryCodeOptions = [
+        { value: '+1', label: '+1' },
+        { value: '+91', label: '+91' }
     ];
 
     const [userProfile, setUserProfile] = useState({
@@ -72,6 +88,7 @@ const Settings = () => {
             kids: [...userProfile.kids, { id: Date.now(), ...kidData }]
         });
         setShowAddKidModal(false);
+        setNewKidGender('');
     };
 
     const handleKidChange = (id, field, value) => {
@@ -222,7 +239,10 @@ const Settings = () => {
     const renderAddKidModal = () => (
         <Modal 
             show={showAddKidModal} 
-            onHide={() => setShowAddKidModal(false)}
+            onHide={() => {
+                setShowAddKidModal(false);
+                setNewKidGender('');
+            }}
             centered
             contentClassName="rounded-4 border-0 shadow custom-modal"
             size="md"
@@ -260,12 +280,14 @@ const Settings = () => {
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label className="text-muted small fw-medium mb-1">Gender</Form.Label>
-                        <Form.Select name="gender" className="bg-light border-0 py-2 rounded-3 shadow-none custom-select" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </Form.Select>
+                        <CustomSelect
+                            name="gender"
+                            value={newKidGender}
+                            options={genderOptions}
+                            onChange={(event) => setNewKidGender(event.target.value)}
+                            placeholder="Select Gender"
+                            className="settings-custom-select"
+                        />
                     </Form.Group>
                     <Form.Group className="mb-4">
                         <Form.Label className="text-muted small fw-medium mb-1">Birthday</Form.Label>
@@ -315,9 +337,9 @@ const Settings = () => {
 
             <div className="settings-content pe-2">
                 {/* Profile Summary Section */}
-                <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
+                <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     {editingSection === 'profile' ? (
-                        <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+                        <Card className="border-0 shadow-sm rounded-4 overflow-visible">
                             <Card.Body className="p-4">
                                 <div className="d-flex align-items-center mb-4">
                                     <div className="profile-img-large me-4 position-relative">
@@ -370,16 +392,13 @@ const Settings = () => {
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PROFILE.DEPARTMENT_LABEL}</Form.Label>
                                                 <div className="position-relative">
-                                                    <Form.Select 
-                                                        className="bg-light border-0 py-2 pe-5 rounded-3 custom-select"
+                                                    <CustomSelect
+                                                        options={departmentOptions}
                                                         value={userProfile.department}
                                                         onChange={(e) => setUserProfile({...userProfile, department: e.target.value})}
-                                                    >
-                                                        <option>{SETTINGS.PROFILE.DEPARTMENT_PLACEHOLDER}</option>
-                                                        <option value="Development">Development</option>
-                                                        <option value="Design">Design</option>
-                                                        <option value="Product">Product</option>
-                                                    </Form.Select>
+                                                        placeholder={SETTINGS.PROFILE.DEPARTMENT_PLACEHOLDER}
+                                                        className="settings-custom-select"
+                                                    />
                                                 </div>
                                             </Form.Group>
                                         </Col>
@@ -418,13 +437,13 @@ const Settings = () => {
                 </div>
 
                 {/* Personal Details Section */}
-                <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
+                <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
                         <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.PERSONAL.TITLE}</h5>
                         {renderEditIcon('personal')}
                     </div>
                     {editingSection === 'personal' ? (
-                        <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+                        <Card className="border-0 shadow-sm rounded-4 overflow-visible">
                             <Card.Body className="p-4">
                                 <Form>
                                     <Row className="gy-4">
@@ -444,10 +463,15 @@ const Settings = () => {
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PERSONAL.PHONE}</Form.Label>
                                                 <div className="d-flex gap-2">
-                                                    <Form.Select className="bg-light border-0 py-2 rounded-3 w-auto">
-                                                        <option>+1</option>
-                                                        <option>+91</option>
-                                                    </Form.Select>
+                                                    <div style={{ minWidth: '86px' }}>
+                                                        <CustomSelect
+                                                            options={countryCodeOptions}
+                                                            value={userProfile.phone.split(' ')[0]}
+                                                            onChange={(e) => setUserProfile({...userProfile, phone: `${e.target.value} ${userProfile.phone.split(' ')[1] || ''}`.trim()})}
+                                                            className="settings-custom-select settings-country-code-select"
+                                                            fullWidth={false}
+                                                        />
+                                                    </div>
                                                     <Form.Control 
                                                         type="text" 
                                                         placeholder={SETTINGS.PERSONAL.PHONE_PLACEHOLDER}
@@ -461,15 +485,13 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PERSONAL.GENDER}</Form.Label>
-                                                <Form.Select 
-                                                    className="bg-light border-0 py-2 rounded-3 custom-select"
+                                                <CustomSelect
+                                                    options={genderOptions.filter((option) => option.value !== 'Other')}
                                                     value={userProfile.gender}
                                                     onChange={(e) => setUserProfile({...userProfile, gender: e.target.value})}
-                                                >
-                                                    <option>{SETTINGS.PERSONAL.GENDER_PLACEHOLDER}</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                </Form.Select>
+                                                    placeholder={SETTINGS.PERSONAL.GENDER_PLACEHOLDER}
+                                                    className="settings-custom-select"
+                                                />
                                             </Form.Group>
                                         </Col>
                                         <Col md={4}>
@@ -534,13 +556,13 @@ const Settings = () => {
                 </div>
 
                 {/* Family Details Section */}
-                <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
+                <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
                         <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.FAMILY.TITLE}</h5>
                         {renderEditIcon('family')}
                     </div>
                     {editingSection === 'family' ? (
-                        <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+                        <Card className="border-0 shadow-sm rounded-4 overflow-visible">
                             <Card.Body className="p-4">
                                 <Form>
                                     <Row className="gy-4 mb-4">
@@ -559,15 +581,13 @@ const Settings = () => {
                                         <Col md={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.GENDER}</Form.Label>
-                                                <Form.Select 
-                                                    className="bg-light border-0 py-2 rounded-3 custom-select"
+                                                <CustomSelect
+                                                    options={genderOptions.filter((option) => option.value !== 'Other')}
                                                     value={userProfile.familyGender}
                                                     onChange={(e) => setUserProfile({...userProfile, familyGender: e.target.value})}
-                                                >
-                                                    <option>{SETTINGS.FAMILY.GENDER_PLACEHOLDER}</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                </Form.Select>
+                                                    placeholder={SETTINGS.FAMILY.GENDER_PLACEHOLDER}
+                                                    className="settings-custom-select"
+                                                />
                                             </Form.Group>
                                         </Col>
                                         <Col md={6}>
@@ -588,7 +608,10 @@ const Settings = () => {
                                     
                                     <div className="d-flex align-items-center gap-2 mb-4">
                                         <label className="text-muted small mb-0 fw-medium">{SETTINGS.FAMILY.KIDS_NAME}</label>
-                                        <i className="bi bi-plus-circle text-primary pointer" onClick={() => setShowAddKidModal(true)}></i>
+                                        <i className="bi bi-plus-circle text-primary pointer" onClick={() => {
+                                            setNewKidGender('');
+                                            setShowAddKidModal(true);
+                                        }}></i>
                                     </div>
                                     
                                     {userProfile.kids.map((kid, index) => (
@@ -607,15 +630,12 @@ const Settings = () => {
                                             <Col md={6}>
                                                 <Form.Group>
                                                     <Form.Label className="text-muted small mb-2">Gender</Form.Label>
-                                                    <Form.Select 
+                                                    <CustomSelect
+                                                        options={genderOptions}
                                                         value={kid.gender}
                                                         onChange={(e) => handleKidChange(kid.id, 'gender', e.target.value)}
-                                                        className="bg-light border-0 py-2 rounded-3 custom-select"
-                                                    >
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                        <option value="Other">Other</option>
-                                                    </Form.Select>
+                                                        className="settings-custom-select"
+                                                    />
                                                 </Form.Group>
                                             </Col>
                                             <Col md={6}>
@@ -711,7 +731,7 @@ const Settings = () => {
                 </div>
 
                 {/* Notification Preferences Section */}
-                <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
+                <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
                         <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.NOTIFICATIONS.TITLE}</h5>
                     </div>

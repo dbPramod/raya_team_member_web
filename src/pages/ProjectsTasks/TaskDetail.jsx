@@ -1,5 +1,7 @@
-import { Container, Row, Col, Badge, Form, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import CustomSelect from '../../components/common/CustomSelect';
 const TaskDetail = () => {
     const navigate = useNavigate();
 
@@ -16,6 +18,12 @@ const TaskDetail = () => {
             { name: 'About-Us.pdf', size: '2.0 MB', type: 'pdf' }
         ]
     };
+    const [taskStatus, setTaskStatus] = useState(task.status);
+    const statusOptions = [
+        { value: 'Not Started', label: 'Not started' },
+        { value: 'In-progress', label: 'In-progress' },
+        { value: 'Completed', label: 'Completed' }
+    ];
 
     return (
         <Container fluid className="py-4 px-4 px-xl-5 projects-container bg-white" style={{ minHeight: '100vh' }}>
@@ -39,15 +47,14 @@ const TaskDetail = () => {
                     <Badge bg="danger" className="bg-opacity-10 text-danger rounded-pill px-3 py-2 fw-bold d-flex align-items-center gap-2" style={{ fontSize: '0.9rem' }}>
                         <i className="bi bi-flag-fill"></i> {task.priority}
                     </Badge>
-                    <Form.Select 
-                        className="w-auto border shadow-sm rounded- pill px-3 py-2 custom-select-premium" 
-                        style={{ fontSize: '0.9rem', color: 'var(--swann-navy)', fontWeight: '600', minWidth: '160px' }}
-                        defaultValue={task.status}
-                    >
-                        <option>{task.status}</option>
-                        <option>In-progress</option>
-                        <option>Completed</option>
-                    </Form.Select>
+                    <div style={{ minWidth: '160px' }}>
+                        <CustomSelect
+                            options={statusOptions}
+                            value={taskStatus}
+                            onChange={(event) => setTaskStatus(event.target.value)}
+                            className="custom-select-premium-wrapper"
+                        />
+                    </div>
                 </Col>
             </Row>
 

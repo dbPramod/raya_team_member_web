@@ -1,10 +1,18 @@
 import { useState } from 'react';
-import { Container, Row, Col, Card, ProgressBar, Badge, Form, Nav, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, ProgressBar, Badge, Nav, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import CustomSelect from '../../components/common/CustomSelect';
 const ProjectsTasks = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('project'); // 'todo' or 'project'
     const [projectFilter, setProjectFilter] = useState('All');
+    const [todoStatuses, setTodoStatuses] = useState({
+        'Must Do Today-0': 'In-progress',
+        'Must Do Today-1': 'In-progress',
+        'Must Do Today-2': 'Not started',
+        'Upcoming-0': 'Not started',
+        'Upcoming-1': 'Not started'
+    });
 
     const projects = [
         {
@@ -77,6 +85,11 @@ const ProjectsTasks = () => {
                 { title: 'Monthly Equipment Audit', type: 'Weekly', status: 'Not started' }
             ]
         }
+    ];
+    const todoStatusOptions = [
+        { value: 'In-progress', label: 'In-progress' },
+        { value: 'Not started', label: 'Not started' },
+        { value: 'Completed', label: 'Completed' }
     ];
 
     return (
@@ -254,11 +267,15 @@ const ProjectsTasks = () => {
                                                 <Badge bg="transparent" className="border text-muted fw-normal px-3 py-2 rounded-2" style={{ fontSize: '0.8rem', backgroundColor: '#f8f9fa' }}>{task.type}</Badge>
                                             </div>
                                             <div style={{ width: '150px' }}>
-                                                <Form.Select className="border-secondary border-opacity-25 rounded-3 py-2" style={{ fontSize: '0.85rem' }} defaultValue={task.status}>
-                                                    <option>In-progress</option>
-                                                    <option>Not started</option>
-                                                    <option>Completed</option>
-                                                </Form.Select>
+                                                <CustomSelect
+                                                    options={todoStatusOptions}
+                                                    value={todoStatuses[`${section.title}-${tidx}`] || task.status}
+                                                    onChange={(event) => setTodoStatuses((prev) => ({
+                                                        ...prev,
+                                                        [`${section.title}-${tidx}`]: event.target.value
+                                                    }))}
+                                                    className="compact-project-select"
+                                                />
                                             </div>
                                         </div>
                                     ))}
