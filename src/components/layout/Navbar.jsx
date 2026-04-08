@@ -1,10 +1,71 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Navbar as BsNavbar, Nav, Form, FormControl } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
+const NAVBAR_PROFILE_STORAGE_KEY = 'swann-navbar-profile';
+const DEFAULT_NAVBAR_PROFILE = {
+  name: 'Sapphire Bright',
+  avatar: 'https://i.pravatar.cc/150?u=sapphire',
+  role: 'UI/UX Designer'
+};
+
+const getStoredNavbarProfile = () => {
+  if (typeof window === 'undefined') return DEFAULT_NAVBAR_PROFILE;
+
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(NAVBAR_PROFILE_STORAGE_KEY) || '{}');
+    return {
+      ...DEFAULT_NAVBAR_PROFILE,
+      ...parsed
+    };
+  } catch (error) {
+    return DEFAULT_NAVBAR_PROFILE;
+  }
+};
+
 const Navbar = ({ onToggleSidebar }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [navbarProfile, setNavbarProfile] = useState(() => getStoredNavbarProfile());
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const syncProfile = () => {
+      setNavbarProfile(getStoredNavbarProfile());
+    };
+
+    const handleCustomProfileUpdate = (event) => {
+      if (event?.detail) {
+        setNavbarProfile({
+          ...DEFAULT_NAVBAR_PROFILE,
+          ...event.detail
+        });
+        return;
+      }
+
+      syncProfile();
+    };
+
+    window.addEventListener('storage', syncProfile);
+    window.addEventListener('swann:profile-updated', handleCustomProfileUpdate);
+
+    return () => {
+      window.removeEventListener('storage', syncProfile);
+      window.removeEventListener('swann:profile-updated', handleCustomProfileUpdate);
+    };
+  }, []);
+
+  const getProfileInitials = (name) => {
+    if (!name) {
+      return 'SB';
+    }
+
+    return name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() || '')
+      .join('');
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -70,10 +131,19 @@ const Navbar = ({ onToggleSidebar }) => {
           <i className="bi bi-bell" style={{ fontSize: '1.15rem' }}></i>
         </Link>
         <Link to="/settings" className="text-decoration-none d-flex align-items-center gap-2 pointer border-0 bg-transparent p-0 ms-1">
-          <img src="https://i.pravatar.cc/150?u=sapphire" alt="Sapphire Bright" className="rounded-circle border border-2 border-white shadow-sm" width="38" height="38" />
+          {navbarProfile.avatar ? (
+            <img src={navbarProfile.avatar} alt={navbarProfile.name} className="rounded-circle border border-2 border-white shadow-sm" width="38" height="38" />
+          ) : (
+            <div
+              className="rounded-circle border border-2 border-white shadow-sm d-flex align-items-center justify-content-center fw-semibold text-white"
+              style={{ width: '38px', height: '38px', background: 'linear-gradient(140deg, #0f3780 0%, #40878e 100%)', fontSize: '0.75rem' }}
+            >
+              {getProfileInitials(navbarProfile.name)}
+            </div>
+          )}
           <div className="d-none d-sm-flex flex-column lh-1 text-start">
-            <span className="fw-semibold text-dark" style={{ fontSize: '0.95rem' }}>Sapphire Bright</span>
-            <span className="text-muted" style={{ fontSize: '0.8rem', marginTop: '4px' }}>Role</span>
+            <span className="fw-semibold text-dark" style={{ fontSize: '0.95rem' }}>{navbarProfile.name}</span>
+            <span className="text-muted" style={{ fontSize: '0.8rem', marginTop: '4px' }}>{navbarProfile.role || 'UI/UX Designer'}</span>
           </div>
         </Link>
       </Nav>

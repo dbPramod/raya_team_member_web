@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 
 const MainLayout = () => {
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
@@ -32,7 +33,9 @@ const MainLayout = () => {
         <div className="bg-white flex-grow-1 d-flex flex-column overflow-hidden shadow-sm" style={{ borderRadius: '16px', position: 'relative' }}>
           <Navbar onToggleSidebar={toggleSidebar} />
           <main className="px-4 py-4 flex-grow-1 overflow-auto bg-white">
-            <Outlet />
+            <div key={location.pathname} className="app-route-transition">
+              <Outlet />
+            </div>
           </main>
           <Footer />
         </div>

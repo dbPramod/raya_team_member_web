@@ -255,18 +255,18 @@ const ProjectsTasks = () => {
                         </div>
 
                         {todoSections.map((section, idx) => (
-                            <div key={idx} className="mb-5">
+                            <div key={idx} className="mb-5 projects-todo-section">
                                 <div className="p-3 rounded-top-4" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)' }}>
                                     <h6 className="fw-bold mb-0 text-white">{section.title}</h6>
                                 </div>
-                                <div className="border border-top-0 rounded-bottom-4 bg-white overflow-hidden" style={{ borderColor: '#eff2f5' }}>
+                                <div className="border border-top-0 rounded-bottom-4 bg-white projects-todo-list" style={{ borderColor: '#eff2f5' }}>
                                     {section.tasks.map((task, tidx) => (
-                                        <div key={tidx} className={`p-4 d-flex align-items-center justify-content-between ${tidx !== section.tasks.length - 1 ? 'border-bottom' : ''}`} style={{ borderColor: '#eff2f5' }}>
+                                        <div key={tidx} className={`p-4 d-flex align-items-center justify-content-between projects-todo-row ${tidx !== section.tasks.length - 1 ? 'border-bottom' : ''}`} style={{ borderColor: '#eff2f5' }}>
                                             <div className="d-flex align-items-center gap-3">
                                                 <span className="fw-medium text-dark" style={{ fontSize: '1.05rem' }}>{task.title}</span>
                                                 <Badge bg="transparent" className="border text-muted fw-normal px-3 py-2 rounded-2" style={{ fontSize: '0.8rem', backgroundColor: '#f8f9fa' }}>{task.type}</Badge>
                                             </div>
-                                            <div style={{ width: '150px' }}>
+                                            <div className="projects-todo-status-wrap" style={{ width: '150px' }}>
                                                 <CustomSelect
                                                     options={todoStatusOptions}
                                                     value={todoStatuses[`${section.title}-${tidx}`] || task.status}

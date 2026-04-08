@@ -1,17 +1,28 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, ProgressBar, Form, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import trainingAvatar from '../../assets/images/training_avatar.png';
 
 const TrainingDetail = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [activeTab, setActiveTab] = useState('lesson'); // 'lesson' or 'quiz'
     const [selectedAnswers, setSelectedAnswers] = useState({});
 
+    const status = location.state?.status || 'inProgress';
+    const selectedTraining = location.state?.training;
+    const progressByStatus = {
+        notStarted: 0,
+        inProgress: selectedTraining?.progress ?? 50,
+        completed: 100
+    };
+    const currentProgress = progressByStatus[status] ?? 50;
+    const isCompletedTraining = status === 'completed';
+
     const lessonData = {
-        title: 'Workplace Safety Basics',
-        description: 'Learn essential workplace safety guidelines, hazard prevention, and emergency procedures hazard prevention, and emergency procedures..',
-        progress: 100,
+        title: selectedTraining?.title || 'Workplace Safety Basics',
+        description: selectedTraining?.description || 'Learn essential workplace safety guidelines, hazard prevention, and emergency procedures hazard prevention, and emergency procedures..',
+        progress: currentProgress,
         lessonsCount: 1,
         quizzesCount: 2,
         videoUrl: 'https://archive.org/download/SampleVideo1280x7205mb/SampleVideo_1280x720_5mb.mp4',
@@ -90,10 +101,9 @@ const TrainingDetail = () => {
                                     style={{ height: '8px', backgroundColor: '#e9ecef', borderRadius: '10px' }}
                                     className="custom-progress mb-3"
                                 />
-                                {lessonData.progress === 100 && (
+                                {isCompletedTraining && (
                                     <Button
                                         variant="outline-primary"
-
                                         className="w-100 fw-bold border-1 py-2"
                                         style={{ color: '#3d8b8b', borderColor: '#3d8b8b', borderRadius: '10px', fontSize: '0.9rem' }}
                                         onClick={() => navigate('/training/certificate')}
@@ -190,23 +200,20 @@ const TrainingDetail = () => {
                             ))}
 
                             <div className="d-flex justify-content-end mt-4 mb-5 gap-3">
-                                {lessonData.progress === 100 ? (
-                                    <Button
-                                        className="px-5 py-2 fw-bold border-0 shadow-sm"
-                                        style={{ backgroundColor: '#3d8b8b', borderRadius: '10px' }}
-                                        onClick={() => navigate('/training/certificate')}
-                                    >
-                                        Submit
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        className="px-5 py-2 fw-bold border-0"
-                                        style={{ backgroundColor: '#3d8b8b', borderRadius: '10px' }}
-                                        onClick={() => navigate('/training/certificate')}
-                                    >
-                                        Submit
-                                    </Button>
-                                )}
+                                <Button
+                                    className="px-5 py-2 fw-bold border-0 shadow-sm"
+                                    style={{ backgroundColor: '#3d8b8b', borderRadius: '10px' }}
+                                    onClick={() => {
+                                        if (isCompletedTraining) {
+                                            navigate('/training/certificate');
+                                            return;
+                                        }
+
+                                        navigate('/training');
+                                    }}
+                                >
+                                    {isCompletedTraining ? 'View Certificate' : 'Submit'}
+                                </Button>
                             </div>
                         </div>
                     )}

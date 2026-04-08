@@ -1,8 +1,9 @@
-import { Container, Row, Col, Card, ProgressBar, Badge } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Training = () => {
     const navigate = useNavigate();
+
     const trainingData = {
         notStarted: [
             {
@@ -54,150 +55,305 @@ const Training = () => {
         ]
     };
 
-    const renderCard = (item, status) => {
-        let buttonText = 'Start';
-        let buttonBg = '#E9ECEF';
-        let buttonColor = '#495057';
+    const columns = [
+        {
+            key: 'notStarted',
+            title: 'Not started',
+            icon: 'bi bi-clock-history',
+            wrapperClass: 'training-lane not-started',
+            countClass: 'training-lane-count not-started'
+        },
+        {
+            key: 'inProgress',
+            title: 'In progress',
+            icon: 'bi bi-circle',
+            wrapperClass: 'training-lane in-progress',
+            countClass: 'training-lane-count in-progress'
+        },
+        {
+            key: 'completed',
+            title: 'Completed',
+            icon: 'bi bi-check-circle',
+            wrapperClass: 'training-lane completed',
+            countClass: 'training-lane-count completed'
+        }
+    ];
 
-        if (status === 'inProgress') {
-            buttonText = 'Resume';
-            buttonBg = '#FDE6D2';
-            buttonColor = '#8D5E32';
-        } else if (status === 'completed') {
-            buttonText = 'View Certificate';
-            buttonBg = '#D1FAE5';
-            buttonColor = '#065F46';
+    const renderActionButton = (statusKey, item) => {
+        if (statusKey === 'completed') {
+            return (
+                <button
+                    type="button"
+                    className="training-action-btn completed"
+                    onClick={() => navigate('/training/detail', { state: { status: statusKey, training: item } })}
+                >
+                    View Certificate
+                </button>
+            );
+        }
+
+        if (statusKey === 'inProgress') {
+            return (
+                <button
+                    type="button"
+                    className="training-action-btn in-progress"
+                    onClick={() => navigate('/training/detail', { state: { status: statusKey, training: item } })}
+                >
+                    Resume
+                </button>
+            );
         }
 
         return (
-            <Card key={item.id} className="border-0 shadow-sm mb-4" style={{ borderRadius: '12px' }}>
-                <Card.Body className="p-4">
-                    <h6 className="fw-bold mb-3" style={{ fontSize: '1rem', color: '#111827', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{item.title}</h6>
-                    <p className="small text-muted mb-4" style={{ fontSize: '0.85rem', lineHeight: '1.6', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                        {item.description}
-                    </p>
-
-                    {status === 'inProgress' && (
-                        <div className="mb-4">
-                            <div className="d-flex justify-content-end mb-2">
-                                <span className="fw-bold" style={{ fontSize: '0.75rem', color: '#6B7280' }}>{item.progress}%</span>
-                            </div>
-                            <div className="progress" style={{ height: '6px', backgroundColor: '#E5E7EB', borderRadius: '10px' }}>
-                                <div
-                                    className="progress-bar"
-                                    role="progressbar"
-                                    style={{ width: `${item.progress}%`, backgroundColor: '#3d8b8b' }}
-                                    aria-valuenow={item.progress}
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                ></div>
-                            </div>
-                        </div>
-                    )}
-
-                    <button
-                        className={`w-100 border-0 py-2 fw-medium transition-all training-btn btn-${status}`}
-                        onClick={() => {
-                            if (status === 'completed') {
-                                navigate('/training/certificate');
-                            } else {
-                                navigate('/training/detail');
-                            }
-                        }}
-                        style={{
-                            backgroundColor: buttonBg,
-                            color: buttonColor,
-                            borderRadius: '8px',
-                            fontSize: '0.85rem',
-                            fontFamily: "'Plus Jakarta Sans', sans-serif"
-                        }}
-                    >
-                        {buttonText}
-                    </button>
-                </Card.Body>
-            </Card>
+            <button
+                type="button"
+                className="training-action-btn not-started"
+                onClick={() => navigate('/training/detail', { state: { status: statusKey, training: item } })}
+            >
+                Start
+            </button>
         );
     };
 
     return (
-        <Container fluid className="px-lg-4 py-4 h-100 overflow-auto bg-white">
-            <h3 className="fw-bold mb-4 ms-2" style={{ color: '#000000', fontSize: '1.75rem', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Training</h3>
+        <Container fluid className="training-page px-lg-4 py-4 h-100 overflow-auto">
+            <div className="training-heading-wrap">
+                <h2 className="training-page-title mb-0">Training</h2>
+                <i className="bi bi-question-circle training-help-icon"></i>
+            </div>
 
-            <Row className="gx-4 mx-0">
-                {/* Not started column */}
-                <Col md={4} className="mb-4">
-                    <div className="rounded-4 p-4 h-100" style={{ backgroundColor: '#F3F5F8' }}>
-                        <div className="d-flex align-items-center justify-content-between mb-4">
-                            <div className="d-flex align-items-center gap-2">
-                                <i className="bi bi-record-circle fs-5" style={{ color: '#6B7280' }}></i>
-                                <h6 className="fw-bold mb-0" style={{ color: '#374151', fontSize: '1.1rem', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Not started</h6>
-                            </div>
-                            <div className="rounded-pill d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style={{ width: '26px', height: '26px', fontSize: '0.85rem', backgroundColor: '#475569', minWidth: '26px' }}>
-                                {trainingData.notStarted.length}
-                            </div>
-                        </div>
-                        {trainingData.notStarted.map(item => renderCard(item, 'notStarted'))}
-                    </div>
-                </Col>
+            <Row className="g-4">
+                {columns.map((column) => {
+                    const items = trainingData[column.key];
+                    return (
+                        <Col key={column.key} lg={4}>
+                            <div className={column.wrapperClass}>
+                                <div className="training-lane-head">
+                                    <div className="d-flex align-items-center gap-2">
+                                        <i className={`${column.icon} training-lane-icon`}></i>
+                                        <h5 className="training-lane-title mb-0">{column.title}</h5>
+                                    </div>
+                                    <span className={column.countClass}>{items.length}</span>
+                                </div>
 
-                {/* In progress column */}
-                <Col md={4} className="mb-4">
-                    <div className="rounded-4 p-4 h-100" style={{ backgroundColor: '#FEF3E7' }}>
-                        <div className="d-flex align-items-center justify-content-between mb-4">
-                            <div className="d-flex align-items-center gap-2">
-                                <i className="bi bi-circle fs-5" style={{ color: '#8D5E32' }}></i>
-                                <h6 className="fw-bold mb-0" style={{ color: '#8D5E32', fontSize: '1.1rem', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>In progress</h6>
-                            </div>
-                            <div className="rounded-pill d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style={{ width: '26px', height: '26px', fontSize: '0.85rem', backgroundColor: '#92400E', minWidth: '26px' }}>
-                                {trainingData.inProgress.length}
-                            </div>
-                        </div>
-                        {trainingData.inProgress.map(item => renderCard(item, 'inProgress'))}
-                    </div>
-                </Col>
+                                <div className="training-lane-list">
+                                    {items.map((item) => (
+                                        <div key={item.id} className="training-task-card">
+                                            <h6 className="training-task-title">{item.title}</h6>
+                                            <p className="training-task-desc">{item.description}</p>
 
-                {/* Completed column */}
-                <Col md={4} className="mb-4">
-                    <div className="rounded-4 p-4 h-100" style={{ backgroundColor: '#F2FAF5' }}>
-                        <div className="d-flex align-items-center justify-content-between mb-4">
-                            <div className="d-flex align-items-center gap-2">
-                                <i className="bi bi-check-circle fs-5" style={{ color: '#059669' }}></i>
-                                <h6 className="fw-bold mb-0" style={{ color: '#059669', fontSize: '1.1rem', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Completed</h6>
+                                            {column.key === 'inProgress' ? (
+                                                <div className="training-progress-wrap">
+                                                    <div className="training-progress-label">{item.progress}%</div>
+                                                    <div className="training-progress-track">
+                                                        <div
+                                                            className="training-progress-fill"
+                                                            style={{ width: `${item.progress}%` }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            ) : null}
+
+                                            {renderActionButton(column.key, item)}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="rounded-pill d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style={{ width: '26px', height: '26px', fontSize: '0.85rem', backgroundColor: '#059669', minWidth: '26px' }}>
-                                {trainingData.completed.length}
-                            </div>
-                        </div>
-                        {trainingData.completed.map(item => renderCard(item, 'completed'))}
-                    </div>
-                </Col>
+                        </Col>
+                    );
+                })}
             </Row>
 
             <style>{`
-                .progress-bar {
-                    background-color: #0f1d3a !important;
+                .training-page {
+                    background: #f8fafc;
                 }
-                .training-btn {
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                .training-heading-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.65rem;
+                    margin-bottom: 1.35rem;
+                    padding-left: 0.25rem;
                 }
-                .training-btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                .training-page-title {
+                    font-size: 2rem;
+                    line-height: 1.1;
+                    font-weight: 800;
+                    color: #111827;
+                    letter-spacing: -0.01em;
                 }
-                .btn-notStarted:hover {
-                    background-color: #3d8b8b !important;
-                    color: #ffffff !important;
+                .training-help-icon {
+                    color: #64748b;
+                    font-size: 1.2rem;
                 }
-                .btn-inProgress:hover {
-                    background-color: #f97316 !important;
-                    color: #ffffff !important;
+                .training-lane {
+                    border-radius: 16px;
+                    padding: 14px;
+                    height: 100%;
+                    border: 1px solid rgba(148, 163, 184, 0.15);
                 }
-                .btn-completed:hover {
-                    background-color: #3d8b8b !important;
-                    color: #ffffff !important;
+                .training-lane.not-started {
+                    background: #f1f3f5;
                 }
-                .transition-all {
-                    transition: all 0.2s ease-in-out;
+                .training-lane.in-progress {
+                    background: #f9f1e8;
+                }
+                .training-lane.completed {
+                    background: #edf8ef;
+                }
+                .training-lane-head {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 12px;
+                    padding: 2px 2px 0;
+                }
+                .training-lane-icon {
+                    font-size: 1.2rem;
+                    color: #475569;
+                }
+                .training-lane.in-progress .training-lane-icon {
+                    color: #8d5e32;
+                }
+                .training-lane.completed .training-lane-icon {
+                    color: #2f8f43;
+                }
+                .training-lane-title {
+                    color: #3f3f46;
+                    font-size: 2rem;
+                    font-weight: 700;
+                }
+                .training-lane.in-progress .training-lane-title {
+                    color: #8d5e32;
+                }
+                .training-lane.completed .training-lane-title {
+                    color: #2f8f43;
+                }
+                .training-lane-count {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 999px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #ffffff;
+                    font-size: 0.88rem;
+                    font-weight: 700;
+                    line-height: 1;
+                }
+                .training-lane-count.not-started {
+                    background: #52525b;
+                }
+                .training-lane-count.in-progress {
+                    background: #8d5e32;
+                }
+                .training-lane-count.completed {
+                    background: #2f8f43;
+                }
+                .training-lane-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+                .training-task-card {
+                    background: #ffffff;
+                    border: 1px solid #eceff3;
+                    border-radius: 12px;
+                    padding: 14px 16px;
+                    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+                .training-task-card:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+                }
+                .training-task-title {
+                    margin: 0;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid #e5e7eb;
+                    font-size: 1.12rem;
+                    line-height: 1.25;
+                    font-weight: 700;
+                    color: #1f2937;
+                }
+                .training-task-desc {
+                    margin: 10px 0 12px;
+                    color: #6b7280;
+                    font-size: 0.88rem;
+                    line-height: 1.4;
+                    min-height: 70px;
+                }
+                .training-progress-wrap {
+                    margin-bottom: 11px;
+                }
+                .training-progress-label {
+                    text-align: right;
+                    color: #9ca3af;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    margin-bottom: 2px;
+                }
+                .training-progress-track {
+                    width: 100%;
+                    height: 10px;
+                    border-radius: 999px;
+                    background: #d1d5db;
+                    overflow: hidden;
+                }
+                .training-progress-fill {
+                    height: 100%;
+                    border-radius: inherit;
+                    background: linear-gradient(90deg, #111827 0%, #4d8f95 100%);
+                }
+                .training-action-btn {
+                    width: 100%;
+                    border: none;
+                    border-radius: 9px;
+                    height: 34px;
+                    font-size: 0.86rem;
+                    font-weight: 700;
+                    transition: all 0.2s ease;
+                }
+                .training-action-btn.not-started {
+                    background: #e5e7eb;
+                    color: #3f3f46;
+                }
+                .training-action-btn.in-progress {
+                    background: #f3d9bf;
+                    color: #8d5e32;
+                }
+                .training-action-btn.completed {
+                    background: #ace8b2;
+                    color: #1d6a2a;
+                }
+                .training-action-btn:hover {
+                    filter: brightness(0.98);
+                    transform: translateY(-1px);
+                }
+                @media (max-width: 1399px) {
+                    .training-page-title {
+                        font-size: 1.85rem;
+                    }
+                    .training-lane-title {
+                        font-size: 1.95rem;
+                    }
+                    .training-task-title {
+                        font-size: 1.65rem;
+                    }
+                }
+                @media (max-width: 991px) {
+                    .training-page {
+                        padding-bottom: 2rem !important;
+                    }
+                    .training-page-title {
+                        font-size: 1.7rem;
+                    }
+                    .training-lane-title {
+                        font-size: 1.35rem;
+                    }
+                    .training-task-title {
+                        font-size: 1.12rem;
+                    }
                 }
             `}</style>
         </Container>

@@ -3,16 +3,23 @@ import { Container, Nav, Row, Col, Badge, Button, Card, Modal } from 'react-boot
 const SwannOS = () => {
     const [activeTab, setActiveTab] = useState('assessments');
     const [showModal, setShowModal] = useState(false);
+    const [showResultModal, setShowResultModal] = useState(false);
     const [activeAssessment, setActiveAssessment] = useState('');
     const [selectedOptions, setSelectedOptions] = useState({});
+    const [assessmentResult, setAssessmentResult] = useState({
+        score: 0,
+        answered: 0,
+        total: 0,
+        message: ''
+    });
 
-    const assessments = [
+    const [assessments, setAssessments] = useState([
         { name: 'DISC', status: 'Take test', type: 'pending', required: true },
         { name: 'Enneagram', status: 'Completed', type: 'done', required: true },
         { name: 'Love Language', status: 'Take test', type: 'pending', required: false },
         { name: 'Human Design', status: 'Take test', type: 'pending', required: false },
         { name: 'Myers-Briggs', status: 'Completed', type: 'done', required: false }
-    ];
+    ]);
 
     const questions = [
         {
@@ -56,7 +63,34 @@ const SwannOS = () => {
 
     const handleTakeTest = (name) => {
         setActiveAssessment(name);
+        setSelectedOptions({});
         setShowModal(true);
+    };
+
+    const handleSubmitAssessment = () => {
+        const answeredCount = Object.keys(selectedOptions).length;
+        const totalQuestions = questions.length;
+        const score = Math.round((answeredCount / totalQuestions) * 100);
+
+        setAssessments((currentAssessments) =>
+            currentAssessments.map((item) =>
+                item.name === activeAssessment
+                    ? { ...item, status: 'Completed', type: 'done' }
+                    : item
+            )
+        );
+
+        setAssessmentResult({
+            score,
+            answered: answeredCount,
+            total: totalQuestions,
+            message: answeredCount === totalQuestions
+                ? `Great job! You completed the ${activeAssessment} assessment successfully.`
+                : `Submitted successfully. You answered ${answeredCount} out of ${totalQuestions} questions.`
+        });
+
+        setShowModal(false);
+        setShowResultModal(true);
     };
 
     const discData = [
@@ -238,11 +272,42 @@ const SwannOS = () => {
                     </Button>
                     <Button
                         className="btn-submit-premium"
-                        onClick={() => setShowModal(false)}
+                        onClick={handleSubmitAssessment}
                     >
                         Submit
                     </Button>
                 </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={showResultModal}
+                onHide={() => setShowResultModal(false)}
+                centered
+                size="md"
+                className="assessment-result-modal"
+            >
+                <Modal.Body className="text-center">
+                    <div className="assessment-result-icon mx-auto">
+                        <i className="bi bi-check2-circle"></i>
+                    </div>
+                    <h4 className="assessment-result-title">Assessment Submitted</h4>
+                    <p className="assessment-result-message">{assessmentResult.message}</p>
+
+                    <div className="assessment-result-score-wrap mx-auto">
+                        <div className="assessment-result-score-label">Result Score</div>
+                        <div className="assessment-result-score">{assessmentResult.score}</div>
+                        <div className="assessment-result-score-sub">
+                            {assessmentResult.answered}/{assessmentResult.total} answered
+                        </div>
+                    </div>
+
+                    <Button
+                        className="assessment-result-btn mt-4"
+                        onClick={() => setShowResultModal(false)}
+                    >
+                        Continue
+                    </Button>
+                </Modal.Body>
             </Modal>
         </Container>
     );

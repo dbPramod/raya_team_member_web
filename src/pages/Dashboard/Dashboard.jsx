@@ -4,9 +4,45 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import AnimatedCounter from '../../components/common/AnimatedCounter';
 
+const MENTAL_HEALTH_HISTORY_KEY = 'swann-mental-health-history';
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [mentalHealthValue, setMentalHealthValue] = useState(1);
+  const [mentalHealthNote, setMentalHealthNote] = useState('');
+  const [isMentalHealthCheckedIn, setIsMentalHealthCheckedIn] = useState(false);
+  const [latestMentalEntry, setLatestMentalEntry] = useState(null);
+
+  const getDefaultFeelingText = (value) => {
+    const numericValue = Number(value);
+
+    if (numericValue >= 8) return "I'm feeling good";
+    if (numericValue >= 6) return "I'm feeling okay";
+    if (numericValue >= 4) return "I'm feeling low";
+    return 'I need support today';
+  };
+
+  const handleMentalHealthCheckIn = () => {
+    const historyEntry = {
+      id: Date.now(),
+      score: Number(mentalHealthValue),
+      note: mentalHealthNote.trim() || getDefaultFeelingText(mentalHealthValue),
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      const currentHistory = JSON.parse(window.localStorage.getItem(MENTAL_HEALTH_HISTORY_KEY) || '[]');
+      window.localStorage.setItem(
+        MENTAL_HEALTH_HISTORY_KEY,
+        JSON.stringify([historyEntry, ...currentHistory].slice(0, 50))
+      );
+    } catch (error) {
+      window.localStorage.setItem(MENTAL_HEALTH_HISTORY_KEY, JSON.stringify([historyEntry]));
+    }
+
+    setLatestMentalEntry(historyEntry);
+    setIsMentalHealthCheckedIn(true);
+  };
 
   const trainings = [
     { name: 'Customer Service Excellence', progress: 65 },
@@ -143,38 +179,96 @@ const Dashboard = () => {
           {/* Mental Health Check In Widget */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <div className="rounded-4 p-4 position-relative" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)', color: '#ffffff' }}>
-              <div className="d-flex align-items-center mb-4 gap-2">
-                <i className="bi bi-heart fs-5"></i>
-                <h5 className="fw-semibold mb-0">Mental Health Check In</h5>
-              </div>
+              <div className="d-flex align-items-center justify-content-between mb-4 gap-2">
+                <div className="d-flex align-items-center gap-2">
+                  <i className="bi bi-heart fs-5"></i>
+                  <h5 className="fw-semibold mb-0">Mental Health Check In</h5>
+                </div>
+                <div className="d-flex align-items-center gap-2">
 
-              <div className="mb-4 pt-3 position-relative">
-                <div className="d-flex align-items-center position-relative">
-                  <div className="position-absolute" style={{ left: `calc(${mentalHealthValue * 10}% - 14px)`, top: '-30px', transition: 'left 0.2s' }}>
-                    <div className="bg-white text-dark rounded-1 fw-bold text-center d-flex align-items-center justify-content-center" style={{ width: '28px', height: '22px', fontSize: '11px' }}>
-                      <AnimatedCounter value={mentalHealthValue} duration={300} />
-                    </div>
-                    <div style={{ width: 0, height: 0, borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '4px solid white', margin: '0 auto' }}></div>
-                  </div>
-                  <Form.Range
-                    min={1}
-                    max={10}
-                    value={mentalHealthValue}
-                    onChange={(e) => setMentalHealthValue(e.target.value)}
-                    className="custom-range-slider"
-                  />
+                  <button
+                    type="button"
+                    className="btn btn-sm border-0 shadow-none fw-medium"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      color: '#ffffff',
+                      borderRadius: '999px',
+                      minWidth: '78px'
+                    }}
+                    onClick={() => navigate('/dashboard/mental-history')}
+                  >
+                    History
+                  </button>
                 </div>
               </div>
 
-              <h6 className="fw-medium mb-3">How are you feeling ?</h6>
-              <Form.Control
-                type="text"
-                placeholder="Express yourself"
-                className="border-0 px-3 py-2 mb-3 shadow-none text-muted"
-                style={{ borderRadius: '8px', fontSize: '0.9rem' }}
-              />
+              {isMentalHealthCheckedIn && latestMentalEntry ? (
+                <div className="d-flex flex-column align-items-center justify-content-center py-3">
+                  <div
+                    className="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                    style={{ width: '96px', height: '96px' }}
+                  >
+                    <span className="fw-bold" style={{ fontSize: '2.7rem', lineHeight: 1, color: '#40878E' }}>
+                      <AnimatedCounter value={Number(latestMentalEntry.score)} duration={300} />
+                    </span>
+                  </div>
+                  <p className="mb-0 mt-2" style={{ color: '#e2eff2', fontSize: '1rem' }}>Score</p>
+                  <h5 className="fw-medium mb-0 mt-4 text-center" style={{ color: '#ffffff' }}>
+                    {latestMentalEntry.note}
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn btn-sm border-0 shadow-none fw-medium mt-4"
+                    style={{
+                      background: 'rgba(15, 29, 58, 0.9)',
+                      color: '#ffffff',
+                      borderRadius: '999px',
+                      minWidth: '112px'
+                    }}
+                    onClick={() => setIsMentalHealthCheckedIn(false)}
+                  >
+                    Check In Again
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-4 pt-3 position-relative">
+                    <div className="d-flex align-items-center position-relative">
+                      <div className="position-absolute" style={{ left: `calc(${mentalHealthValue * 10}% - 14px)`, top: '-30px', transition: 'left 0.2s' }}>
+                        <div className="bg-white text-dark rounded-1 fw-bold text-center d-flex align-items-center justify-content-center" style={{ width: '28px', height: '22px', fontSize: '11px' }}>
+                          <AnimatedCounter value={mentalHealthValue} duration={300} />
+                        </div>
+                        <div style={{ width: 0, height: 0, borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '4px solid white', margin: '0 auto' }}></div>
+                      </div>
+                      <Form.Range
+                        min={1}
+                        max={10}
+                        value={mentalHealthValue}
+                        onChange={(e) => setMentalHealthValue(Number(e.target.value))}
+                        className="custom-range-slider"
+                      />
+                    </div>
+                  </div>
 
-              <Button className="w-100 py-2 border-0 fw-medium shadow-none mt-2" style={{ backgroundColor: '#1a2b4b', borderRadius: '8px', color: '#fff' }}>Check in</Button>
+                  <h6 className="fw-medium mb-3">How are you feeling ?</h6>
+                  <Form.Control
+                    type="text"
+                    placeholder="Express yourself"
+                    value={mentalHealthNote}
+                    onChange={(e) => setMentalHealthNote(e.target.value)}
+                    className="border-0 px-3 py-2 mb-3 shadow-none text-muted"
+                    style={{ borderRadius: '8px', fontSize: '0.9rem' }}
+                  />
+
+                  <Button
+                    className="w-100 py-2 border-0 fw-medium shadow-none mt-2"
+                    style={{ backgroundColor: '#1a2b4b', borderRadius: '8px', color: '#fff' }}
+                    onClick={handleMentalHealthCheckIn}
+                  >
+                    Check in
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 

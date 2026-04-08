@@ -125,7 +125,7 @@ const ProjectDetail = () => {
                 <Col lg={9}>
                     <Card
                         className="border-0 rounded-4 overflow-hidden mb-4 mb-lg-5"
-                        style={{ background: 'linear-gradient(135deg, #4a95a0 0%, #1b458f 100%)', boxShadow: '0 12px 28px rgba(27, 69, 143, 0.18)' }}
+                        style={{ background: 'linear-gradient(0deg, #0F3780 0%, #40878E 100%)', boxShadow: '0 12px 28px rgba(27, 69, 143, 0.18)' }}
                     >
                         <Card.Body className="p-4 p-lg-5">
                             <Row className="g-4 mb-4 align-items-start">

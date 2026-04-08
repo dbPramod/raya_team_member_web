@@ -3,6 +3,7 @@ import MainLayout from '../components/layout/MainLayout';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import Dashboard from '../pages/Dashboard/Dashboard';
+import MentalHistory from '../pages/Dashboard/MentalHistory';
 import Training from '../pages/Training/Training';
 import TrainingDetail from '../pages/Training/TrainingDetail';
 import ForgotPassword from '../pages/Auth/ForgotPassword';
@@ -31,6 +32,7 @@ const AppRoutes = () => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/mental-history" element={<MentalHistory />} />
         <Route path="/training" element={<Training />} />
         <Route path="/training/detail" element={<TrainingDetail />} />
         <Route path="/training/certificate" element={<TrainingCertificate />} />

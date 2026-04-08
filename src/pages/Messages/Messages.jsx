@@ -26,6 +26,19 @@ const MOCK_TEAM = [
     { id: 't10', name: 'Liam Carter', subtitle: 'Lunch later?', avatar: 'https://i.pravatar.cc/150?u=21' }
 ];
 
+const TEAM_MEMBER_PROFILE = {
+    t1: { role: 'Frontend Developer', email: 'john.doe@swannave.com', phone: '+1 555-0121', location: 'Austin, TX', joined: 'Feb 2024', status: 'Online', about: 'Focuses on UI architecture and accessibility.' },
+    t2: { role: 'Product Designer', email: 'travis.barker@swannave.com', phone: '+1 555-0122', location: 'San Diego, CA', joined: 'Jun 2023', status: 'Online', about: 'Design systems and interaction flows for mobile and web.' },
+    t3: { role: 'QA Analyst', email: 'kate.rose@swannave.com', phone: '+1 555-0123', location: 'Seattle, WA', joined: 'Nov 2022', status: 'Away', about: 'Owns test coverage and release quality checks.' },
+    t4: { role: 'Team Lead', email: 'robert.parker@swannave.com', phone: '+1 555-0124', location: 'Boston, MA', joined: 'Jan 2022', status: 'Busy', about: 'Coordinates team priorities and sprint planning.' },
+    t5: { role: 'Visual Designer', email: 'tom.hardy@swannave.com', phone: '+1 555-0125', location: 'Chicago, IL', joined: 'Apr 2024', status: 'Online', about: 'Brand visuals, layouts, and marketing creatives.' },
+    t6: { role: 'Backend Engineer', email: 'franz.kafka@swannave.com', phone: '+1 555-0126', location: 'New York, NY', joined: 'Mar 2021', status: 'Offline', about: 'API reliability, database modeling, and performance.' },
+    t7: { role: 'Marketing Specialist', email: 'stan.smith@swannave.com', phone: '+1 555-0127', location: 'Denver, CO', joined: 'Jul 2023', status: 'Online', about: 'Campaign strategy, copywriting, and growth insights.' },
+    t8: { role: 'Content Strategist', email: 'george.orwell@swannave.com', phone: '+1 555-0128', location: 'Portland, OR', joined: 'Sep 2022', status: 'Online', about: 'Editorial planning and cross-channel messaging.' },
+    t9: { role: 'Project Manager', email: 'nina.brooks@swannave.com', phone: '+1 555-0129', location: 'Atlanta, GA', joined: 'Dec 2020', status: 'Away', about: 'Roadmap tracking and stakeholder communication.' },
+    t10: { role: 'Operations Associate', email: 'liam.carter@swannave.com', phone: '+1 555-0130', location: 'Phoenix, AZ', joined: 'May 2024', status: 'Online', about: 'Internal process coordination and scheduling.' }
+};
+
 const INITIAL_CHAT_BY_ID = {
     t1: [
         { type: 'text', text: 'How are you doing?', sender: 'them', showAvatar: true, avatarUrl: 'https://i.pravatar.cc/150?u=12' }
@@ -132,6 +145,8 @@ const normalizeUrl = (value) => {
 const Messages = () => {
     const [tab, setTab] = useState('Team');
     const [showRoomInfo, setShowRoomInfo] = useState(false);
+    const [showMemberInfo, setShowMemberInfo] = useState(false);
+    const [showMemberPreview, setShowMemberPreview] = useState(false);
     const [isChatActive, setIsChatActive] = useState(false);
     const [selectedTeamId, setSelectedTeamId] = useState('t2');
     const [selectedRoomId, setSelectedRoomId] = useState('1');
@@ -155,6 +170,7 @@ const Messages = () => {
     const selectedId = tab === 'Rooms' ? selectedRoomId : selectedTeamId;
     const selectedList = tab === 'Rooms' ? MOCK_ROOMS : MOCK_TEAM;
     const selectedItem = selectedList.find((item) => item.id === selectedId) || selectedList[0];
+    const selectedMemberProfile = TEAM_MEMBER_PROFILE[selectedTeamId] || {};
     const currentChat = chatById[selectedId] || [];
 
     const filteredItems = selectedList.filter((item) => {
@@ -201,6 +217,7 @@ const Messages = () => {
     const handleSelectConversation = (itemId) => {
         setIsChatActive(true);
         setShowRoomInfo(false);
+        setShowMemberInfo(false);
 
         if (tab === 'Rooms') {
             setSelectedRoomId(itemId);
@@ -213,6 +230,7 @@ const Messages = () => {
     const handleTabChange = (nextTab) => {
         setTab(nextTab);
         setShowRoomInfo(false);
+        setShowMemberInfo(false);
         setIsChatActive(false);
         setMessageText('');
         setShowAttachmentPicker(false);
@@ -386,6 +404,92 @@ const Messages = () => {
                         setIsChatActive(false);
                     }}
                 />
+            ) : showMemberInfo && tab === 'Team' ? (
+                <div className="member-info-pane">
+                    <div className="ri-header">
+                        <button className="btn btn-link text-dark text-decoration-none p-0 me-3" onClick={() => setShowMemberInfo(false)}>
+                            <i className="bi bi-arrow-left fs-5"></i>
+                        </button>
+                        <h4 className="ri-title m-0">Member Profile</h4>
+                    </div>
+                    <div className="ri-body custom-scrollbar">
+                        <div className="member-profile-content">
+                            <div className="ri-profile-section text-center">
+                                <img src={selectedItem?.avatar} alt={selectedItem?.name} className="member-profile-avatar" />
+                                <h2 className="ri-room-name">{selectedItem?.name}</h2>
+                                <p className="member-profile-role">{selectedMemberProfile.role || 'Team Member'}</p>
+                                <span className={`member-status-pill ${selectedMemberProfile.status?.toLowerCase() || 'online'}`}>
+                                    {selectedMemberProfile.status || 'Online'}
+                                </span>
+                                {/* <button
+                                    type="button"
+                                    className="member-preview-btn"
+                                    onClick={() => setShowMemberPreview(true)}
+                                >
+                                    View Preview
+                                </button> */}
+                            </div>
+
+                            <div className="ri-members-card member-details-card">
+                                <div className="ri-card-header">
+                                    <h4 className="m-0">Details</h4>
+                                </div>
+                                <div className="member-detail-list">
+                                    <div className="member-detail-row">
+                                        <span>Email</span>
+                                        <strong>{selectedMemberProfile.email || 'member@swannave.com'}</strong>
+                                    </div>
+                                    <div className="member-detail-row">
+                                        <span>Phone</span>
+                                        <strong>{selectedMemberProfile.phone || '+1 555-0000'}</strong>
+                                    </div>
+                                    <div className="member-detail-row">
+                                        <span>Location</span>
+                                        <strong>{selectedMemberProfile.location || 'United States'}</strong>
+                                    </div>
+                                    <div className="member-detail-row">
+                                        <span>Joined</span>
+                                        <strong>{selectedMemberProfile.joined || '2024'}</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="ri-members-card member-about-card">
+                                <div className="ri-card-header">
+                                    <h4 className="m-0">About</h4>
+                                </div>
+                                <div className="member-about-body">
+                                    <p className="member-about-text mb-0">
+                                        {selectedMemberProfile.about || 'Actively collaborating with the team and supporting project delivery.'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {showMemberPreview ? (
+                        <div className="member-preview-overlay" onClick={() => setShowMemberPreview(false)}>
+                            <div className="member-preview-modal" onClick={(event) => event.stopPropagation()}>
+                                <button
+                                    type="button"
+                                    className="member-preview-close"
+                                    onClick={() => setShowMemberPreview(false)}
+                                    aria-label="Close preview"
+                                >
+                                    <i className="bi bi-x-lg"></i>
+                                </button>
+                                <img src={selectedItem?.avatar} alt={selectedItem?.name} className="member-preview-avatar" />
+                                <h4 className="member-preview-name">{selectedItem?.name}</h4>
+                                <p className="member-preview-role">{selectedMemberProfile.role || 'Team Member'}</p>
+                                <span className={`member-status-pill ${selectedMemberProfile.status?.toLowerCase() || 'online'}`}>
+                                    {selectedMemberProfile.status || 'Online'}
+                                </span>
+                                <div className="member-preview-about">
+                                    {selectedMemberProfile.about || 'Actively collaborating with the team and supporting project delivery.'}
+                                </div>
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
             ) : (
                 <div className="msg-main-pane">
                     <div className="msg-header d-flex align-items-center">
@@ -420,13 +524,22 @@ const Messages = () => {
                             </div>
                         ) : (
                             <div className="d-flex align-items-center">
-                                <img
-                                    src={selectedItem?.avatar}
-                                    alt={selectedItem?.name || 'Avatar'}
-                                    className="msg-list-avatar me-3"
-                                    style={{ width: '48px', height: '48px' }}
-                                />
-                                <h5 className="m-0 fw-bold text-dark">{selectedItem?.name || 'Travis Barker'}</h5>
+                                <div
+                                    className="d-flex align-items-center"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => setShowMemberInfo(true)}
+                                >
+                                    <img
+                                        src={selectedItem?.avatar}
+                                        alt={selectedItem?.name || 'Avatar'}
+                                        className="msg-list-avatar me-3"
+                                        style={{ width: '48px', height: '48px' }}
+                                    />
+                                    <div>
+                                        <h5 className="m-0 fw-bold text-dark">{selectedItem?.name || 'Travis Barker'}</h5>
+                                        <span className="text-secondary small">View profile</span>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
