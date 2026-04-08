@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Badge, Modal } from 'react-bootstrap';
 import { STRINGS } from '../../constants/strings';
 import CustomSelect from '../../components/common/CustomSelect';
+import CustomDatePicker from '../../components/common/CustomDatePicker';
 const Settings = () => {
     const { SETTINGS } = STRINGS;
     const [editingSection, setEditingSection] = useState(null);
@@ -13,6 +14,7 @@ const Settings = () => {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [newKidGender, setNewKidGender] = useState('');
+    const [newKidBirthday, setNewKidBirthday] = useState('');
 
     const timezones = [
         'Pacific Time - US & Canada',
@@ -89,6 +91,7 @@ const Settings = () => {
         });
         setShowAddKidModal(false);
         setNewKidGender('');
+        setNewKidBirthday('');
     };
 
     const handleKidChange = (id, field, value) => {
@@ -108,15 +111,15 @@ const Settings = () => {
 
     const renderEditActions = () => (
         <div className="d-flex justify-content-end gap-3 mt-4">
-            <button 
-                type="button" 
+            <button
+                type="button"
                 className="btn btn-light px-4 py-2 rounded-3 border fw-medium"
                 onClick={handleCancel}
             >
                 {SETTINGS.BUTTONS.CANCEL}
             </button>
-            <button 
-                type="button" 
+            <button
+                type="button"
                 className="btn px-4 py-2 rounded-3 fw-medium text-white shadow-sm"
                 style={{ backgroundColor: '#4a8b8f' }}
                 onClick={handleSave}
@@ -127,17 +130,17 @@ const Settings = () => {
     );
 
     const renderChangePasswordModal = () => (
-        <Modal 
-            show={showPasswordModal} 
+        <Modal
+            show={showPasswordModal}
             onHide={() => setShowPasswordModal(false)}
             centered
             contentClassName="rounded-4 border-0 shadow custom-modal"
             size="md"
         >
             <Modal.Header className="border-0 pb-0 pt-2 px-3 position-relative d-flex justify-content-end">
-                <button 
+                <button
                     type="button"
-                    className="btn-close shadow-none" 
+                    className="btn-close shadow-none"
                     onClick={() => setShowPasswordModal(false)}
                     aria-label="Close"
                     style={{ fontSize: '0.8rem' }}
@@ -151,12 +154,12 @@ const Settings = () => {
                     <Form.Group className="mb-3">
                         <Form.Label className="text-muted small fw-medium mb-1">{SETTINGS.CHANGE_PASSWORD_MODAL.NEW_PASSWORD_LABEL}</Form.Label>
                         <div className="position-relative">
-                            <Form.Control 
-                                type={showNewPassword ? 'text' : 'password'} 
+                            <Form.Control
+                                type={showNewPassword ? 'text' : 'password'}
                                 placeholder={SETTINGS.CHANGE_PASSWORD_MODAL.NEW_PASSWORD_PLACEHOLDER}
                                 className="bg-light border-0 py-2 rounded-3 pe-5 shadow-none"
                             />
-                            <i 
+                            <i
                                 className={`bi ${showNewPassword ? 'bi-eye' : 'bi-eye-slash'} position-absolute top-50 end-0 translate-middle-y me-3 text-muted pointer`}
                                 onClick={() => setShowNewPassword(!showNewPassword)}
                             ></i>
@@ -165,19 +168,19 @@ const Settings = () => {
                     <Form.Group className="mb-4">
                         <Form.Label className="text-muted small fw-medium mb-1">{SETTINGS.CHANGE_PASSWORD_MODAL.CONFIRM_PASSWORD_LABEL}</Form.Label>
                         <div className="position-relative">
-                            <Form.Control 
-                                type={showConfirmPassword ? 'text' : 'password'} 
+                            <Form.Control
+                                type={showConfirmPassword ? 'text' : 'password'}
                                 placeholder={SETTINGS.CHANGE_PASSWORD_MODAL.CONFIRM_PASSWORD_PLACEHOLDER}
                                 className="bg-light border-0 py-2 rounded-3 pe-5 shadow-none"
                             />
-                            <i 
+                            <i
                                 className={`bi ${showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'} position-absolute top-50 end-0 translate-middle-y me-3 text-muted pointer`}
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             ></i>
                         </div>
                     </Form.Group>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         className="btn w-100 py-2 rounded-3 fw-medium text-white shadow-sm"
                         style={{ backgroundColor: '#4a8b8f' }}
                     >
@@ -189,17 +192,17 @@ const Settings = () => {
     );
 
     const renderDeleteAccountModal = () => (
-        <Modal 
-            show={showDeleteModal} 
+        <Modal
+            show={showDeleteModal}
             onHide={() => setShowDeleteModal(false)}
             centered
             contentClassName="rounded-4 border-0 shadow custom-modal"
             size="md"
         >
             <Modal.Header className="border-0 pb-0 pt-2 px-3 position-relative d-flex justify-content-end">
-                <button 
+                <button
                     type="button"
-                    className="btn-close shadow-none" 
+                    className="btn-close shadow-none"
                     onClick={() => setShowDeleteModal(false)}
                     aria-label="Close"
                     style={{ fontSize: '0.8rem' }}
@@ -216,16 +219,16 @@ const Settings = () => {
                     </p>
                 </div>
                 <div className="d-flex gap-3 justify-content-center">
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         className="btn btn-outline-secondary py-2 px-4 rounded-3 fw-medium"
                         style={{ minWidth: '120px', borderColor: '#adb5bd', color: '#6c757d' }}
                         onClick={() => setShowDeleteModal(false)}
                     >
                         {SETTINGS.DELETE_ACCOUNT_MODAL.CANCEL_BUTTON}
                     </button>
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         className="btn py-2 px-4 rounded-3 fw-medium text-white shadow-sm"
                         style={{ backgroundColor: '#d9534f', minWidth: '120px' }}
                     >
@@ -237,20 +240,21 @@ const Settings = () => {
     );
 
     const renderAddKidModal = () => (
-        <Modal 
-            show={showAddKidModal} 
+        <Modal
+            show={showAddKidModal}
             onHide={() => {
                 setShowAddKidModal(false);
                 setNewKidGender('');
+                setNewKidBirthday('');
             }}
             centered
             contentClassName="rounded-4 border-0 shadow custom-modal"
             size="md"
         >
             <Modal.Header className="border-0 pb-0 pt-2 px-3 position-relative d-flex justify-content-end">
-                <button 
+                <button
                     type="button"
-                    className="btn-close shadow-none" 
+                    className="btn-close shadow-none"
                     onClick={() => setShowAddKidModal(false)}
                     aria-label="Close"
                     style={{ fontSize: '0.8rem' }}
@@ -266,12 +270,12 @@ const Settings = () => {
                     handleAddKid({
                         name: formData.get('name'),
                         gender: formData.get('gender'),
-                        birthday: formData.get('birthday')
+                        birthday: newKidBirthday
                     });
                 }}>
                     <Form.Group className="mb-3">
                         <Form.Label className="text-muted small fw-medium mb-1">Kid's Name</Form.Label>
-                        <Form.Control 
+                        <Form.Control
                             name="name"
                             placeholder="Enter kid's name"
                             className="bg-light border-0 py-2 rounded-3 shadow-none"
@@ -291,15 +295,18 @@ const Settings = () => {
                     </Form.Group>
                     <Form.Group className="mb-4">
                         <Form.Label className="text-muted small fw-medium mb-1">Birthday</Form.Label>
-                        <Form.Control 
+                        <CustomDatePicker
                             name="birthday"
-                            type="date"
-                            className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
-                            required
+                            value={newKidBirthday}
+                            onChange={(event) => setNewKidBirthday(event.target.value)}
+                            placeholder="Select birthday"
+                            className="settings-custom-select"
+                            triggerClassName="bg-light border-0 py-2 rounded-3 shadow-none"
+                            icon="bi-calendar3"
                         />
                     </Form.Group>
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="btn w-100 py-2 rounded-3 fw-medium text-white shadow-sm"
                         style={{ backgroundColor: '#4a8b8f' }}
                     >
@@ -319,14 +326,14 @@ const Settings = () => {
             <div className="d-flex justify-content-between align-items-center mb-4 pt-2 flex-wrap gap-3">
                 <h2 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.TITLE}</h2>
                 <div className="d-flex gap-2 gap-sm-3 flex-wrap">
-                    <button 
-                        className="btn btn-outline-primary border-secondary text-dark rounded-3 px-3 px-sm-4 py-2 bg-white shadow-sm fw-medium small" 
+                    <button
+                        className="btn btn-outline-primary border-secondary text-dark rounded-3 px-3 px-sm-4 py-2 bg-white shadow-sm fw-medium small"
                         style={{ borderColor: '#dee2e6 !important' }}
                         onClick={() => setShowPasswordModal(true)}
                     >
                         {SETTINGS.BUTTONS.CHANGE_PASSWORD}
                     </button>
-                    <button 
+                    <button
                         className="btn btn-link text-danger text-decoration-none bg-danger bg-opacity-10 rounded-3 px-3 px-sm-4 py-2 border-0 fw-medium small"
                         onClick={() => setShowDeleteModal(true)}
                     >
@@ -343,12 +350,12 @@ const Settings = () => {
                             <Card.Body className="p-4">
                                 <div className="d-flex align-items-center mb-4">
                                     <div className="profile-img-large me-4 position-relative">
-                                        <img 
-                                            src="https://i.pravatar.cc/150?u=sapphire" 
-                                            alt={userProfile.name} 
+                                        <img
+                                            src="https://i.pravatar.cc/150?u=sapphire"
+                                            alt={userProfile.name}
                                             className="rounded-circle shadow-sm"
-                                            width="100" 
-                                            height="100" 
+                                            width="100"
+                                            height="100"
                                         />
                                     </div>
                                     <div className="d-flex gap-3">
@@ -365,11 +372,11 @@ const Settings = () => {
                                         <Col md={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PROFILE.NAME_LABEL}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.PROFILE.NAME_PLACEHOLDER}
                                                     value={userProfile.name}
-                                                    onChange={(e) => setUserProfile({...userProfile, name: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, name: e.target.value })}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -378,12 +385,13 @@ const Settings = () => {
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PROFILE.HIRING_DATE_LABEL}</Form.Label>
                                                 <div className="position-relative">
-                                                    <Form.Control 
-                                                        type="date" 
-                                                        placeholder={SETTINGS.PROFILE.HIRING_DATE_PLACEHOLDER}
+                                                    <CustomDatePicker
                                                         value={userProfile.hiringDate}
-                                                        onChange={(e) => setUserProfile({...userProfile, hiringDate: e.target.value})}
-                                                        className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
+                                                        onChange={(e) => setUserProfile({ ...userProfile, hiringDate: e.target.value })}
+                                                        placeholder={SETTINGS.PROFILE.HIRING_DATE_PLACEHOLDER}
+                                                        className="settings-custom-select"
+                                                        triggerClassName="bg-light border-0 py-2 rounded-3 shadow-none"
+                                                        icon="bi-calendar3"
                                                     />
                                                 </div>
                                             </Form.Group>
@@ -395,7 +403,7 @@ const Settings = () => {
                                                     <CustomSelect
                                                         options={departmentOptions}
                                                         value={userProfile.department}
-                                                        onChange={(e) => setUserProfile({...userProfile, department: e.target.value})}
+                                                        onChange={(e) => setUserProfile({ ...userProfile, department: e.target.value })}
                                                         placeholder={SETTINGS.PROFILE.DEPARTMENT_PLACEHOLDER}
                                                         className="settings-custom-select"
                                                     />
@@ -411,12 +419,12 @@ const Settings = () => {
                         <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
                             <Card.Body className="p-4 d-flex align-items-center">
                                 <div className="profile-img-large me-4">
-                                    <img 
-                                        src="https://i.pravatar.cc/150?u=sapphire" 
-                                        alt={userProfile.name} 
+                                    <img
+                                        src="https://i.pravatar.cc/150?u=sapphire"
+                                        alt={userProfile.name}
                                         className="rounded-circle shadow-sm"
-                                        width="100" 
-                                        height="100" 
+                                        width="100"
+                                        height="100"
                                     />
                                 </div>
                                 <div className="flex-grow-1">
@@ -450,11 +458,11 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PERSONAL.EMAIL}</Form.Label>
-                                                <Form.Control 
-                                                    type="email" 
+                                                <Form.Control
+                                                    type="email"
                                                     placeholder={SETTINGS.PERSONAL.EMAIL_PLACEHOLDER}
                                                     value={userProfile.email}
-                                                    onChange={(e) => setUserProfile({...userProfile, email: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -467,16 +475,16 @@ const Settings = () => {
                                                         <CustomSelect
                                                             options={countryCodeOptions}
                                                             value={userProfile.phone.split(' ')[0]}
-                                                            onChange={(e) => setUserProfile({...userProfile, phone: `${e.target.value} ${userProfile.phone.split(' ')[1] || ''}`.trim()})}
+                                                            onChange={(e) => setUserProfile({ ...userProfile, phone: `${e.target.value} ${userProfile.phone.split(' ')[1] || ''}`.trim() })}
                                                             className="settings-custom-select settings-country-code-select"
                                                             fullWidth={false}
                                                         />
                                                     </div>
-                                                    <Form.Control 
-                                                        type="text" 
+                                                    <Form.Control
+                                                        type="text"
                                                         placeholder={SETTINGS.PERSONAL.PHONE_PLACEHOLDER}
                                                         value={userProfile.phone.split(' ')[1] || ''}
-                                                        onChange={(e) => setUserProfile({...userProfile, phone: `${userProfile.phone.split(' ')[0]} ${e.target.value}`})}
+                                                        onChange={(e) => setUserProfile({ ...userProfile, phone: `${userProfile.phone.split(' ')[0]} ${e.target.value}` })}
                                                         className="bg-light border-0 py-2 flex-grow-1 rounded-3"
                                                     />
                                                 </div>
@@ -488,7 +496,7 @@ const Settings = () => {
                                                 <CustomSelect
                                                     options={genderOptions.filter((option) => option.value !== 'Other')}
                                                     value={userProfile.gender}
-                                                    onChange={(e) => setUserProfile({...userProfile, gender: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, gender: e.target.value })}
                                                     placeholder={SETTINGS.PERSONAL.GENDER_PLACEHOLDER}
                                                     className="settings-custom-select"
                                                 />
@@ -498,12 +506,13 @@ const Settings = () => {
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PERSONAL.DOB}</Form.Label>
                                                 <div className="position-relative">
-                                                    <Form.Control 
-                                                        type="date" 
-                                                        placeholder={SETTINGS.PERSONAL.DOB_PLACEHOLDER}
+                                                    <CustomDatePicker
                                                         value={userProfile.dob}
-                                                        onChange={(e) => setUserProfile({...userProfile, dob: e.target.value})}
-                                                        className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
+                                                        onChange={(e) => setUserProfile({ ...userProfile, dob: e.target.value })}
+                                                        placeholder={SETTINGS.PERSONAL.DOB_PLACEHOLDER}
+                                                        className="settings-custom-select"
+                                                        triggerClassName="bg-light border-0 py-2 rounded-3 shadow-none"
+                                                        icon="bi-calendar3"
                                                     />
                                                 </div>
                                             </Form.Group>
@@ -511,11 +520,11 @@ const Settings = () => {
                                         <Col md={8}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.PERSONAL.ADDRESS}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.PERSONAL.ADDRESS_PLACEHOLDER}
                                                     value={userProfile.address}
-                                                    onChange={(e) => setUserProfile({...userProfile, address: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, address: e.target.value })}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -569,11 +578,11 @@ const Settings = () => {
                                         <Col md={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.SPOUSE_NAME}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.FAMILY.SPOUSE_PLACEHOLDER}
                                                     value={userProfile.spouseName}
-                                                    onChange={(e) => setUserProfile({...userProfile, spouseName: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, spouseName: e.target.value })}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -584,7 +593,7 @@ const Settings = () => {
                                                 <CustomSelect
                                                     options={genderOptions.filter((option) => option.value !== 'Other')}
                                                     value={userProfile.familyGender}
-                                                    onChange={(e) => setUserProfile({...userProfile, familyGender: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, familyGender: e.target.value })}
                                                     placeholder={SETTINGS.FAMILY.GENDER_PLACEHOLDER}
                                                     className="settings-custom-select"
                                                 />
@@ -594,33 +603,35 @@ const Settings = () => {
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.ANNIVERSARY}</Form.Label>
                                                 <div className="position-relative">
-                                                    <Form.Control 
-                                                        type="date" 
-                                                        placeholder={SETTINGS.FAMILY.ANNIVERSARY_PLACEHOLDER}
+                                                    <CustomDatePicker
                                                         value={userProfile.anniversary}
-                                                        onChange={(e) => setUserProfile({...userProfile, anniversary: e.target.value})}
-                                                        className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
+                                                        onChange={(e) => setUserProfile({ ...userProfile, anniversary: e.target.value })}
+                                                        placeholder={SETTINGS.FAMILY.ANNIVERSARY_PLACEHOLDER}
+                                                        className="settings-custom-select"
+                                                        triggerClassName="bg-light border-0 py-2 rounded-3 shadow-none"
+                                                        icon="bi-calendar3"
                                                     />
                                                 </div>
                                             </Form.Group>
                                         </Col>
                                     </Row>
-                                    
+
                                     <div className="d-flex align-items-center gap-2 mb-4">
                                         <label className="text-muted small mb-0 fw-medium">{SETTINGS.FAMILY.KIDS_NAME}</label>
                                         <i className="bi bi-plus-circle text-primary pointer" onClick={() => {
                                             setNewKidGender('');
+                                            setNewKidBirthday('');
                                             setShowAddKidModal(true);
                                         }}></i>
                                     </div>
-                                    
+
                                     {userProfile.kids.map((kid, index) => (
                                         <Row key={kid.id} className="gy-4 mb-4 pb-3 border-bottom border-light border-opacity-50">
                                             <Col md={6}>
                                                 <Form.Group>
                                                     <Form.Label className="text-muted small mb-2">Kid's Name</Form.Label>
-                                                    <Form.Control 
-                                                        type="text" 
+                                                    <Form.Control
+                                                        type="text"
                                                         value={kid.name}
                                                         onChange={(e) => handleKidChange(kid.id, 'name', e.target.value)}
                                                         className="bg-light border-0 py-2 rounded-3"
@@ -641,11 +652,13 @@ const Settings = () => {
                                             <Col md={6}>
                                                 <Form.Group>
                                                     <Form.Label className="text-muted small mb-2">Birthday</Form.Label>
-                                                    <Form.Control 
-                                                        type="date" 
+                                                    <CustomDatePicker
                                                         value={kid.birthday}
                                                         onChange={(e) => handleKidChange(kid.id, 'birthday', e.target.value)}
-                                                        className="bg-light border-0 py-2 rounded-3 shadow-none date-picker-input"
+                                                        placeholder="Select birthday"
+                                                        className="settings-custom-select"
+                                                        triggerClassName="bg-light border-0 py-2 rounded-3 shadow-none"
+                                                        icon="bi-calendar3"
                                                     />
                                                 </Form.Group>
                                             </Col>
@@ -656,11 +669,11 @@ const Settings = () => {
                                         <Col md={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.PET_NAME}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.FAMILY.PET_NAME_PLACEHOLDER}
                                                     value={userProfile.petName}
-                                                    onChange={(e) => setUserProfile({...userProfile, petName: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, petName: e.target.value })}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -668,11 +681,11 @@ const Settings = () => {
                                         <Col md={6}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAMILY.PET_AGE}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.FAMILY.PET_AGE_PLACEHOLDER}
                                                     value={userProfile.petAge}
-                                                    onChange={(e) => setUserProfile({...userProfile, petAge: e.target.value})}
+                                                    onChange={(e) => setUserProfile({ ...userProfile, petAge: e.target.value })}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -741,7 +754,7 @@ const Settings = () => {
                                 <label className="text-muted small d-block mb-1">{SETTINGS.NOTIFICATIONS.TASK_UPDATE.LABEL}</label>
                                 <span className="fw-medium text-dark">{SETTINGS.NOTIFICATIONS.TASK_UPDATE.DESC}</span>
                             </div>
-                            <Form.Check 
+                            <Form.Check
                                 type="switch"
                                 id="notification-switch"
                                 checked={notifications}
@@ -765,10 +778,10 @@ const Settings = () => {
                                     <div className="mb-4">
                                         <label className="text-muted small fw-bold mb-3 text-uppercase" style={{ letterSpacing: '0.05em' }}>{SETTINGS.APPLICATION.TIMEZONE}</label>
                                         <div className="position-relative">
-                                            <div 
+                                            <div
                                                 className="bg-light border-0 py-3 px-4 rounded-3 d-flex justify-content-between align-items-center pointer transition-all"
                                                 onClick={() => setIsTimezoneOpen(!isTimezoneOpen)}
-                                                style={{ 
+                                                style={{
                                                     backgroundColor: '#f8fafc',
                                                     color: userProfile.timezone ? '#0f172a' : '#94a3b8',
                                                     fontWeight: userProfile.timezone ? '500' : '400'
@@ -779,16 +792,16 @@ const Settings = () => {
                                             </div>
 
                                             {isTimezoneOpen && (
-                                                <div 
-                                                    className="position-absolute w-100 mt-2 bg-white rounded-3 shadow-lg overflow-hidden" 
+                                                <div
+                                                    className="position-absolute w-100 mt-2 bg-white rounded-3 shadow-lg overflow-hidden"
                                                     style={{ zIndex: 1000, border: '1px solid #f1f5f9' }}
                                                 >
                                                     <div className="py-1">
                                                         {timezones.map((tz) => (
-                                                            <div 
+                                                            <div
                                                                 key={tz}
                                                                 className="px-4 py-3 pointer dropdown-item-custom transition-all"
-                                                                style={{ 
+                                                                style={{
                                                                     backgroundColor: userProfile.timezone === tz ? '#f0f9fa' : 'transparent',
                                                                     color: userProfile.timezone === tz ? '#40878e' : '#334155',
                                                                     fontWeight: userProfile.timezone === tz ? '600' : '400'
@@ -834,9 +847,9 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAVORITES.FLOWER}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
-                                                    value={userProfile.favorites.flower} 
+                                                <Form.Control
+                                                    type="text"
+                                                    value={userProfile.favorites.flower}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -844,9 +857,9 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAVORITES.CAKE}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
-                                                    value={userProfile.favorites.cake} 
+                                                <Form.Control
+                                                    type="text"
+                                                    value={userProfile.favorites.cake}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
                                             </Form.Group>
@@ -854,8 +867,8 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAVORITES.STORE}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.FAVORITES.PLACEHOLDERS.STORE}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
@@ -866,8 +879,8 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAVORITES.BUSINESS}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.FAVORITES.PLACEHOLDERS.BUSINESS}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
@@ -876,8 +889,8 @@ const Settings = () => {
                                         <Col md={4}>
                                             <Form.Group>
                                                 <Form.Label className="text-muted small mb-2">{SETTINGS.FAVORITES.RESTAURANT}</Form.Label>
-                                                <Form.Control 
-                                                    type="text" 
+                                                <Form.Control
+                                                    type="text"
                                                     placeholder={SETTINGS.FAVORITES.PLACEHOLDERS.RESTAURANT}
                                                     className="bg-light border-0 py-2 rounded-3"
                                                 />
@@ -885,15 +898,15 @@ const Settings = () => {
                                         </Col>
                                     </Row>
                                     <div className="d-flex justify-content-end gap-3 mt-2">
-                                        <button 
-                                            type="button" 
+                                        <button
+                                            type="button"
                                             className="btn btn-light px-4 py-2 rounded-3 border fw-medium"
                                             onClick={handleCancel}
                                         >
                                             {SETTINGS.BUTTONS.CANCEL}
                                         </button>
-                                        <button 
-                                            type="button" 
+                                        <button
+                                            type="button"
                                             className="btn px-4 py-2 rounded-3 fw-medium text-white shadow-sm"
                                             style={{ backgroundColor: '#4a8b8f' }}
                                             onClick={handleSave}

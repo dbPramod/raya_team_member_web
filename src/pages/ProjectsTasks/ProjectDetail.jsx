@@ -41,141 +41,257 @@ const ProjectDetail = () => {
     ]);
     const [priorityFilter, setPriorityFilter] = useState('Priority');
 
-    const toggleTask = (id) => {
-        setTasks(tasks.map(task =>
-            task.id === id ? { ...task, completed: !task.completed } : task
-        ));
+    const getPriorityStyles = (priority) => {
+        switch (priority) {
+            case 'High':
+                return {
+                    color: '#f06f5c',
+                    backgroundColor: '#fff3ef',
+                    border: '1px solid #ffd8d0'
+                };
+            case 'Medium':
+                return {
+                    color: '#c7852d',
+                    backgroundColor: '#fff5df',
+                    border: '1px solid #f5e0b4'
+                };
+            default:
+                return {
+                    color: '#64748b',
+                    backgroundColor: '#f1f5f9',
+                    border: '1px solid #e2e8f0'
+                };
+        }
     };
 
-    const completedCount = tasks.filter(t => t.completed).length;
+    const getStatusStyles = (status) => {
+        switch (status) {
+            case 'In-progress':
+                return {
+                    color: '#8c6540',
+                    backgroundColor: '#f6e8d7',
+                    border: '1px solid #ead3bc'
+                };
+            case 'Completed':
+                return {
+                    color: '#3f8a4b',
+                    backgroundColor: '#d7f4c7',
+                    border: '1px solid #b8e6a3'
+                };
+            default:
+                return {
+                    color: '#64748b',
+                    backgroundColor: '#f1f5f9',
+                    border: '1px solid #e2e8f0'
+                };
+        }
+    };
+
+    const toggleTask = (id) => {
+        setTasks(tasks.map(task => {
+            if (task.id !== id) {
+                return task;
+            }
+
+            const nextCompleted = !task.completed;
+
+            return {
+                ...task,
+                completed: nextCompleted,
+                status: nextCompleted ? 'Completed' : 'In-progress'
+            };
+        }));
+    };
+
+    const completedCount = tasks.filter((task) => task.completed).length;
     const totalCount = tasks.length;
     const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
     return (
-        <Container fluid className="py-4 px-4 px-xl-5 projects-container" style={{ backgroundColor: 'var(--bg-light)', minHeight: '100vh' }}>
-            {/* Header */}
-            <div className="d-flex align-items-center gap-3 mb-4">
+        <Container fluid className="py-4 px-3 px-lg-4 projects-container" style={{ backgroundColor: '#ffffff', minHeight: '100vh' }}>
+            <div className="d-flex align-items-center gap-3 mb-4 mb-lg-5">
                 <Button
                     variant="link"
                     className="p-0 text-dark"
                     onClick={() => navigate('/projects')}
-                    style={{ fontSize: '1.5rem' }}
+                    style={{ fontSize: '1.35rem', lineHeight: 1 }}
                 >
                     <i className="bi bi-arrow-left"></i>
                 </Button>
-                <h2 className="fw-bold mb-0" style={{ color: 'var(--swann-navy)' }}>Project Name</h2>
+                <h2 className="fw-bold mb-0" style={{ color: '#151515', fontSize: '2rem' }}>Project Name</h2>
             </div>
 
-            {/* Project Overview Card */}
-            <Card className="border-0 rounded-4 shadow-lg mb-5 overflow-hidden"
-                style={{ background: 'linear-gradient(90deg, #40878E 0%, #0F1D3A 100%)', color: '#ffffff' }}>
-                <Card.Body className="p-4 p-lg-5">
-                    <Row className="mb-5 g-0">
-                        <Col md={4} className="border-end border-white border-opacity-10 py-2">
-                            <span className="small text-uppercase fw-bold opacity-50 ls-1 d-block mb-2">Tasks</span>
-                            <h2 className="fw-bold mb-0 text-white" style={{ fontSize: '2.5rem' }}>{completedCount}/{totalCount}</h2>
-                        </Col>
-                        <Col md={4} className="border-end border-white border-opacity-10 ps-md-5 py-2">
-                            <span className="small text-uppercase fw-bold opacity-50 ls-1 d-block mb-2">Team Members</span>
-                            <h2 className="fw-bold mb-0 text-white" style={{ fontSize: '2.5rem' }}>{teamMembers.length}</h2>
-                        </Col>
-                        <Col md={4} className="ps-md-5 py-2">
-                            <span className="small text-uppercase fw-bold opacity-50 ls-1 d-block mb-2">Due Date</span>
-                            <h2 className="fw-bold mb-0 text-white text-nowrap" style={{ fontSize: '2.5rem' }}>12/12/2025</h2>
-                        </Col>
-                    </Row>
-
-                    <div className="mt-4 pt-2">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <span className="fw-bold text-uppercase ls-1 opacity-75">Progress</span>
-                            <span className="fw-bold fs-5">{progressPercent}%</span>
-                        </div>
-                        <ProgressBar
-                            now={progressPercent}
-                            variant="light"
-                            style={{ height: '10px', backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: '20px' }}
-                        />
-                    </div>
-                </Card.Body>
-            </Card>
-
             <Row className="g-4">
-                {/* Tasks Column */}
                 <Col lg={9}>
+                    <Card
+                        className="border-0 rounded-4 overflow-hidden mb-4 mb-lg-5"
+                        style={{ background: 'linear-gradient(135deg, #4a95a0 0%, #1b458f 100%)', boxShadow: '0 12px 28px rgba(27, 69, 143, 0.18)' }}
+                    >
+                        <Card.Body className="p-4 p-lg-5">
+                            <Row className="g-4 mb-4 align-items-start">
+                                <Col md={4}>
+                                    <div className="text-white text-opacity-75 fw-medium mb-2" style={{ fontSize: '0.95rem' }}>Tasks</div>
+                                    <div className="fw-bold text-white" style={{ fontSize: '2.2rem' }}>{completedCount}/{20}</div>
+                                </Col>
+                                <Col md={4}>
+                                    <div className="text-white text-opacity-75 fw-medium mb-2" style={{ fontSize: '0.95rem' }}>Team Members</div>
+                                    <div className="fw-bold text-white" style={{ fontSize: '2.2rem' }}>8</div>
+                                </Col>
+                                <Col md={4}>
+                                    <div className="text-white text-opacity-75 fw-medium mb-2" style={{ fontSize: '0.95rem' }}>Due Date</div>
+                                    <div className="fw-bold text-white" style={{ fontSize: '2.2rem' }}>12/12/2025</div>
+                                </Col>
+                            </Row>
+
+                            <div>
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <span className="text-white text-opacity-75 fw-medium">Progress</span>
+                                    <span className="text-white fw-semibold">{progressPercent}%</span>
+                                </div>
+                                <ProgressBar
+                                    now={progressPercent}
+                                    style={{
+                                        height: '8px',
+                                        backgroundColor: 'rgba(255,255,255,0.25)',
+                                        borderRadius: '999px'
+                                    }}
+                                    className="project-detail-progress-bar"
+                                />
+                            </div>
+                        </Card.Body>
+                    </Card>
+
                     <div className="d-flex align-items-center justify-content-between mb-4">
-                        <h4 className="fw-bold mb-0" style={{ color: 'var(--swann-navy)', fontSize: '1.75rem' }}>Tasks</h4>
-                        <div style={{ minWidth: '168px' }}>
+                        <h4 className="fw-bold mb-0" style={{ color: '#151515', fontSize: '1.9rem' }}>Tasks</h4>
+                        <div style={{ minWidth: '140px' }}>
                             <CustomSelect
                                 options={priorityOptions}
                                 value={priorityFilter}
                                 onChange={(event) => setPriorityFilter(event.target.value)}
                                 placeholder="Priority"
-                                className="custom-select-premium-wrapper"
+                                className="custom-select-premium-wrapper project-detail-priority-select"
                             />
                         </div>
                     </div>
 
-                    <div className="p-4 rounded-4 shadow-sm" style={{ backgroundColor: '#D6E5F2' }}>
-                        {tasks.map((task, i) => (
-                            <Card key={task.id} className={`border-0 rounded-4 shadow-sm mb-4 transition-all hover-translate hover-shadow ${task.completed ? 'opacity-75' : ''}`} style={{ backgroundColor: '#ffffff' }}>
-                                <Card.Body className="p-4">
-                                    <div className="d-flex justify-content-between align-items-center mb-4 text-muted small text-uppercase fw-bold ls-1 opacity-50">
-                                        <span>Due date <span className="ms-2 text-dark opacity-100">{task.dueDate}</span></span>
-                                        <span
-                                            className="pointer hover-teal transition-all"
-                                            onClick={() => navigate('/projects/task-detail')}
-                                        >View More</span>
-                                    </div>
-                                    <div className="d-flex gap-4">
-                                        <div className="pt-1">
-                                            <div className="pointer transition-all hover-scale"
-                                                onClick={() => toggleTask(task.id)}
-                                                style={{
-                                                    width: '32px',
-                                                    height: '32px',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center'
-                                                }}>
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="12" cy="12" r="10" stroke="#0F1D3A" strokeWidth="2"/>
-                                                    <circle cx="12" cy="12" r="5" stroke="#0F1D3A" strokeWidth="1.5"/>
-                                                    {task.completed && <circle cx="12" cy="12" r="3" fill="#0F1D3A"/>}
-                                                </svg>
-                                            </div>
+                    <div className="project-detail-task-list">
+                        {tasks.map((task) => (
+                            <Card
+                                key={task.id}
+                                className="border-0 rounded-4 mb-3 mx-3"
+                                style={{
+                                    backgroundColor: '#d8e9f7',
+                                    boxShadow: '0 12px 28px rgba(27, 69, 143, 0.18)',
+                                    padding: '0.5rem 0.5rem'
+                                }}
+                            >
+                                <Card.Body className="p-0">
+                                    <div className="d-flex justify-content-between align-items-center px-3 px-lg-4 pt-3 pb-2">
+                                        <div className="d-flex align-items-center gap-3 text-dark">
+                                            <span className="fw-medium" style={{ fontSize: '0.92rem' }}>Due date</span>
+                                            <span className="fw-medium" style={{ fontSize: '0.92rem' }}>{task.dueDate}</span>
                                         </div>
-                                        <div className="flex-grow-1">
-                                            <div className="d-flex justify-content-between align-items-start mb-2">
-                                                <h4 className="fw-bold mb-0" style={{
-                                                    color: 'var(--swann-navy)',
-                                                    fontSize: '1.5rem',
-                                                    letterSpacing: '-0.01em',
-                                                    opacity: task.completed ? 0.8 : 1
-                                                }}>{task.title}</h4>
+                                        <span
+                                            className="pointer"
+                                            onClick={() => navigate('/projects/task-detail')}
+                                            style={{ color: '#64748b', fontWeight: 500, fontSize: '0.88rem' }}
+                                        >
+                                            View More
+                                        </span>
+                                    </div>
 
-                                                {task.completed && (
-                                                    <Badge bg="success" className="bg-opacity-10 text-success rounded-pill px-3 py-2 fw-bold" style={{ fontSize: '0.85rem', backgroundColor: '#D1F8D1', color: '#2D6A2D' }}>
-                                                        Completed
-                                                    </Badge>
-                                                )}
+                                    <div
+                                        className="bg-white rounded-4 d-flex gap-3 align-items-start px-3 px-lg-4 py-3 project-detail-task-card"
+                                        style={{ boxShadow: '0 8px 18px rgba(15, 29, 58, 0.08)' }}
+                                    >
+                                        <button
+                                            type="button"
+                                            className="border-0 bg-transparent p-0 mt-1"
+                                            onClick={() => toggleTask(task.id)}
+                                            aria-label="Toggle task status"
+                                        >
+                                            <span
+                                                style={{
+                                                    width: '28px',
+                                                    height: '28px',
+                                                    borderRadius: '50%',
+                                                    border: '2px solid #294c7a',
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    backgroundColor: task.completed ? '#294c7a' : 'transparent'
+                                                }}
+                                            >
+                                                {task.completed ? <i className="bi bi-check text-white"></i> : null}
+                                            </span>
+                                        </button>
+
+                                        <div className="flex-grow-1">
+                                            <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3 mb-2">
+                                                <h4 className="fw-bold mb-0" style={{ color: '#202020', fontSize: '1.03rem', lineHeight: 1.35 }}>
+                                                    {task.title}
+                                                </h4>
+                                                <div className="d-flex gap-2 flex-wrap">
+                                                    {task.completed ? (
+                                                        <Badge
+                                                            bg="transparent"
+                                                            className="rounded-pill px-3 py-2"
+                                                            style={{
+                                                                ...getStatusStyles('Completed'),
+                                                                fontSize: '0.78rem',
+                                                                fontWeight: 500,
+                                                                lineHeight: 1,
+                                                                paddingTop: '0.55rem',
+                                                                paddingBottom: '0.55rem',
+                                                                paddingLeft: '0.95rem',
+                                                                paddingRight: '0.95rem'
+                                                            }}
+                                                        >
+                                                            Completed
+                                                        </Badge>
+                                                    ) : (
+                                                        <>
+                                                            <Badge
+                                                                bg="transparent"
+                                                                className="rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2"
+                                                                style={{
+                                                                    ...getPriorityStyles(task.priority),
+                                                                    fontSize: '0.78rem',
+                                                                    fontWeight: 500,
+                                                                    lineHeight: 1,
+                                                                    paddingTop: '0.55rem',
+                                                                    paddingBottom: '0.55rem',
+                                                                    paddingLeft: '0.9rem',
+                                                                    paddingRight: '0.9rem'
+                                                                }}
+                                                            >
+                                                                <i className="bi bi-flag" style={{ fontSize: '0.82rem' }}></i>
+                                                                {task.priority}
+                                                            </Badge>
+                                                            <Badge
+                                                                bg="transparent"
+                                                                className="rounded-pill px-3 py-2"
+                                                                style={{
+                                                                    ...getStatusStyles(task.status),
+                                                                    fontSize: '0.78rem',
+                                                                    fontWeight: 500,
+                                                                    lineHeight: 1,
+                                                                    paddingTop: '0.55rem',
+                                                                    paddingBottom: '0.55rem',
+                                                                    paddingLeft: '0.95rem',
+                                                                    paddingRight: '0.95rem'
+                                                                }}
+                                                            >
+                                                                {task.status}
+                                                            </Badge>
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
 
-                                            <p className="text-muted mb-4" style={{
-                                                lineHeight: '1.6',
-                                                fontSize: '1rem',
-                                                opacity: task.completed ? 0.6 : 1
-                                            }}>{task.description}</p>
-
-                                            {!task.completed && (
-                                                <div className="d-flex gap-3">
-                                                    <Badge bg="danger" className="bg-opacity-10 text-danger rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2" style={{ fontSize: '0.85rem' }}>
-                                                        <i className="bi bi-flag-fill"></i> {task.priority}
-                                                    </Badge>
-                                                    <Badge bg="warning" className="bg-opacity-10 text-warning rounded-pill px-4 py-2 fw-bold" style={{ fontSize: '0.85rem' }}>
-                                                        {task.status}
-                                                    </Badge>
-                                                </div>
-                                            )}
+                                            <p className="mb-0" style={{ color: '#6b7280', fontSize: '0.98rem', lineHeight: 1.6, maxWidth: '92%' }}>
+                                                {task.description}
+                                            </p>
                                         </div>
                                     </div>
                                 </Card.Body>
@@ -184,22 +300,22 @@ const ProjectDetail = () => {
                     </div>
                 </Col>
 
-                {/* Team Sidebar */}
                 <Col lg={3}>
-                    <div className="p-4 rounded-4 shadow-sm h-100" style={{ backgroundColor: '#D6E5F2' }}>
-                        <h4 className="fw-bold mb-4" style={{ color: 'var(--swann-navy)', fontSize: '1.5rem' }}>Team</h4>
-
-                        <div className="bg-white rounded-4 shadow-sm overflow-hidden">
-                            {teamMembers.map((member, i) => (
-                                <div key={i}
-                                    className={`p-3 d-flex align-items-center gap-3 transition-all hover-bg-light ${i !== teamMembers.length - 1 ? 'border-bottom' : ''}`}
-                                    style={{ borderColor: 'rgba(0,0,0,0.05)' }}>
+                    <div className="rounded-4 h-100 p-3 p-lg-4" style={{ backgroundColor: '#d8e9f7' }}>
+                        <h4 className="fw-bold mb-4" style={{ color: '#151515', fontSize: '2rem' }}>Team</h4>
+                        <div className="bg-white rounded-4 overflow-hidden" style={{ boxShadow: '0 8px 18px rgba(15, 29, 58, 0.06)' }}>
+                            {teamMembers.map((member, index) => (
+                                <div
+                                    key={index}
+                                    className={`d-flex align-items-center gap-3 px-3 py-3 ${index !== teamMembers.length - 1 ? 'border-bottom' : ''}`}
+                                    style={{ borderColor: '#dbe6f1' }}
+                                >
                                     <Image
                                         src={member.avatar}
                                         roundedCircle
-                                        style={{ width: '42px', height: '42px', objectFit: 'cover' }}
+                                        style={{ width: '34px', height: '34px', objectFit: 'cover' }}
                                     />
-                                    <span className="fw-bold" style={{ color: 'var(--swann-navy)', fontSize: '0.95rem' }}>{member.name}</span>
+                                    <span style={{ color: '#283245', fontWeight: 500, fontSize: '1.2rem' }}>{member.name}</span>
                                 </div>
                             ))}
                         </div>

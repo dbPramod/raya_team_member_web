@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Container, Modal } from 'react-bootstrap';
 import MeetHistory from './MeetHistory';
+import CustomDatePicker from '../../components/common/CustomDatePicker';
 const MOCK_EVENTS = [
     { id: 1, date: 1, month: 0, year: 2026, text: 'New Year', type: 'blue' },
     { id: 2, date: 9, month: 0, year: 2026, text: 'Team Meet', type: 'blue' },
@@ -325,16 +326,13 @@ const Calendar = () => {
 
                     <div className="rto-field mb-3">
                         <label className="rto-label">Date</label>
-                        <div className="rto-date-input bg-light border-0">
-                            <i className="bi bi-calendar3 rto-cal-icon"></i>
-                            <input
-                                type="date"
-                                className={`rto-input ${eventForm.date ? 'has-value' : ''}`}
-                                value={eventForm.date}
-                                onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })}
-                            />
-                            {!eventForm.date && <span className="rto-placeholder">Select date</span>}
-                        </div>
+                        <CustomDatePicker
+                            value={eventForm.date}
+                            onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })}
+                            placeholder="Select date"
+                            className="timeoff-date-picker"
+                            triggerClassName="rto-date-trigger bg-light border-0"
+                        />
                     </div>
 
                     <div className="rto-field mb-4">

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import loginScreenImg from '../../assets/images/login_screen.png';
 import appLogo from '../../assets/images/applogo.png';
 import { STRINGS } from '../../constants/strings';
+import { authService } from '../../services/authService';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,8 +14,10 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -30,10 +33,27 @@ const Login = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setApiError('');
     } else {
       setErrors({});
-      // Handle login success API call here
-      navigate('/verification', { state: { from: 'login' } });
+      setApiError('');
+      setIsSubmitting(true);
+
+      try {
+        const response = await authService.login({ email, password });
+        navigate('/verification', {
+          state: {
+            from: 'login',
+            challengeId: response.challengeId,
+            email: response.email,
+            mockOtp: response.otp
+          }
+        });
+      } catch (error) {
+        setApiError(error.message || 'Unable to log in right now.');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -101,7 +121,10 @@ const Login = () => {
                   <Form.Label htmlFor="trust-device" className="small text-muted mb-0 pointer fw-medium">{STRINGS.LOGIN.TRUST_DEVICE}</Form.Label>
                 </Form.Group>
 
-                <Button type="submit" className="w-100 py-2 mb-4 shadow-sm" style={{ fontSize: '1rem', borderRadius: '4px' }}>{STRINGS.LOGIN.BUTTON}</Button>
+                {apiError ? <div className="text-danger small mb-3">{apiError}</div> : null}
+                <Button type="submit" className="w-100 py-2 mb-4 shadow-sm" style={{ fontSize: '1rem', borderRadius: '4px' }} disabled={isSubmitting}>
+                  {isSubmitting ? 'Signing in...' : STRINGS.LOGIN.BUTTON}
+                </Button>
               </Form>
             </div>
           </Col>

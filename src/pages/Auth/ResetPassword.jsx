@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import { Container, Card, Row, Col, Form } from 'react-bootstrap';
 import Button from '../../components/common/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import appLogo from '../../assets/images/applogo.png';
 import { STRINGS } from '../../constants/strings';
+import { authService } from '../../services/authService';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const resetSession = location.state || authService.getActiveResetSession();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -31,9 +36,23 @@ const ResetPassword = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setApiError('');
     } else {
       setErrors({});
-      navigate('/reset-success');
+      setApiError('');
+      setIsSubmitting(true);
+
+      try {
+        await authService.resetPassword({
+          challengeId: resetSession?.challengeId,
+          password
+        });
+        navigate('/reset-success');
+      } catch (error) {
+        setApiError(error.message || 'Unable to reset password right now.');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -99,8 +118,13 @@ const ResetPassword = () => {
                   {errors.confirmPassword && <div className="text-danger small mt-1">{errors.confirmPassword}</div>}
                 </Form.Group>
 
+                {resetSession?.email ? <div className="small text-muted mb-3">Resetting password for {resetSession.email}</div> : null}
+                {apiError ? <div className="text-danger small mb-3">{apiError}</div> : null}
+
                 <div className="text-center mt-4 pt-2">
-                  <Button type="submit" className="w-100 py-2 shadow-sm" style={{ maxWidth: '280px', borderRadius: '6px' }}>{STRINGS.RESET_PASSWORD.BUTTON}</Button>
+                  <Button type="submit" className="w-100 py-2 shadow-sm" style={{ maxWidth: '280px', borderRadius: '6px' }} disabled={isSubmitting}>
+                    {isSubmitting ? 'Resetting...' : STRINGS.RESET_PASSWORD.BUTTON}
+                  </Button>
                 </div>
               </Form>
             </Card>

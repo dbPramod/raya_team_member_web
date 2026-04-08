@@ -1,22 +1,21 @@
-import { useState, useRef } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { Container, Row, Col, Form, Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import appLogo from '../../assets/images/applogo.png';
-import locationData from '../../data/locationData.json';
 import { STRINGS } from '../../constants/strings';
+import { Country, State, City } from 'country-state-city';
+import PhoneInputModule from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import CustomDatePicker from '../../components/common/CustomDatePicker';
 
-/**
- * [CRITICAL] 
- * I have moved the location data into 'src/data/locationData.json' 
- * as requested to keep this component clean and maintainable.
- */
+const PhoneInput = PhoneInputModule.default || PhoneInputModule;
 
 const CompleteProfile = () => {
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
     const [step, setStep] = useState(1);
 
-    const [selectedCountry, setSelectedCountry] = useState('');
+    const [selectedCountry, setSelectedCountry] = useState('US');
     const [selectedState, setSelectedState] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [profileImage, setProfileImage] = useState(null);
@@ -27,6 +26,11 @@ const CompleteProfile = () => {
 
     // Custom dropdown open states
     const [openDropdown, setOpenDropdown] = useState(null); // 'gender' | 'timezone' | 'country' | 'state' | 'city'
+    const [dropdownSearch, setDropdownSearch] = useState({
+        country: '',
+        state: '',
+        city: ''
+    });
 
     const TIMEZONES = [
         'Pacific Time - US & Canada',
@@ -46,8 +50,8 @@ const CompleteProfile = () => {
     // Validation States
     const [name, setName] = useState('');
     const [gender, setGender] = useState('');
-    const [phone, setPhone] = useState('');
-    const [phonePrefix, setPhonePrefix] = useState('+1');
+    const [phone, setPhone] = useState('1');
+    const [phoneCountry, setPhoneCountry] = useState('us');
     const [address, setAddress] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [errors, setErrors] = useState({});
@@ -62,35 +66,37 @@ const CompleteProfile = () => {
     const [favoriteLocalBusiness, setFavoriteLocalBusiness] = useState('');
     const [favoriteRestaurant, setFavoriteRestaurant] = useState('');
 
-    const countriesList = locationData.country;
-    const statesList = selectedCountry ? locationData.states[selectedCountry] : [];
-    const citiesList = selectedState ? (locationData.cities?.[selectedState] || []) : [];
+    const countriesList = useMemo(() => {
+        const allCountries = Country.getAllCountries();
+        const priorityCountries = ['US', 'CA'];
+        const pinnedCountries = priorityCountries
+            .map((countryCode) => allCountries.find((country) => country.isoCode === countryCode))
+            .filter(Boolean);
+        const remainingCountries = allCountries.filter((country) => !priorityCountries.includes(country.isoCode));
+        return [...pinnedCountries, ...remainingCountries];
+    }, []);
+    const statesList = useMemo(
+        () => (selectedCountry ? State.getStatesOfCountry(selectedCountry) : []),
+        [selectedCountry]
+    );
+    const citiesList = useMemo(
+        () => (selectedCountry && selectedState ? City.getCitiesOfState(selectedCountry, selectedState) : []),
+        [selectedCountry, selectedState]
+    );
+    const getDialCodeByCountry = (countryCode) => countriesList.find((country) => country.isoCode === countryCode)?.phonecode || '';
 
-    const handleCountryChange = (e) => {
-        const countryCode = e.target.value;
+    const handleCountryChange = (countryCode) => {
         setSelectedCountry(countryCode);
         setSelectedState('');
         setSelectedCity('');
 
-        // NOTE: Dynamic timezone fetching is disabled until @countrystatecity/timezones is installed.
-        /*
         if (countryCode) {
-            try {
-                const tzData = await getTimezonesByCountry(countryCode);
-                setTimezones(tzData || []);
-            } catch (error) {
-                console.error("Failed to fetch timezones:", error);
-                setTimezones([]);
-            }
-        } else {
-            setTimezones([]);
+            setPhoneCountry(countryCode.toLowerCase());
+            setPhone(getDialCodeByCountry(countryCode));
         }
-        */
     };
 
-    const handleStateChange = (e) => {
-        const stateCode = e.target.value;
-        console.log('State selection changed to:', stateCode);
+    const handleStateChange = (stateCode) => {
         setSelectedState(stateCode);
         setSelectedCity('');
     };
@@ -121,7 +127,7 @@ const CompleteProfile = () => {
         if (!birthDate) newErrors.birthDate = ERRORS.BIRTH_DATE_REQUIRED;
 
         if (!phone.trim()) newErrors.phone = ERRORS.PHONE_REQUIRED;
-        else if (!/^\d{10}$/.test(phone.replace(/\D/g, ''))) newErrors.phone = ERRORS.PHONE_INVALID;
+        else if (phone.replace(/\D/g, '').length < 8) newErrors.phone = ERRORS.PHONE_INVALID;
 
         if (!hiringDate) newErrors.hiringDate = ERRORS.HIRING_DATE_REQUIRED;
         if (!selectedTimezone || selectedTimezone === STRINGS.COMPLETE_PROFILE.TIMEZONE.PLACEHOLDER) newErrors.selectedTimezone = ERRORS.TIMEZONE_REQUIRED;
@@ -175,8 +181,21 @@ const CompleteProfile = () => {
         id, label, value, placeholder, options, onSelect, error, disabled = false, labelKey, valueKey
     }) => {
         const isOpen = openDropdown === id;
+        const searchValue = dropdownSearch[id] || '';
+        const supportsSearch = ['country', 'state', 'city'].includes(id);
+        const filteredOptions = supportsSearch
+            ? options.filter((opt) => {
+                const optionLabel = String(labelKey ? opt[labelKey] : opt).toLowerCase();
+                return optionLabel.includes(searchValue.toLowerCase());
+            })
+            : options;
         const toggle = () => {
-            if (!disabled) setOpenDropdown(isOpen ? null : id);
+            if (!disabled) {
+                setOpenDropdown(isOpen ? null : id);
+                if (isOpen) {
+                    setDropdownSearch((prev) => ({ ...prev, [id]: '' }));
+                }
+            }
         };
         const displayLabel = value
             ? (labelKey ? options.find(o => o[valueKey] === value)?.[labelKey] || value : value)
@@ -198,7 +217,18 @@ const CompleteProfile = () => {
                             className="position-absolute w-100 mt-1 bg-white rounded-3 shadow-lg overflow-auto"
                             style={{ zIndex: 1050, border: '1px solid #f1f5f9', maxHeight: '220px' }}
                         >
-                            {options.map((opt) => {
+                            {supportsSearch ? (
+                                <div className="px-3 pt-3 pb-2 bg-white sticky-top">
+                                    <input
+                                        type="text"
+                                        value={searchValue}
+                                        onChange={(event) => setDropdownSearch((prev) => ({ ...prev, [id]: event.target.value }))}
+                                        placeholder={`Search ${label.toLowerCase()}`}
+                                        className="form-control border-0 shadow-none complete-profile-dropdown-search"
+                                    />
+                                </div>
+                            ) : null}
+                            {filteredOptions.map((opt) => {
                                 const optValue = valueKey ? opt[valueKey] : opt;
                                 const optLabel = labelKey ? opt[labelKey] : opt;
                                 const isSelected = value === optValue;
@@ -212,12 +242,19 @@ const CompleteProfile = () => {
                                             fontWeight: isSelected ? '600' : '400',
                                             fontSize: '0.95rem'
                                         }}
-                                        onClick={() => { onSelect(optValue); setOpenDropdown(null); }}
+                                        onClick={() => {
+                                            onSelect(optValue);
+                                            setOpenDropdown(null);
+                                            setDropdownSearch((prev) => ({ ...prev, [id]: '' }));
+                                        }}
                                     >
                                         {optLabel}
                                     </div>
                                 );
                             })}
+                            {filteredOptions.length === 0 ? (
+                                <div className="px-4 py-3 text-muted small">No results found.</div>
+                            ) : null}
                         </div>
                     )}
                 </div>
@@ -245,7 +282,7 @@ const CompleteProfile = () => {
                 <Form className="mt-2 d-flex flex-column overflow-hidden flex-grow-1" style={{ maxHeight: 'calc(100vh - 250px)' }}>
                     <div className="flex-grow-1 overflow-auto pe-3 custom-scrollbar mb-4">
                         {/* Name */}
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4 complete-profile-field-layer">
                             <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.NAME.LABEL}</Form.Label>
                             <Form.Control
                                 type="text"
@@ -271,7 +308,7 @@ const CompleteProfile = () => {
                         })}
 
                         {/* Profile Photo Upload */}
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4 complete-profile-field-layer">
                             <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.PHOTO.LABEL}</Form.Label>
                             <input
                                 type="file"
@@ -313,70 +350,62 @@ const CompleteProfile = () => {
                         </Form.Group>
 
                         {/* Birth Date */}
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4 complete-profile-field-layer">
                             <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.BIRTH_DATE.LABEL}</Form.Label>
-                            <div className="position-relative">
-                                <Form.Control
-                                    type="date"
-                                    value={birthDate ? birthDate.toISOString().split('T')[0] : ''}
-                                    onChange={(e) => setBirthDate(e.target.value ? new Date(e.target.value) : null)}
-                                    isInvalid={!!errors.birthDate}
-                                    className="py-3 px-4 border-white shadow-sm rounded-3 bg-white ps-5"
-                                    style={{ fontSize: '0.95rem' }}
-                                />
-                                <i className="bi bi-calendar position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-                                <Form.Control.Feedback type="invalid">{errors.birthDate}</Form.Control.Feedback>
-                            </div>
+                            <CustomDatePicker
+                                value={birthDate ? birthDate.toISOString().split('T')[0] : ''}
+                                onChange={(e) => setBirthDate(e.target.value ? new Date(e.target.value) : null)}
+                                placeholder={COMPLETE_PROFILE.BIRTH_DATE.PLACEHOLDER}
+                                error={errors.birthDate}
+                                className="complete-profile-date-picker"
+                                triggerClassName="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                icon="bi-calendar"
+                            />
                         </Form.Group>
 
                         {/* Phone Number */}
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4 complete-profile-field-layer phone-field-layer">
                             <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.PHONE.LABEL}</Form.Label>
-                            <Row className="gx-2">
-                                <Col xs={4}>
-                                    <Form.Select
-                                        value={phonePrefix}
-                                        onChange={(e) => setPhonePrefix(e.target.value)}
-                                        className="py-3 px-2 border-white shadow-sm rounded-3 bg-white text-muted"
-                                        style={{ fontSize: '0.85rem' }}
-                                    >
-                                        {countriesList.map(c => (
-                                            <option key={c.isoCode} value={c.phoneCode}>
-                                                {c.flag} {c.phoneCode}
-                                            </option>
-                                        ))}
-                                    </Form.Select>
-                                </Col>
-                                <Col xs={8}>
-                                    <Form.Control
-                                        type="text"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                        isInvalid={!!errors.phone}
-                                        placeholder={COMPLETE_PROFILE.PHONE.PLACEHOLDER}
-                                        className="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
-                                        style={{ fontSize: '0.95rem' }}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
-                                </Col>
-                            </Row>
+                            <div className={`complete-profile-phone-wrap ${errors.phone ? 'has-error' : ''}`}>
+                                <PhoneInput
+                                    country={phoneCountry}
+                                    value={phone}
+                                    enableSearch
+                                    searchPlaceholder="Search country"
+                                    preferredCountries={['us', 'ca']}
+                                    onChange={(value, countryData) => {
+                                        setPhone(value);
+                                        if (countryData?.countryCode) {
+                                            setPhoneCountry(countryData.countryCode);
+                                            setSelectedCountry(countryData.countryCode.toUpperCase());
+                                        }
+                                    }}
+                                    countryCodeEditable={false}
+                                    inputProps={{
+                                        name: 'phone'
+                                    }}
+                                    placeholder={COMPLETE_PROFILE.PHONE.PLACEHOLDER}
+                                    containerClass="complete-profile-phone-container"
+                                    buttonClass="complete-profile-phone-button"
+                                    inputClass="complete-profile-phone-input"
+                                    dropdownClass="complete-profile-phone-dropdown"
+                                />
+                            </div>
+                            {errors.phone ? <div className="text-danger small mt-1">{errors.phone}</div> : null}
                         </Form.Group>
 
                         {/* Hiring Date */}
                         <Form.Group className="mb-4">
                             <Form.Label className="fw-medium small mb-2">{COMPLETE_PROFILE.HIRING_DATE.LABEL}</Form.Label>
-                            <div className="position-relative">
-                                <Form.Control
-                                    type="date"
-                                    value={hiringDate ? hiringDate.toISOString().split('T')[0] : ''}
-                                    onChange={(e) => setHiringDate(e.target.value ? new Date(e.target.value) : null)}
-                                    isInvalid={!!errors.hiringDate}
-                                    className="py-3 px-4 border-white shadow-sm rounded-3 bg-white ps-5"
-                                    style={{ fontSize: '0.95rem' }}
-                                />
-                                <i className="bi bi-calendar-event position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-                                <Form.Control.Feedback type="invalid">{errors.hiringDate}</Form.Control.Feedback>
-                            </div>
+                            <CustomDatePicker
+                                value={hiringDate ? hiringDate.toISOString().split('T')[0] : ''}
+                                onChange={(e) => setHiringDate(e.target.value ? new Date(e.target.value) : null)}
+                                placeholder={COMPLETE_PROFILE.HIRING_DATE.PLACEHOLDER}
+                                error={errors.hiringDate}
+                                className="complete-profile-date-picker"
+                                triggerClassName="py-3 px-4 border-white shadow-sm rounded-3 bg-white"
+                                icon="bi-calendar-event"
+                            />
                         </Form.Group>
 
                         {/* Time Zone */}
@@ -413,7 +442,7 @@ const CompleteProfile = () => {
                             value: selectedCountry,
                             placeholder: COMPLETE_PROFILE.COUNTRY.PLACEHOLDER,
                             options: countriesList,
-                            onSelect: (val) => { handleCountryChange({ target: { value: val } }); },
+                            onSelect: handleCountryChange,
                             error: errors.selectedCountry,
                             labelKey: 'name',
                             valueKey: 'isoCode'
@@ -427,7 +456,7 @@ const CompleteProfile = () => {
                             value: selectedState,
                             placeholder: COMPLETE_PROFILE.STATE.PLACEHOLDER,
                             options: statesList,
-                            onSelect: (val) => { handleStateChange({ target: { value: val } }); },
+                            onSelect: handleStateChange,
                             error: errors.selectedState,
                             disabled: !selectedCountry,
                             labelKey: 'name',
@@ -443,9 +472,11 @@ const CompleteProfile = () => {
                             value: selectedCity,
                             placeholder: COMPLETE_PROFILE.CITY.PLACEHOLDER,
                             options: citiesList,
-                            onSelect: setSelectedCity,
+                            onSelect: (val) => setSelectedCity(val),
                             error: errors.selectedCity,
-                            disabled: !selectedState
+                            disabled: !selectedState,
+                            labelKey: 'name',
+                            valueKey: 'name'
                         })}
 
                         {/* ZIP Code */}

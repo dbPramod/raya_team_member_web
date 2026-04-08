@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Modal, Form, Row, Col } from 'react-bootstrap';
+import CustomDatePicker from '../../components/common/CustomDatePicker';
 /* ══════════════════════════════════════════════
    Status Badge
 ══════════════════════════════════════════════ */
@@ -56,35 +57,27 @@ const RequestModal = ({ show, onHide }) => {
                 {/* To Date */}
                 <div className="rto-field">
                     <label className="rto-label">To</label>
-                    <div className="rto-date-input">
-                        <i className="bi bi-calendar3 rto-cal-icon"></i>
-                        <input
-                            type="date"
-                            name="to"
-                            value={form.to}
-                            onChange={handleChange}
-                            className={`rto-input ${form.to ? 'has-value' : ''}`}
-                            placeholder="Select date"
-                        />
-                        {!form.to && <span className="rto-placeholder">Select date</span>}
-                    </div>
+                    <CustomDatePicker
+                        name="to"
+                        value={form.to}
+                        onChange={handleChange}
+                        placeholder="Select date"
+                        className="timeoff-date-picker"
+                        triggerClassName="rto-date-trigger"
+                    />
                 </div>
 
                 {/* From Date */}
                 <div className="rto-field">
                     <label className="rto-label">From</label>
-                    <div className="rto-date-input">
-                        <i className="bi bi-calendar3 rto-cal-icon"></i>
-                        <input
-                            type="date"
-                            name="from"
-                            value={form.from}
-                            onChange={handleChange}
-                            className={`rto-input ${form.from ? 'has-value' : ''}`}
-                            placeholder="Select date"
-                        />
-                        {!form.from && <span className="rto-placeholder">Select date</span>}
-                    </div>
+                    <CustomDatePicker
+                        name="from"
+                        value={form.from}
+                        onChange={handleChange}
+                        placeholder="Select date"
+                        className="timeoff-date-picker"
+                        triggerClassName="rto-date-trigger"
+                    />
                 </div>
 
                 {/* Reason */}
@@ -221,34 +214,26 @@ const ViewLeaveModal = ({ show, onHide, data }) => {
 
                         <div className="rto-field">
                             <label className="rto-label">To</label>
-                            <div className="rto-date-input">
-                                <i className="bi bi-calendar3 rto-cal-icon"></i>
-                                <input
-                                    type="date"
-                                    name="to"
-                                    value={form.to}
-                                    onChange={handleChange}
-                                    className={`rto-input ${form.to ? 'has-value' : ''}`}
-                                    placeholder="Select date"
-                                />
-                                {!form.to && <span className="rto-placeholder">Select date</span>}
-                            </div>
+                            <CustomDatePicker
+                                name="to"
+                                value={form.to}
+                                onChange={handleChange}
+                                placeholder="Select date"
+                                className="timeoff-date-picker"
+                                triggerClassName="rto-date-trigger"
+                            />
                         </div>
 
                         <div className="rto-field">
                             <label className="rto-label">From</label>
-                            <div className="rto-date-input">
-                                <i className="bi bi-calendar3 rto-cal-icon"></i>
-                                <input
-                                    type="date"
-                                    name="from"
-                                    value={form.from}
-                                    onChange={handleChange}
-                                    className={`rto-input ${form.from ? 'has-value' : ''}`}
-                                    placeholder="Select date"
-                                />
-                                {!form.from && <span className="rto-placeholder">Select date</span>}
-                            </div>
+                            <CustomDatePicker
+                                name="from"
+                                value={form.from}
+                                onChange={handleChange}
+                                placeholder="Select date"
+                                className="timeoff-date-picker"
+                                triggerClassName="rto-date-trigger"
+                            />
                         </div>
                     </div>
                 )}

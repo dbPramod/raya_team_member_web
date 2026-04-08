@@ -296,6 +296,441 @@ code {
     opacity: 1;
 }
 
+.custom-date-picker {
+    position: relative;
+    z-index: 5;
+}
+
+.custom-date-picker.open {
+    z-index: 120;
+}
+
+.custom-date-picker-trigger {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 0.75rem 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #0f1d3a;
+    text-align: left;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-date-picker-trigger:hover,
+.custom-date-picker-trigger:focus-visible {
+    border-color: rgba(64, 135, 142, 0.45);
+    box-shadow: 0 0 0 0.2rem rgba(64, 135, 142, 0.12);
+    outline: none;
+}
+
+.custom-date-picker-icon-wrap {
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.custom-date-picker-label {
+    flex: 1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #0f1d3a;
+    opacity: 1;
+    background: transparent !important;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-date-picker-label.placeholder {
+    color: #94a3b8;
+}
+
+.custom-date-picker-chevron {
+    color: #94a3b8;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+}
+
+.custom-date-picker-menu {
+    position: absolute;
+    top: calc(100% + 0.65rem);
+    left: 0;
+    width: 320px;
+    max-width: 100%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 22px 48px rgba(15, 29, 58, 0.16);
+    padding: 1rem;
+    z-index: 140;
+}
+
+.custom-date-picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+}
+
+.custom-date-picker-nav {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #0f1d3a;
+}
+
+.custom-date-picker-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex: 1;
+}
+
+.custom-date-picker-header-select {
+    position: relative;
+}
+
+.custom-date-picker-select {
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #0f1d3a;
+    border-radius: 10px;
+    padding: 0.45rem 0.75rem;
+    font-weight: 700;
+    min-height: 38px;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.custom-date-picker-select.month {
+    flex: 1;
+    min-width: 132px;
+}
+
+.custom-date-picker-select.year {
+    width: 92px;
+}
+
+.custom-date-picker-select.open {
+    border-color: rgba(64, 135, 142, 0.35);
+}
+
+.custom-date-picker-select-menu {
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    left: 0;
+    width: 100%;
+    min-width: 120px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 16px 36px rgba(15, 29, 58, 0.14);
+    padding: 0.35rem;
+    z-index: 180;
+}
+
+.custom-date-picker-select-menu.year {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.custom-date-picker-select-option {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #0f1d3a;
+    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+    text-align: left;
+    font-weight: 600;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.custom-date-picker-select-option:hover,
+.custom-date-picker-select-option.selected {
+    background: #eef7f7;
+    color: #40878E;
+}
+
+.custom-date-picker-weekdays,
+.custom-date-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.3rem;
+}
+
+.custom-date-picker-weekdays {
+    margin-bottom: 0.5rem;
+}
+
+.custom-date-picker-weekdays span {
+    text-align: center;
+    font-size: 0.76rem;
+    color: #94a3b8;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.custom-date-picker-day {
+    border: none;
+    background: transparent;
+    height: 38px;
+    border-radius: 10px;
+    color: #0f1d3a;
+    font-weight: 600;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.custom-date-picker-day:hover,
+.custom-date-picker-day.today {
+    background: #eef7f7;
+    color: #40878E;
+}
+
+.custom-date-picker-day.selected {
+    background: linear-gradient(135deg, #40878E 0%, #2f6f75 100%);
+    color: #ffffff;
+}
+
+.custom-date-picker-day.muted {
+    color: #cbd5e1;
+}
+
+.custom-date-picker-error {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: #dc2626;
+}
+
+.custom-date-picker.has-error .custom-date-picker-trigger {
+    border-color: #dc2626;
+}
+
+.settings-custom-select .custom-date-picker-trigger {
+    background: #f8fafc;
+    border: none;
+    box-shadow: none;
+    min-height: 42px;
+    padding: 0.65rem 0.9rem;
+}
+
+.complete-profile-date-picker .custom-date-picker-trigger {
+    font-size: 0.95rem;
+    min-height: 52px;
+}
+
+.complete-profile-field-layer {
+    position: relative;
+    z-index: 1;
+}
+
+.phone-field-layer {
+    z-index: 30;
+}
+
+.complete-profile-phone-wrap {
+    position: relative;
+    z-index: 35;
+}
+
+.complete-profile-phone-container {
+    width: 100%;
+}
+
+.complete-profile-phone-button {
+    width: 58px !important;
+    min-width: 58px !important;
+    border: none !important;
+    border-right: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    border-radius: 12px 0 0 12px !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    overflow: visible !important;
+    z-index: 2;
+}
+
+.complete-profile-phone-button .selected-flag {
+    width: 58px !important;
+    padding-left: 14px !important;
+    border-radius: 12px 0 0 12px !important;
+    background: transparent !important;
+}
+
+.complete-profile-phone-button .selected-flag .flag {
+    transform: scale(1.05);
+}
+
+.complete-profile-phone-button .selected-flag .arrow {
+    left: 24px !important;
+    border-top-color: #64748b !important;
+}
+
+.complete-profile-phone-button.open .selected-flag .arrow {
+    border-bottom-color: #64748b !important;
+}
+
+.complete-profile-phone-input {
+    width: 100% !important;
+    height: 52px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding-left: 70px !important;
+    background: #ffffff !important;
+    color: #0f1d3a !important;
+    -webkit-text-fill-color: #0f1d3a !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    position: relative;
+    z-index: 1;
+}
+
+.complete-profile-phone-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(64, 135, 142, 0.12) !important;
+}
+
+.complete-profile-phone-input::placeholder {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+}
+
+.complete-profile-phone-input:-webkit-autofill,
+.complete-profile-phone-input:-webkit-autofill:hover,
+.complete-profile-phone-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #0f1d3a !important;
+    box-shadow: 0 0 0 1000px #ffffff inset !important;
+}
+
+.complete-profile-phone-dropdown {
+    margin-top: 8px !important;
+    padding: 10px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 18px 40px rgba(15, 29, 58, 0.10) !important;
+    background: #ffffff !important;
+    width: min(540px, calc(100vw - 3rem)) !important;
+    max-width: min(540px, calc(100vw - 3rem)) !important;
+    max-height: 255px !important;
+    overflow-y: auto !important;
+    z-index: 80 !important;
+    left: 0 !important;
+}
+
+.complete-profile-phone-dropdown .country {
+    border-radius: 12px !important;
+    padding: 12px 14px !important;
+    color: #0f1d3a !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.complete-profile-phone-dropdown .country.highlight,
+.complete-profile-phone-dropdown .country:hover {
+    background: #f8fafc !important;
+}
+
+.complete-profile-phone-dropdown .country .dial-code {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    margin-left: 6px !important;
+}
+
+.complete-profile-phone-dropdown .search {
+    position: sticky !important;
+    top: -10px !important;
+    z-index: 2 !important;
+    background: #ffffff !important;
+    padding: 0 0 10px 0 !important;
+    margin-bottom: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.complete-profile-phone-dropdown .search-emoji {
+    display: none !important;
+}
+
+.complete-profile-phone-dropdown .search-box {
+    width: 100% !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+    padding: 8px 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    background: #f8fafc !important;
+    color: #0f1d3a !important;
+    font-size: 0.92rem !important;
+    box-shadow: none !important;
+}
+
+.complete-profile-phone-dropdown .search-box::placeholder {
+    color: #94a3b8 !important;
+}
+
+.complete-profile-phone-dropdown .search-box:focus {
+    outline: none !important;
+    border-color: rgba(64, 135, 142, 0.28) !important;
+    box-shadow: 0 0 0 1px rgba(64, 135, 142, 0.12) !important;
+}
+
+.complete-profile-phone-dropdown .flag {
+    margin-right: 10px !important;
+}
+
+.complete-profile-phone-container .flag-dropdown {
+    position: absolute !important;
+}
+
+.complete-profile-phone-container .flag-dropdown .country-list {
+    left: 0 !important;
+}
+
+.complete-profile-phone-wrap.has-error .complete-profile-phone-input {
+    box-shadow: 0 0 0 1px #dc2626 !important;
+}
+
+.timeoff-date-picker .custom-date-picker-menu {
+    width: 100%;
+}
+
+.settings-custom-select .custom-date-picker-menu,
+.complete-profile-date-picker .custom-date-picker-menu {
+    width: min(340px, calc(100vw - 2rem));
+}
+
+.rto-date-trigger {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    min-height: 52px;
+    padding-left: 2.5rem;
+    position: relative;
+}
+
+.rto-date-trigger .custom-date-picker-icon-wrap {
+    position: absolute;
+    left: 0.95rem;
+}
+
+.rto-date-trigger .custom-date-picker-label {
+    font-weight: 500;
+}
+
 .custom-select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
@@ -306,6 +741,18 @@ code {
 
 .dropdown-item-custom:hover {
     background-color: #f8fafc !important;
+}
+
+.complete-profile-dropdown-search {
+    background: #f8fafc !important;
+    border-radius: 10px !important;
+    min-height: 40px;
+    font-size: 0.92rem !important;
+    color: #0f1d3a !important;
+}
+
+.complete-profile-dropdown-search::placeholder {
+    color: #94a3b8 !important;
 }
 
 
@@ -2487,6 +2934,52 @@ code {
     border-radius: 14px;
     min-height: 44px;
     padding: 0.6rem 1rem;
+}
+
+.project-detail-priority-select .custom-pop-select-trigger {
+    min-height: 42px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: none;
+    color: #8b8b8b;
+    font-weight: 500;
+}
+
+.project-detail-priority-select .custom-pop-select-menu {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 16px 36px rgba(15, 29, 58, 0.12);
+    backdrop-filter: none;
+}
+
+.project-detail-priority-select .custom-pop-select-option {
+    color: #334155;
+    font-weight: 500;
+}
+
+.project-detail-priority-select .custom-pop-select-option:hover,
+.project-detail-priority-select .custom-pop-select-option.selected {
+    background: #f8fafc;
+    color: #0f1d3a;
+}
+
+.project-detail-progress-bar .progress-bar {
+    background: #ffffff !important;
+    border-radius: 999px !important;
+}
+
+.project-detail-task-list .card:last-child {
+    margin-bottom: 0 !important;
+}
+
+.project-detail-task-card {
+    min-height: 116px;
+}
+
+@media (max-width: 991.98px) {
+    .project-detail-task-card {
+        min-height: auto;
+    }
 }
 
 .compact-project-select .custom-pop-select-trigger {

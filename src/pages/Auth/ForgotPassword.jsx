@@ -5,13 +5,15 @@ import Input from '../../components/common/Input';
 import { Link, useNavigate } from 'react-router-dom';
 import { STRINGS } from '../../constants/strings';
 import appLogo from '../../assets/images/applogo.png';
+import { authService } from '../../services/authService';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
       setError(STRINGS.LOGIN.ERRORS.EMAIL_REQUIRED);
@@ -19,7 +21,23 @@ const ForgotPassword = () => {
       setError(STRINGS.LOGIN.ERRORS.EMAIL_INVALID);
     } else {
       setError(null);
-      navigate('/verification', { state: { from: 'forgot' } });
+      setIsSubmitting(true);
+
+      try {
+        const response = await authService.requestPasswordReset({ email });
+        navigate('/verification', {
+          state: {
+            from: 'forgot',
+            challengeId: response.challengeId,
+            email: response.email,
+            mockOtp: response.otp
+          }
+        });
+      } catch (apiError) {
+        setError(apiError.message || 'Unable to send reset OTP right now.');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -54,7 +72,9 @@ const ForgotPassword = () => {
                   error={error}
                 />
                 <div className="text-center mt-4 pt-2">
-                  <Button type="submit" className="w-100 py-2 shadow-sm" style={{ maxWidth: '280px', borderRadius: '6px' }}>{STRINGS.FORGOT_PASSWORD.BUTTON}</Button>
+                  <Button type="submit" className="w-100 py-2 shadow-sm" style={{ maxWidth: '280px', borderRadius: '6px' }} disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending OTP...' : STRINGS.FORGOT_PASSWORD.BUTTON}
+                  </Button>
                 </div>
               </Form>
             </Card>
