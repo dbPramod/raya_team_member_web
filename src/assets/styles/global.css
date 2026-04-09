@@ -3738,9 +3738,9 @@ code {
     margin-top: 0.45rem;
     padding: 0.5rem 0.45rem;
     border-radius: 18px;
-    background: #273450;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 14px 32px rgba(15, 29, 58, 0.22);
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    box-shadow: 0 14px 28px rgba(15, 29, 58, 0.12);
     backdrop-filter: none;
 }
 
@@ -3749,13 +3749,13 @@ code {
     padding: 0.78rem 0.95rem;
     font-size: 0.87rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
+    color: #24324a;
 }
 
 .compact-project-select .custom-pop-select-option:hover,
 .compact-project-select .custom-pop-select-option.selected {
-    background: linear-gradient(180deg, #5da7f5 0%, #428ad9 100%);
-    color: #ffffff;
+    background: #f0f9fa;
+    color: #40878E;
 }
 
 @media (max-width: 767.98px) {

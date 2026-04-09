@@ -104,7 +104,7 @@ const TrainingDetail = () => {
                                 {isCompletedTraining && (
                                     <Button
                                         variant="outline-primary"
-                                        className="w-100 fw-bold border-1 py-2"
+                                        className="w-100 fw-bold border-1 py-2 training-cert-btn"
                                         style={{ color: '#3d8b8b', borderColor: '#3d8b8b', borderRadius: '10px', fontSize: '0.9rem' }}
                                         onClick={() => navigate('/training/certificate')}
                                     >
@@ -258,6 +258,21 @@ const TrainingDetail = () => {
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
                     background: #3d8b8b;
+                }
+                .training-cert-btn,
+                .training-cert-btn:hover,
+                .training-cert-btn:focus,
+                .training-cert-btn:active,
+                .training-cert-btn:focus-visible,
+                .btn-check:checked + .training-cert-btn,
+                :not(.btn-check) + .training-cert-btn:active {
+                    color: #3d8b8b !important;
+                    border-color: #3d8b8b !important;
+                    background-color: transparent !important;
+                    box-shadow: none !important;
+                }
+                .training-cert-btn:hover {
+                    background-color: #eef7f7 !important;
                 }
             `}</style>
         </Container>
