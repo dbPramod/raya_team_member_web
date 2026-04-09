@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Card, Form, Badge, Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { STRINGS } from '../../constants/strings';
 import CustomSelect from '../../components/common/CustomSelect';
 import CustomDatePicker from '../../components/common/CustomDatePicker';
@@ -60,6 +61,7 @@ const getStoredNavbarProfile = () => {
 
 const Settings = () => {
     const { SETTINGS } = STRINGS;
+    const navigate = useNavigate();
     const profilePhotoInputRef = useRef(null);
     const [editingSection, setEditingSection] = useState(null);
     const [notifications, setNotifications] = useState(true);
@@ -1212,7 +1214,45 @@ const Settings = () => {
                         </Card.Body>
                     </Card>
                 </div>
+
+                {/* Legal Section */}
+                <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
+                    <div className="d-flex align-items-center mb-3">
+                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.LEGAL.TITLE}</h5>
+                    </div>
+                    <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+                        <Card.Body className="p-0">
+                            <button
+                                type="button"
+                                className="w-100 d-flex justify-content-between align-items-center px-4 py-3 border-0 bg-white settings-legal-link"
+                                onClick={() => navigate('/settings/terms')}
+                            >
+                                <span className="fw-medium" style={{ color: '#24324a' }}>{SETTINGS.LEGAL.TERMS}</span>
+                                <i className="bi bi-chevron-right" style={{ color: '#8ba0b8' }}></i>
+                            </button>
+                            <div style={{ borderTop: '1px solid #eff2f5' }}></div>
+                            <button
+                                type="button"
+                                className="w-100 d-flex justify-content-between align-items-center px-4 py-3 border-0 bg-white settings-legal-link"
+                                onClick={() => navigate('/settings/privacy')}
+                            >
+                                <span className="fw-medium" style={{ color: '#24324a' }}>{SETTINGS.LEGAL.PRIVACY}</span>
+                                <i className="bi bi-chevron-right" style={{ color: '#8ba0b8' }}></i>
+                            </button>
+                        </Card.Body>
+                    </Card>
+                </div>
             </div>
+
+            <style>{`
+                .settings-legal-link {
+                    transition: background-color 0.2s ease, color 0.2s ease;
+                }
+
+                .settings-legal-link:hover {
+                    background-color: #f7fbfd !important;
+                }
+            `}</style>
         </Container>
     );
 };

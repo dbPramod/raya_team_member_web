@@ -235,6 +235,11 @@ export const STRINGS = {
         RESTAURANT: 'Enter your favorite restaurant'
       }
     },
+    LEGAL: {
+      TITLE: 'Legal',
+      TERMS: 'Terms & Conditions',
+      PRIVACY: 'Privacy Policy'
+    },
     CHANGE_PASSWORD_MODAL: {
       TITLE: 'Change Password',
       NEW_PASSWORD_LABEL: 'New Password',

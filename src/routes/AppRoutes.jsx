@@ -12,6 +12,8 @@ import ResetPassword from '../pages/Auth/ResetPassword';
 import ResetSuccess from '../pages/Auth/ResetSuccess';
 import CompleteProfile from '../pages/CompleteProfile/CompleteProfile';
 import Settings from '../pages/Settings/Settings';
+import TermsConditions from '../pages/Settings/TermsConditions';
+import PrivacyPolicy from '../pages/Settings/PrivacyPolicy';
 import TrainingCertificate from '../pages/Training/TrainingCertificate';
 import ProjectsTasks from '../pages/ProjectsTasks/ProjectsTasks';
 import ProjectDetail from '../pages/ProjectsTasks/ProjectDetail';
@@ -50,6 +52,8 @@ const AppRoutes = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/members" element={<div className="container py-4"><h1>Members</h1></div>} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/terms" element={<TermsConditions />} />
+        <Route path="/settings/privacy" element={<PrivacyPolicy />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
