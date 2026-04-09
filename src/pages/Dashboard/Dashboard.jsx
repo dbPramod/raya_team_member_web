@@ -145,9 +145,11 @@ const Dashboard = () => {
                   <div key={i} className="d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center gap-3" style={{ minWidth: '180px' }}>
                       {user.rank === '1st' ? (
-                        <Badge bg="transparent" className="px-3 py-2 rounded-3 text-white fw-semibold" style={{ backgroundColor: '#62a8a8', width: '48px' }}>{user.rank}</Badge>
+                        <div className="d-flex align-items-center justify-content-center text-white fw-semibold" style={{ background: 'linear-gradient(135deg, #518c8c 0%, #a3c8c8 100%)', width: '38px', height: '38px', borderRadius: '10px', fontSize: '0.85rem' }}>
+                          {user.rank}
+                        </div>
                       ) : (
-                        <div className="text-center fw-medium text-dark" style={{ width: '48px', fontSize: '0.9rem' }}>{user.rank}</div>
+                        <div className="text-center fw-medium text-dark" style={{ width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem' }}>{user.rank}</div>
                       )}
                       <img src={user.img} alt={user.name} className="rounded-circle" width="36" height="36" />
                       <span className="fw-medium text-dark" style={{ fontSize: '0.95rem' }}>{user.name}</span>
