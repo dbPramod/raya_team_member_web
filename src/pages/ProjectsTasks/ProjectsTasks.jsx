@@ -2,6 +2,13 @@ import { useState } from 'react';
 import { Container, Row, Col, Card, ProgressBar, Badge, Nav, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import CustomSelect from '../../components/common/CustomSelect';
+
+// SVG Stats Icons
+import totalIcon from '../../assets/svg/total_project_icon.svg';
+import scheduledIcon from '../../assets/svg/completed_icon.svg';
+import inProgressIcon from '../../assets/svg/draft_icon.svg';
+import completedIcon from '../../assets/svg/pending_icon.svg';
+
 const ProjectsTasks = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('project'); // 'todo' or 'project'
@@ -31,14 +38,7 @@ const ProjectsTasks = () => {
             dueDate: '10/01/2026',
             status: 'Completed'
         },
-        {
-            title: 'Marketing Site Update',
-            description: 'Update the main marketing site with new branding',
-            progress: 0,
-            tasks: '0/15',
-            dueDate: '08/15/2026',
-            status: 'Scheduled'
-        },
+
         {
             title: 'Inventory System Migration',
             description: 'Migrate legacy inventory data to the new cloud system',
@@ -50,21 +50,19 @@ const ProjectsTasks = () => {
     ];
 
     const stats = [
-        { label: 'All Projects', value: projects.length, icon: 'bi-grid-fill', filter: 'All' },
-        { label: 'Scheduled', value: projects.filter(p => p.status === 'Scheduled').length, icon: 'bi-calendar-event', filter: 'Scheduled' },
-        { label: 'In-progress', value: projects.filter(p => p.status === 'In-progress').length, icon: 'bi-play-circle', filter: 'In-progress' },
-        { label: 'Completed', value: projects.filter(p => p.status === 'Completed').length, icon: 'bi-check-circle', filter: 'Completed' },
+        { label: 'Total', value: projects.length, icon: totalIcon, filter: 'All' },
+        { label: 'In-progress', value: projects.filter(p => p.status === 'In-progress').length, icon: inProgressIcon, filter: 'In-progress' },
+        { label: 'Completed', value: projects.filter(p => p.status === 'Completed').length, icon: completedIcon, filter: 'Completed' },
     ];
 
-    const filteredProjects = projectFilter === 'All' 
-        ? projects 
+    const filteredProjects = projectFilter === 'All'
+        ? projects
         : projects.filter(p => p.status === projectFilter);
 
     const getStatusColor = (status) => {
         switch (status) {
             case 'Completed': return '#28a745';
             case 'In-progress': return '#40878E';
-            case 'Scheduled': return '#ffc107';
             default: return '#6c757d';
         }
     };
@@ -137,14 +135,14 @@ const ProjectsTasks = () => {
                         <Row className="g-4 mb-5">
                             {stats.map((stat, i) => (
                                 <Col key={i} sm={6} lg={3}>
-                                    <div 
+                                    <div
                                         onClick={() => setProjectFilter(stat.filter)}
-                                        className={`p-3 rounded-4 d-flex align-items-center gap-3 transition-all hover-shadow pointer ${projectFilter === stat.filter ? 'active-filter-card' : ''}`} 
-                                        style={{ 
-                                            background: projectFilter === stat.filter 
-                                                ? 'linear-gradient(259.82deg, #3d8b8b -24.5%, #0f1d3a 99.17%)' 
-                                                : 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)', 
-                                            borderColor: projectFilter === stat.filter ? '#0f1d3a' : '#DCDCDC', 
+                                        className={`p-3 rounded-4 d-flex align-items-center gap-3 transition-all hover-shadow pointer ${projectFilter === stat.filter ? 'active-filter-card' : ''}`}
+                                        style={{
+                                            background: projectFilter === stat.filter
+                                                ? 'linear-gradient(259.82deg, #3d8b8b -24.5%, #0f1d3a 99.17%)'
+                                                : 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)',
+                                            borderColor: projectFilter === stat.filter ? '#0f1d3a' : '#DCDCDC',
                                             borderWidth: 2,
                                             borderStyle: 'solid',
                                             cursor: 'pointer',
@@ -152,7 +150,7 @@ const ProjectsTasks = () => {
                                         }}
                                     >
                                         <div className="bg-white bg-opacity-25 rounded-3 d-flex align-items-center justify-content-center" style={{ width: '56px', height: '56px', backdropFilter: 'blur(4px)' }}>
-                                            <i className={`bi ${stat.icon} fs-4 text-white`}></i>
+                                            <img src={stat.icon} alt={stat.label} style={{ width: '32px', height: '32px' }} />
                                         </div>
                                         <div>
                                             <h2 className="fw-bold mb-0" style={{ color: '#ffffff', fontSize: '1.5rem' }}>{stat.value}</h2>
@@ -174,11 +172,11 @@ const ProjectsTasks = () => {
                                                     <h4 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>{proj.title}</h4>
                                                     <p className="text-muted small mb-0">{proj.description}</p>
                                                 </div>
-                                                <Badge 
-                                                    bg="transparent" 
-                                                    className="rounded-pill px-3 py-2 fw-bold" 
-                                                    style={{ 
-                                                        fontSize: '0.75rem', 
+                                                <Badge
+                                                    bg="transparent"
+                                                    className="rounded-pill px-3 py-2 fw-bold"
+                                                    style={{
+                                                        fontSize: '0.75rem',
                                                         color: getStatusColor(proj.status),
                                                         backgroundColor: `${getStatusColor(proj.status)}15`,
                                                         border: `1px solid ${getStatusColor(proj.status)}40`
@@ -244,9 +242,9 @@ const ProjectsTasks = () => {
                     <>
                         <div className="d-flex align-items-center justify-content-between mb-4">
                             <h3 className="fw-bold mb-0" style={{ color: '#0f1d3a', fontSize: '1.75rem' }}>To-do</h3>
-                            <Button 
-                                variant="outline-dark" 
-                                className="rounded-3 border-secondary border-opacity-25 px-3 py-2 d-flex align-items-center gap-2" 
+                            <Button
+                                variant="outline-dark"
+                                className="rounded-3 border-secondary border-opacity-25 px-3 py-2 d-flex align-items-center gap-2"
                                 style={{ fontSize: '0.9rem' }}
                                 onClick={() => navigate('/projects/todo-history')}
                             >

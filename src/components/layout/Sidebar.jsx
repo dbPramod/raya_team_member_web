@@ -3,20 +3,36 @@ import { Nav, Modal } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import appLogo from '../../assets/images/applogo.png';
 
+// SVG Icons
+import dashboardIcon from '../../assets/svg/dashboard.svg';
+import bookIcon from '../../assets/svg/book.svg';
+import bookFilledIcon from '../../assets/svg/bookFilled.svg';
+import folderIcon from '../../assets/svg/folder.svg';
+import folderFilledIcon from '../../assets/svg/folderFilled.svg';
+import paperIcon from '../../assets/svg/paper.svg';
+import chartIcon from '../../assets/svg/chart.svg';
+import chartFilledIcon from '../../assets/svg/chartFilled.svg';
+import clockIcon from '../../assets/svg/clock.svg';
+import calendarIcon from '../../assets/svg/calendar.svg';
+import messagesIcon from '../../assets/svg/messages.svg';
+import messagesFilledIcon from '../../assets/svg/messagesFilled.svg';
+import settingIcon from '../../assets/svg/setting.svg';
+import logoutIcon from '../../assets/svg/logout.svg';
+
 const Sidebar = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: 'bi-grid' },
-    { name: 'Training', path: '/training', icon: 'bi-book' },
-    { name: 'Projects & Tasks', path: '/projects', icon: 'bi-folder' },
-    { name: 'Swann OS', path: '/os', icon: 'bi-file-text' },
-    { name: 'KPIs', path: '/kpis', icon: 'bi-bar-chart' },
-    { name: 'Time Off', path: '/timeoff', icon: 'bi-clock' },
-    { name: 'Calendar', path: '/calendar', icon: 'bi-calendar-event' },
-    { name: 'Message', path: '/messages', icon: 'bi-chat-dots' },
+    { name: 'Dashboard', path: '/dashboard', icon: dashboardIcon, activeIcon: dashboardIcon },
+    { name: 'Trainings', path: '/training', icon: bookIcon, activeIcon: bookFilledIcon },
+    { name: 'Projects & Tasks', path: '/projects', icon: folderIcon, activeIcon: folderFilledIcon },
+    { name: 'Swann OS', path: '/os', icon: paperIcon, activeIcon: paperIcon },
+    { name: 'KPIs', path: '/kpis', icon: chartIcon, activeIcon: chartFilledIcon },
+    { name: 'Time Off', path: '/timeoff', icon: clockIcon, activeIcon: clockIcon },
+    { name: 'Calendar', path: '/calendar', icon: calendarIcon, activeIcon: calendarIcon },
+    { name: 'Message', path: '/messages', icon: messagesIcon, activeIcon: messagesFilledIcon },
   ];
 
   const handleLogoutClick = (e) => {
@@ -49,7 +65,15 @@ const Sidebar = ({ onClose }) => {
                 style={isActive ? { backgroundColor: '#448b8b' } : { color: '#a6b0cf' }}
                 onClick={onClose}
               >
-                <i className={`bi ${item.icon} fs-5`}></i>
+                <img
+                  src={isActive ? item.activeIcon : item.icon}
+                  alt={item.name}
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    filter: isActive ? 'brightness(0) invert(1)' : 'brightness(0) invert(0.75) sepia(0.2) hue-rotate(185deg) saturate(1.5)',
+                  }}
+                />
                 <span style={{ fontSize: '0.95rem' }}>{item.name}</span>
               </Nav.Link>
             );
@@ -64,7 +88,15 @@ const Sidebar = ({ onClose }) => {
             style={location.pathname === '/settings' ? { backgroundColor: '#448b8b' } : { color: '#a6b0cf', fontSize: '0.95rem' }}
             onClick={onClose}
           >
-            <i className="bi bi-gear fs-5"></i>
+            <img
+              src={settingIcon}
+              alt="Settings"
+              style={{
+                width: '20px',
+                height: '20px',
+                filter: location.pathname === '/settings' ? 'brightness(0) invert(1)' : 'brightness(0) invert(0.75) sepia(0.2) hue-rotate(185deg) saturate(1.5)',
+              }}
+            />
             <span>Settings</span>
           </Nav.Link>
 
@@ -74,7 +106,15 @@ const Sidebar = ({ onClose }) => {
             style={{ fontSize: '0.95rem', color: '#e74c3c' }}
             onClick={handleLogoutClick}
           >
-            <i className="bi bi-box-arrow-right fs-5"></i>
+            <img
+              src={logoutIcon}
+              alt="Logout"
+              style={{
+                width: '20px',
+                height: '20px',
+                filter: 'brightness(0) saturate(100%) invert(38%) sepia(85%) saturate(1478%) hue-rotate(338deg) brightness(97%) contrast(93%)', // Matches #e74c3c roughly, or we can just use the natural red if it's already red
+              }}
+            />
             <span>Logout</span>
           </Nav.Link>
         </Nav>
@@ -101,7 +141,15 @@ const Sidebar = ({ onClose }) => {
             className="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
             style={{ width: '56px', height: '56px', backgroundColor: '#fff0f0' }}
           >
-            <i className="bi bi-box-arrow-right fs-4" style={{ color: '#e74c3c' }}></i>
+            <img
+              src={logoutIcon}
+              alt="Logout"
+              style={{
+                width: '24px',
+                height: '24px',
+                filter: 'brightness(0) saturate(100%) invert(38%) sepia(85%) saturate(1478%) hue-rotate(338deg) brightness(97%) contrast(93%)'
+              }}
+            />
           </div>
           <h5 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>Logout</h5>
           <p className="text-muted small mb-4">Are you sure you want to logout from your account?</p>
