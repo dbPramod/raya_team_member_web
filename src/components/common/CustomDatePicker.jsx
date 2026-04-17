@@ -5,7 +5,14 @@ const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
-const YEAR_RANGE = Array.from({ length: 81 }, (_, index) => 1980 + index);
+const getYearRange = () => {
+  const currentYear = new Date().getFullYear();
+  const startYear = 1920;
+  const endYear = currentYear + 10;
+  return Array.from({ length: endYear - startYear + 1 }, (_, index) => startYear + index);
+};
+
+const YEAR_RANGE = getYearRange();
 
 const parseDateValue = (value) => {
   if (!value) {
@@ -59,14 +66,15 @@ const CustomDatePicker = ({
   disabled = false,
   error = '',
   icon = 'bi-calendar3',
-  fullWidth = true
+  fullWidth = true,
+  defaultViewDate = null
 }) => {
   const containerRef = useRef(null);
   const selectedDate = parseDateValue(value);
   const today = new Date();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [viewDate, setViewDate] = useState(selectedDate || today);
+  const [viewDate, setViewDate] = useState(selectedDate || defaultViewDate || today);
   const [openHeaderMenu, setOpenHeaderMenu] = useState(null);
 
   useEffect(() => {
@@ -145,7 +153,11 @@ const CustomDatePicker = ({
         disabled={disabled}
       >
         <span className="custom-date-picker-icon-wrap">
-          <i className={`bi ${icon}`}></i>
+          {icon?.startsWith?.('bi-') ? (
+            <i className={`bi ${icon}`}></i>
+          ) : (
+            <img src={icon} alt="calendar" width="20" height="20" />
+          )}
         </span>
         <span className={`custom-date-picker-label ${value ? 'selected' : 'placeholder'}`}>
           {formatDisplayDate(value) || placeholder}

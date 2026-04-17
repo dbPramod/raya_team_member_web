@@ -1,17 +1,19 @@
+@import "./colors.css";
+
 :root {
-  --primary-color: #3d8b8b; /* Teal/Info */
-  --secondary-color: #0f1d3a; /* Navy */
-  --bg-light: #f5f7fa;
-  --bg-white: #ffffff;
-  --text-dark: #1f2d3d;
-  --text-muted: #778ca2;
-  --border-color: #e1e5eb;
-  --accent-color: #ff5a5f; /* Logout/Error red */
+  --primary-color: var(--color-teal-brand);
+  --secondary-color: var(--color-navy-primary);
+  --bg-light: var(--color-bg-main);
+  --bg-white: var(--color-bg-white);
+  --text-dark: var(--color-text-primary);
+  --text-muted: var(--color-text-muted);
+  --border-color: var(--color-border-light);
+  --accent-color: var(--color-error);
   
   /* Swann Dashboard Tokens */
-  --swann-navy: #0f1d3a;
-  --swann-teal-dark: #3d8b8b;
-  --swann-teal-light: #62a8a8;
-  --swann-health-bg: #9bbba8;
-  --swann-card-bg: #dde5ed;
+  --swann-navy: var(--color-navy-primary);
+  --swann-teal-dark: var(--color-teal-dark);
+  --swann-teal-light: var(--color-teal-light);
+  --swann-health-bg: #9bbba8; /* Unique utility color */
+  --swann-card-bg: var(--color-teal-light);
 }

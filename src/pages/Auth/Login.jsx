@@ -69,15 +69,16 @@ const Login = () => {
             <div className="text-start">
               <div className="mb-4 text-center">
                 <Badge
-                  bg="transparent"
+                  bg='var(--color-gray-light)'
                   text="navy"
-                  className="px-3 py-2 fw-semibold mb-4 text-uppercase border"
-                  style={{ fontSize: '0.75rem', borderColor: '#0f1d3a', borderRadius: '4px', letterSpacing: '0.5px', color: '#0f1d3a' }}
+                  className="px-3 py-2 fw-semibold mb-4 text-uppercase border "
+                  style={{ fontSize: '0.75rem', borderColor: 'var(--color-gray-light)', borderRadius: '4px', letterSpacing: '0.5px', color: 'var(--color-navy-primary)' }}
                 >
                   {STRINGS.LOGIN.STEP}
                 </Badge>
-                <h1 className="fw-bolder mb-2 fs-2" style={{ color: '#0f1d3a' }}>{STRINGS.LOGIN.TITLE}</h1>
-                <p className="small mb-4" style={{ color: '#6b7280' }}>{STRINGS.LOGIN.SUBTITLE}</p>
+
+                <h1 className="fw-bolder mb-2 fs-2" style={{ color: 'var(--color-navy-primary)' }}>{STRINGS.LOGIN.TITLE}</h1>
+                <p className="small mb-4 text-nowrap" style={{ color: "var(--color-text-slate)" }}>{STRINGS.LOGIN.SUBTITLE}</p>
               </div>
 
               <Form onSubmit={handleSubmit}>
@@ -98,7 +99,7 @@ const Login = () => {
                         type={showPassword ? "text" : "password"}
                         placeholder={STRINGS.LOGIN.PASSWORD_PLACEHOLDER}
                         className="bg-white border py-2 ps-3 pe-5 shadow-none"
-                        style={{ borderRadius: '6px', borderColor: '#e2e8f0', fontSize: '0.95rem' }}
+                        style={{ borderRadius: '6px', borderColor: 'var(--color-gray-light)', fontSize: '0.95rem' }}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         isInvalid={!!errors.password}

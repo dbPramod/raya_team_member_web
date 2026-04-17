@@ -278,7 +278,7 @@ const Settings = () => {
             </Modal.Header>
             <Modal.Body className="px-5 pb-5 pt-0">
                 <div className="text-center mb-4">
-                    <h4 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.CHANGE_PASSWORD_MODAL.TITLE}</h4>
+                    <h4 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.CHANGE_PASSWORD_MODAL.TITLE}</h4>
                 </div>
                 <Form className="text-start">
                     <Form.Group className="mb-3">
@@ -340,7 +340,7 @@ const Settings = () => {
             </Modal.Header>
             <Modal.Body className="px-5 pb-5 pt-0 text-center">
                 <div className="mb-4">
-                    <h4 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.DELETE_ACCOUNT_MODAL.TITLE}</h4>
+                    <h4 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.DELETE_ACCOUNT_MODAL.TITLE}</h4>
                 </div>
                 <div className="mb-4">
                     <p className="fw-medium mb-2" style={{ color: '#495057' }}>{SETTINGS.DELETE_ACCOUNT_MODAL.MESSAGE}</p>
@@ -392,7 +392,7 @@ const Settings = () => {
             </Modal.Header>
             <Modal.Body className="px-5 pb-5 pt-0">
                 <div className="text-center mb-4">
-                    <h4 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>Add Kid's Information</h4>
+                    <h4 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>Add Kid's Information</h4>
                 </div>
                 <Form onSubmit={(e) => {
                     e.preventDefault();
@@ -475,7 +475,7 @@ const Settings = () => {
             </Modal.Header>
             <Modal.Body className="px-4 px-md-5 pb-5 pt-0">
                 <div className="text-center mb-4">
-                    <h4 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>Edit profile photo</h4>
+                    <h4 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>Edit profile photo</h4>
                     <p className="text-muted mb-0 mt-2 small">Preview the image before applying it to your profile.</p>
                 </div>
                 <div className="settings-photo-editor-stage mb-4">
@@ -592,7 +592,7 @@ const Settings = () => {
             {renderPhotoEditorModal()}
             {/* Header */}
             <div className="d-flex justify-content-between align-items-center mb-4 pt-2 flex-wrap gap-3">
-                <h2 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.TITLE}</h2>
+                <h2 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.TITLE}</h2>
                 <div className="d-flex gap-2 gap-sm-3 flex-wrap">
                     <button
                         className="btn btn-outline-primary border-secondary text-dark rounded-3 px-3 px-sm-4 py-2 bg-white shadow-sm fw-medium small"
@@ -695,7 +695,7 @@ const Settings = () => {
                             <Card.Body className="p-4 d-flex align-items-center">
                                 {renderProfileAvatar()}
                                 <div className="flex-grow-1">
-                                    <h3 className="fw-bold mb-1" style={{ color: '#0f1d3a' }}>{userProfile.name}</h3>
+                                    <h3 className="fw-bold mb-1" style={{ color: 'var(--color-navy-primary)' }}>{userProfile.name}</h3>
                                     <p className="text-muted mb-1 fs-5 fw-medium">{userProfile.role}</p>
                                     <p className="text-muted small mb-0">{userProfile.type}</p>
                                 </div>
@@ -703,7 +703,7 @@ const Settings = () => {
                                     {renderEditIcon('profile')}
                                     <div className="mt-4 pt-2">
                                         <span className="text-muted small d-block">{SETTINGS.PROFILE.JOINED_ON}</span>
-                                        <span className="fw-bold" style={{ color: '#0f1d3a' }}>{userProfile.joinedDate}</span>
+                                        <span className="fw-bold" style={{ color: 'var(--color-navy-primary)' }}>{userProfile.joinedDate}</span>
                                     </div>
                                 </div>
                             </Card.Body>
@@ -714,7 +714,7 @@ const Settings = () => {
                 {/* Personal Details Section */}
                 <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
-                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.PERSONAL.TITLE}</h5>
+                        <h5 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.PERSONAL.TITLE}</h5>
                         {renderEditIcon('personal')}
                     </div>
                     {editingSection === 'personal' ? (
@@ -839,7 +839,7 @@ const Settings = () => {
                 {/* Family Details Section */}
                 <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
-                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.FAMILY.TITLE}</h5>
+                        <h5 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.FAMILY.TITLE}</h5>
                         {renderEditIcon('family')}
                     </div>
                     {editingSection === 'family' ? (
@@ -1018,7 +1018,7 @@ const Settings = () => {
                 {/* Notification Preferences Section */}
                 <div className="settings-section rounded-4 p-4 mb-4 settings-section-popover" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
-                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.NOTIFICATIONS.TITLE}</h5>
+                        <h5 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.NOTIFICATIONS.TITLE}</h5>
                     </div>
                     <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
                         <Card.Body className="p-4 py-3 d-flex align-items-center justify-content-between">
@@ -1040,7 +1040,7 @@ const Settings = () => {
                 {/* Application Preference Section */}
                 <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
-                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.APPLICATION.TITLE}</h5>
+                        <h5 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.APPLICATION.TITLE}</h5>
                         {renderEditIcon('application')}
                     </div>
                     {editingSection === 'application' ? (
@@ -1054,7 +1054,7 @@ const Settings = () => {
                                                 className="bg-light border-0 py-3 px-4 rounded-3 d-flex justify-content-between align-items-center pointer transition-all"
                                                 onClick={() => setIsTimezoneOpen(!isTimezoneOpen)}
                                                 style={{
-                                                    backgroundColor: '#f8fafc',
+                                                    backgroundColor: 'var(--color-gray-soft)',
                                                     color: userProfile.timezone ? '#0f172a' : '#94a3b8',
                                                     fontWeight: userProfile.timezone ? '500' : '400'
                                                 }}
@@ -1108,7 +1108,7 @@ const Settings = () => {
                 {/* Favorites Section */}
                 <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
-                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.FAVORITES.TITLE}</h5>
+                        <h5 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.FAVORITES.TITLE}</h5>
                         {editingSection !== 'favorites' && renderEditIcon('favorites')}
                     </div>
                     <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
@@ -1218,7 +1218,7 @@ const Settings = () => {
                 {/* Legal Section */}
                 <div className="settings-section rounded-4 p-4 mb-4" style={{ backgroundColor: '#f0f7ff' }}>
                     <div className="d-flex align-items-center mb-3">
-                        <h5 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>{SETTINGS.LEGAL.TITLE}</h5>
+                        <h5 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>{SETTINGS.LEGAL.TITLE}</h5>
                     </div>
                     <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
                         <Card.Body className="p-0">
@@ -1244,15 +1244,6 @@ const Settings = () => {
                 </div>
             </div>
 
-            <style>{`
-                .settings-legal-link {
-                    transition: background-color 0.2s ease, color 0.2s ease;
-                }
-
-                .settings-legal-link:hover {
-                    background-color: #f7fbfd !important;
-                }
-            `}</style>
         </Container>
     );
 };

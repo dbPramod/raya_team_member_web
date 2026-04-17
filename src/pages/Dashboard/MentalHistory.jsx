@@ -49,13 +49,13 @@ const MentalHistory = () => {
             <button
               type="button"
               className="btn btn-sm border-0 shadow-none d-flex align-items-center justify-content-center"
-              style={{ width: '34px', height: '34px', borderRadius: '10px', background: '#ffffff', color: '#0f1d3a' }}
+              style={{ width: '34px', height: '34px', borderRadius: '10px', background: '#ffffff', color: 'var(--color-navy-primary)' }}
               onClick={() => navigate('/dashboard')}
               aria-label="Back to dashboard"
             >
               <i className="bi bi-arrow-left"></i>
             </button>
-            <h4 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>Mental Health History</h4>
+            <h4 className="fw-bold mb-0" style={{ color: 'var(--color-navy-primary)' }}>Mental Health History</h4>
           </div>
           <button
             type="button"
@@ -80,7 +80,7 @@ const MentalHistory = () => {
         {historyItems.length === 0 ? (
           <div className="bg-white rounded-4 p-5 text-center shadow-sm">
             <i className="bi bi-heart fs-1 d-block mb-2" style={{ color: '#94a3b8' }}></i>
-            <h6 className="fw-semibold mb-1" style={{ color: '#0f1d3a' }}>No history yet</h6>
+            <h6 className="fw-semibold mb-1" style={{ color: 'var(--color-navy-primary)' }}>No history yet</h6>
             <p className="mb-0 text-muted">Complete your first mental health check-in from Dashboard.</p>
           </div>
         ) : (
@@ -88,7 +88,7 @@ const MentalHistory = () => {
             {historyItems.map((entry, index) => (
               <div key={entry.id || `${entry.createdAt}-${index}`} className="bg-white rounded-4 p-4 shadow-sm">
                 <div className="d-flex align-items-center justify-content-between gap-2 mb-2">
-                  <span className="small fw-medium" style={{ color: '#64748b' }}>{formatHistoryDate(entry.createdAt)}</span>
+                  <span className="small fw-medium" style={{ color: 'var(--color-gray-dark)' }}>{formatHistoryDate(entry.createdAt)}</span>
                   <Badge
                     bg="transparent"
                     className="px-3 py-2 rounded-pill fw-semibold"
@@ -97,7 +97,7 @@ const MentalHistory = () => {
                     Score {Number(entry.score || 0)}/10
                   </Badge>
                 </div>
-                <p className="mb-0 fw-medium" style={{ color: '#0f1d3a', fontSize: '1rem' }}>
+                <p className="mb-0 fw-medium" style={{ color: 'var(--color-navy-primary)', fontSize: '1rem' }}>
                   {entry.note || 'No note added'}
                 </p>
               </div>

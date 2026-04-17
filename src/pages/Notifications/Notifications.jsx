@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { NotificationIcon } from '../../constants/svgImages';
+
 const MOCK_NOTIFICATIONS = [
     { id: 1, title: 'New Task Assigned', desc: 'Sapphire Bright new policies update.', time: '1 min ago', unread: true },
     { id: 2, title: 'Meet Scheduled', desc: 'Meet scheduled on 15th Jan for discussing presentation.', time: '1 day ago', unread: true },
@@ -35,7 +37,7 @@ const Notifications = () => {
                 {notifications.map(notif => (
                     <div key={notif.id} className={`notification-card ${notif.unread ? 'unread' : 'read'}`}>
                         <div className="notif-icon-wrapper">
-                            <i className="bi bi-bell"></i>
+                            <img src={NotificationIcon} alt="Notification" width="20" height="20" />
                         </div>
                         <div className="notif-content">
                             <h5 className="notif-item-title">{notif.title}</h5>

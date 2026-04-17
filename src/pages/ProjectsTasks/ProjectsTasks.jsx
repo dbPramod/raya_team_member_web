@@ -62,7 +62,7 @@ const ProjectsTasks = () => {
     const getStatusColor = (status) => {
         switch (status) {
             case 'Completed': return '#28a745';
-            case 'In-progress': return '#40878E';
+            case 'In-progress': return 'var(--color-teal-brand)';
             default: return '#6c757d';
         }
     };
@@ -102,8 +102,8 @@ const ProjectsTasks = () => {
                             className={`border-0 px-4 py-3 fw-medium transition-all ${activeTab === 'todo' ? 'text-teal border-bottom-teal' : 'text-muted'}`}
                             style={{
                                 backgroundColor: 'transparent',
-                                borderBottom: activeTab === 'todo' ? '2px solid #3d8b8b' : 'none',
-                                color: activeTab === 'todo' ? '#3d8b8b' : '#6c757d'
+                                borderBottom: activeTab === 'todo' ? '2px solid var(--color-teal-brand)' : 'none',
+                                color: activeTab === 'todo' ? 'var(--color-teal-brand)' : '#6c757d'
                             }}
                         >
                             To-do
@@ -116,8 +116,8 @@ const ProjectsTasks = () => {
                             className={`border-0 px-4 py-3 fw-medium transition-all ${activeTab === 'project' ? 'text-teal border-bottom-teal' : 'text-muted'}`}
                             style={{
                                 backgroundColor: 'transparent',
-                                borderBottom: activeTab === 'project' ? '2px solid #3d8b8b' : 'none',
-                                color: activeTab === 'project' ? '#3d8b8b' : '#6c757d'
+                                borderBottom: activeTab === 'project' ? '2px solid var(--color-teal-brand)' : 'none',
+                                color: activeTab === 'project' ? 'var(--color-teal-brand)' : '#6c757d'
                             }}
                         >
                             Project
@@ -129,7 +129,7 @@ const ProjectsTasks = () => {
             <div className="flex-grow-1">
                 {activeTab === 'project' ? (
                     <>
-                        <h3 className="fw-bold mb-4" style={{ color: '#0f1d3a', fontSize: '1.75rem' }}>Projects</h3>
+                        <h3 className="fw-bold mb-4" style={{ color: 'var(--color-navy-primary)', fontSize: '1.75rem' }}>Projects</h3>
 
                         {/* Stats Row */}
                         <Row className="g-4 mb-5">
@@ -140,9 +140,9 @@ const ProjectsTasks = () => {
                                         className={`p-3 rounded-4 d-flex align-items-center gap-3 transition-all hover-shadow pointer ${projectFilter === stat.filter ? 'active-filter-card' : ''}`}
                                         style={{
                                             background: projectFilter === stat.filter
-                                                ? 'linear-gradient(259.82deg, #3d8b8b -24.5%, #0f1d3a 99.17%)'
-                                                : 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)',
-                                            borderColor: projectFilter === stat.filter ? '#0f1d3a' : '#DCDCDC',
+                                                ? 'linear-gradient(259.82deg, var(--color-teal-brand) -24.5%, var(--color-navy-primary) 99.17%)'
+                                                : 'linear-gradient(259.82deg, #EFECE4 -24.5%, var(--color-teal-brand) 99.17%)',
+                                            borderColor: projectFilter === stat.filter ? 'var(--color-navy-primary)' : '#DCDCDC',
                                             borderWidth: 2,
                                             borderStyle: 'solid',
                                             cursor: 'pointer',
@@ -169,7 +169,7 @@ const ProjectsTasks = () => {
                                         <Card.Body className="p-4 p-xl-5 d-flex flex-column">
                                             <div className="mb-4 d-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>{proj.title}</h4>
+                                                    <h4 className="fw-bold mb-2" style={{ color: 'var(--color-navy-primary)' }}>{proj.title}</h4>
                                                     <p className="text-muted small mb-0">{proj.description}</p>
                                                 </div>
                                                 <Badge
@@ -191,7 +191,7 @@ const ProjectsTasks = () => {
                                                     <div className="mb-4">
                                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                                             <span className="text-muted small fw-medium">Progress</span>
-                                                            <span className="fw-bold small" style={{ color: '#0f1d3a' }}>{proj.progress}%</span>
+                                                            <span className="fw-bold small" style={{ color: 'var(--color-navy-primary)' }}>{proj.progress}%</span>
                                                         </div>
                                                         <ProgressBar
                                                             now={proj.progress}
@@ -211,14 +211,14 @@ const ProjectsTasks = () => {
                                                                 <i className="bi bi-check2-circle text-muted"></i>
                                                                 <span className="text-muted small fw-medium">Tasks</span>
                                                             </div>
-                                                            <h6 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>{proj.tasks}</h6>
+                                                            <h6 className="fw-bold mb-0" style={{ color: 'var(--color-navy-primary)' }}>{proj.tasks}</h6>
                                                         </Col>
                                                         <Col xs={6} className="ps-3 text-end">
                                                             <div className="d-flex align-items-center justify-content-end gap-2 mb-2">
                                                                 <i className="bi bi-calendar3 text-muted"></i>
                                                                 <span className="text-muted small fw-medium">Due Date</span>
                                                             </div>
-                                                            <h6 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>{proj.dueDate}</h6>
+                                                            <h6 className="fw-bold mb-0" style={{ color: 'var(--color-navy-primary)' }}>{proj.dueDate}</h6>
                                                         </Col>
                                                     </Row>
                                                 </Card.Body>
@@ -241,7 +241,7 @@ const ProjectsTasks = () => {
                 ) : (
                     <>
                         <div className="d-flex align-items-center justify-content-between mb-4">
-                            <h3 className="fw-bold mb-0" style={{ color: '#0f1d3a', fontSize: '1.75rem' }}>To-do</h3>
+                            <h3 className="fw-bold mb-0" style={{ color: 'var(--color-navy-primary)', fontSize: '1.75rem' }}>To-do</h3>
                             <Button
                                 variant="outline-dark"
                                 className="rounded-3 border-secondary border-opacity-25 px-3 py-2 d-flex align-items-center gap-2"
@@ -254,7 +254,7 @@ const ProjectsTasks = () => {
 
                         {todoSections.map((section, idx) => (
                             <div key={idx} className="mb-5 projects-todo-section">
-                                <div className="p-3 rounded-top-4" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)' }}>
+                                <div className="p-3 rounded-top-4" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, var(--color-teal-brand) 99.17%)' }}>
                                     <h6 className="fw-bold mb-0 text-white">{section.title}</h6>
                                 </div>
                                 <div className="border border-top-0 rounded-bottom-4 bg-white projects-todo-list" style={{ borderColor: '#eff2f5' }}>

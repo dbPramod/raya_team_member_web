@@ -22,7 +22,7 @@ const ResetSuccess = () => {
               </div>
 
               <div className="mb-5 text-center px-sm-4">
-                <h2 className="fw-bold fs-4 mb-4" style={{ color: '#0f1d3a', lineHeight: '1.4' }}>{STRINGS.RESET_SUCCESS.TITLE}</h2>
+                <h2 className="fw-bold fs-4 mb-4" style={{ color: 'var(--color-navy-primary)', lineHeight: '1.4' }}>{STRINGS.RESET_SUCCESS.TITLE}</h2>
 
                 <div className="d-flex flex-column align-items-center mt-5 mb-4">
                   <div

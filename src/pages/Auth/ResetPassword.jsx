@@ -73,8 +73,8 @@ const ResetPassword = () => {
               </div>
               
               <div className="mb-4 text-center">
-                 <h2 className="fw-bold fs-3 mb-2" style={{ color: '#0f1d3a' }}>{STRINGS.RESET_PASSWORD.TITLE}</h2>
-                 <p className="small" style={{ color: '#6b7280' }}>{STRINGS.RESET_PASSWORD.SUBTITLE}</p>
+                 <h2 className="fw-bold fs-3 mb-2" style={{ color: 'var(--color-navy-primary)' }}>{STRINGS.RESET_PASSWORD.TITLE}</h2>
+                 <p className="small text-nowrap" style={{ color: "var(--color-text-slate)" }}>{STRINGS.RESET_PASSWORD.SUBTITLE}</p>
               </div>
 
               <Form onSubmit={handleSubmit} className="px-lg-4 text-start">
@@ -85,7 +85,7 @@ const ResetPassword = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder={STRINGS.RESET_PASSWORD.NEW_PASSWORD_PLACEHOLDER}
                       className="bg-white border py-2 ps-3 pe-5 shadow-none"
-                      style={{ borderRadius: '6px', borderColor: '#e2e8f0', fontSize: '0.95rem' }}
+                      style={{ borderRadius: '6px', borderColor: 'var(--color-gray-light)', fontSize: '0.95rem' }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       isInvalid={!!errors.password}
@@ -105,7 +105,7 @@ const ResetPassword = () => {
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder={STRINGS.RESET_PASSWORD.CONFIRM_PASSWORD_PLACEHOLDER}
                       className="bg-white border py-2 ps-3 pe-5 shadow-none"
-                      style={{ borderRadius: '6px', borderColor: '#e2e8f0', fontSize: '0.95rem' }}
+                      style={{ borderRadius: '6px', borderColor: 'var(--color-gray-light)', fontSize: '0.95rem' }}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       isInvalid={!!errors.confirmPassword}

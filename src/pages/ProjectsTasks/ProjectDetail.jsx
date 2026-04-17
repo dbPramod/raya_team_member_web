@@ -57,9 +57,9 @@ const ProjectDetail = () => {
                 };
             default:
                 return {
-                    color: '#64748b',
+                    color: 'var(--color-gray-dark)',
                     backgroundColor: '#f1f5f9',
-                    border: '1px solid #e2e8f0'
+                    border: '1px solid var(--color-gray-light)'
                 };
         }
     };
@@ -80,9 +80,9 @@ const ProjectDetail = () => {
                 };
             default:
                 return {
-                    color: '#64748b',
+                    color: 'var(--color-gray-dark)',
                     backgroundColor: '#f1f5f9',
-                    border: '1px solid #e2e8f0'
+                    border: '1px solid var(--color-gray-light)'
                 };
         }
     };
@@ -125,7 +125,7 @@ const ProjectDetail = () => {
                 <Col lg={9}>
                     <Card
                         className="border-0 rounded-4 overflow-hidden mb-4 mb-lg-5"
-                        style={{ background: 'linear-gradient(0deg, #0F3780 0%, #40878E 100%)', boxShadow: '0 12px 28px rgba(27, 69, 143, 0.18)' }}
+                        style={{ background: 'linear-gradient(0deg, #0F3780 0%, var(--color-teal-brand) 100%)', boxShadow: '0 12px 28px rgba(27, 69, 143, 0.18)' }}
                     >
                         <Card.Body className="p-4 p-lg-5">
                             <Row className="g-4 mb-4 align-items-start">
@@ -194,7 +194,7 @@ const ProjectDetail = () => {
                                         <span
                                             className="pointer"
                                             onClick={() => navigate('/projects/task-detail')}
-                                            style={{ color: '#64748b', fontWeight: 500, fontSize: '0.88rem' }}
+                                            style={{ color: 'var(--color-gray-dark)', fontWeight: 500, fontSize: '0.88rem' }}
                                         >
                                             View More
                                         </span>

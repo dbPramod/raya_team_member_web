@@ -97,8 +97,8 @@ const Register = () => {
               </div>
 
               <div className="mb-4 text-center">
-                <h2 className="fw-bold fs-3 mb-2" style={{ color: '#0f1d3a' }}>Create account</h2>
-                <p className="small" style={{ color: '#6b7280' }}>Set up your account and continue with OTP verification.</p>
+                <h2 className="fw-bold fs-3 mb-2" style={{ color: 'var(--color-navy-primary)' }}>Create account</h2>
+                <p className="small text-nowrap" style={{ color: "var(--color-text-slate)" }}>Set up your account and continue with OTP verification.</p>
               </div>
 
               <Form onSubmit={handleSubmit}>

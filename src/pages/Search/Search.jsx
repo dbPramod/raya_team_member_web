@@ -46,7 +46,7 @@ const Search = () => {
                 placeholder="Search anything..."
                 className="border-0 py-2 shadow-none"
               />
-              <button type="submit" className="btn btn-primary px-4 bg-gradient" style={{ backgroundColor: '#40878E', borderColor: '#40878E' }}>
+              <button type="submit" className="btn btn-primary px-4 bg-gradient" style={{ backgroundColor: 'var(--color-teal-brand)', borderColor: 'var(--color-teal-brand)' }}>
                 Search
               </button>
             </InputGroup>
@@ -62,7 +62,7 @@ const Search = () => {
                 <Card.Body className="p-4">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div>
-                      <span className="badge bg-light text-primary mb-2 px-3 py-2 rounded-pill" style={{ color: '#40878E !important', backgroundColor: 'rgba(64, 135, 142, 0.1) !important' }}>
+                      <span className="badge bg-light text-primary mb-2 px-3 py-2 rounded-pill" style={{ color: 'var(--color-teal-brand) !important', backgroundColor: 'rgba(64, 135, 142, 0.1) !important' }}>
                         {result.category}
                       </span>
                       <h4 className="fw-bold text-dark mb-1">{result.title}</h4>

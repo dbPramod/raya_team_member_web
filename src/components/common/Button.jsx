@@ -5,7 +5,7 @@ const Button = ({ children, className, variant = 'primary', ...props }) => {
   return (
     <BsButton 
       className={`px-4 py-2 fw-semibold transition-all shadow-sm ${btnClass} ${className}`} 
-      style={variant === 'primary' ? { backgroundColor: '#3d8b8b', borderRadius: '6px' } : { borderRadius: '6px' }}
+      style={variant === 'primary' ? { backgroundColor: 'var(--color-teal-brand)', borderRadius: '6px' } : { borderRadius: '6px' }}
       {...props}
     >
       {children}

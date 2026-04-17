@@ -1,8 +1,15 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Training = () => {
     const navigate = useNavigate();
+
+    const renderTooltip = (props) => (
+        <Tooltip id="training-help-tooltip" className="custom-training-tooltip" {...props}>
+            CEO Hub is where you can take training, earn certificates, and get personality insights.
+
+        </Tooltip>
+    );
 
     const trainingData = {
         notStarted: [
@@ -117,9 +124,15 @@ const Training = () => {
 
     return (
         <Container fluid className="training-page px-lg-4 py-4 h-100 overflow-auto">
-            <div className="training-heading-wrap">
-                <h2 className="training-page-title mb-0">Training</h2>
-                <i className="bi bi-question-circle training-help-icon"></i>
+            <div className="training-heading-wrap mb-4">
+                <h2 className="training-page-title mb-0">Trainings</h2>
+                <OverlayTrigger
+                    placement="bottom"
+                    delay={{ show: 300, hide: 300 }}
+                    overlay={renderTooltip}
+                >
+                    <i className="bi bi-info-circle training-help-icon ms-2 pointer"></i>
+                </OverlayTrigger>
             </div>
 
             <Row className="g-4">
@@ -164,198 +177,6 @@ const Training = () => {
                 })}
             </Row>
 
-            <style>{`
-                .training-page {
-                    background: #f8fafc;
-                }
-                .training-heading-wrap {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.65rem;
-                    margin-bottom: 1.35rem;
-                    padding-left: 0.25rem;
-                }
-                .training-page-title {
-                    font-size: 2rem;
-                    line-height: 1.1;
-                    font-weight: 800;
-                    color: #111827;
-                    letter-spacing: -0.01em;
-                }
-                .training-help-icon {
-                    color: #64748b;
-                    font-size: 1.2rem;
-                }
-                .training-lane {
-                    border-radius: 16px;
-                    padding: 14px;
-                    height: 100%;
-                    border: 1px solid rgba(148, 163, 184, 0.15);
-                }
-                .training-lane.not-started {
-                    background: #f1f3f5;
-                }
-                .training-lane.in-progress {
-                    background: #f9f1e8;
-                }
-                .training-lane.completed {
-                    background: #edf8ef;
-                }
-                .training-lane-head {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    margin-bottom: 12px;
-                    padding: 2px 2px 0;
-                }
-                .training-lane-icon {
-                    font-size: 1.2rem;
-                    color: #475569;
-                }
-                .training-lane.in-progress .training-lane-icon {
-                    color: #8d5e32;
-                }
-                .training-lane.completed .training-lane-icon {
-                    color: #2f8f43;
-                }
-                .training-lane-title {
-                    color: #3f3f46;
-                    font-size: 2rem;
-                    font-weight: 700;
-                }
-                .training-lane.in-progress .training-lane-title {
-                    color: #8d5e32;
-                }
-                .training-lane.completed .training-lane-title {
-                    color: #2f8f43;
-                }
-                .training-lane-count {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 999px;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: #ffffff;
-                    font-size: 0.88rem;
-                    font-weight: 700;
-                    line-height: 1;
-                }
-                .training-lane-count.not-started {
-                    background: #52525b;
-                }
-                .training-lane-count.in-progress {
-                    background: #8d5e32;
-                }
-                .training-lane-count.completed {
-                    background: #2f8f43;
-                }
-                .training-lane-list {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 12px;
-                }
-                .training-task-card {
-                    background: #ffffff;
-                    border: 1px solid #eceff3;
-                    border-radius: 12px;
-                    padding: 14px 16px;
-                    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                }
-                .training-task-card:hover {
-                    transform: translateY(-1px);
-                    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-                }
-                .training-task-title {
-                    margin: 0;
-                    padding-bottom: 8px;
-                    border-bottom: 1px solid #e5e7eb;
-                    font-size: 1.12rem;
-                    line-height: 1.25;
-                    font-weight: 700;
-                    color: #1f2937;
-                }
-                .training-task-desc {
-                    margin: 10px 0 12px;
-                    color: #6b7280;
-                    font-size: 0.88rem;
-                    line-height: 1.4;
-                    min-height: 70px;
-                }
-                .training-progress-wrap {
-                    margin-bottom: 11px;
-                }
-                .training-progress-label {
-                    text-align: right;
-                    color: #9ca3af;
-                    font-size: 0.8rem;
-                    font-weight: 700;
-                    margin-bottom: 2px;
-                }
-                .training-progress-track {
-                    width: 100%;
-                    height: 10px;
-                    border-radius: 999px;
-                    background: #d1d5db;
-                    overflow: hidden;
-                }
-                .training-progress-fill {
-                    height: 100%;
-                    border-radius: inherit;
-                    background: linear-gradient(90deg, #111827 0%, #4d8f95 100%);
-                }
-                .training-action-btn {
-                    width: 100%;
-                    border: none;
-                    border-radius: 9px;
-                    height: 34px;
-                    font-size: 0.86rem;
-                    font-weight: 700;
-                    transition: all 0.2s ease;
-                }
-                .training-action-btn.not-started {
-                    background: #e5e7eb;
-                    color: #3f3f46;
-                }
-                .training-action-btn.in-progress {
-                    background: #f3d9bf;
-                    color: #8d5e32;
-                }
-                .training-action-btn.completed {
-                    background: #ace8b2;
-                    color: #1d6a2a;
-                }
-                .training-action-btn:hover {
-                    filter: brightness(0.98);
-                    transform: translateY(-1px);
-                }
-                @media (max-width: 1399px) {
-                    .training-page-title {
-                        font-size: 1.85rem;
-                    }
-                    .training-lane-title {
-                        font-size: 1.95rem;
-                    }
-                    .training-task-title {
-                        font-size: 1.65rem;
-                    }
-                }
-                @media (max-width: 991px) {
-                    .training-page {
-                        padding-bottom: 2rem !important;
-                    }
-                    .training-page-title {
-                        font-size: 1.7rem;
-                    }
-                    .training-lane-title {
-                        font-size: 1.35rem;
-                    }
-                    .training-task-title {
-                        font-size: 1.12rem;
-                    }
-                }
-            `}</style>
         </Container>
     );
 };

@@ -131,18 +131,18 @@ const Verification = () => {
                     bg="transparent"
                     text="navy"
                     className="px-3 py-2 fw-semibold mb-4 text-uppercase border"
-                    style={{ fontSize: '0.75rem', borderColor: '#0f1d3a', borderRadius: '4px', letterSpacing: '0.5px', color: '#0f1d3a' }}
+                    style={{ fontSize: '0.75rem', borderColor: 'var(--color-gray-light)', borderRadius: '4px', letterSpacing: '0.5px', color: 'var(--color-navy-primary)' }}
                   >
                     {STRINGS.VERIFICATION.STEP}
                   </Badge>
                 )}
-                <h2 className="fw-bold fs-3 mb-2" style={{ color: '#0f1d3a' }}>
+                <h2 className="fw-bold fs-3 mb-2" style={{ fontSize: '28px', color: 'var(--color-text-black)' }}>
                   {isLoginFlow ? STRINGS.VERIFICATION.TITLE_LOGIN : STRINGS.VERIFICATION.TITLE_FORGOT}
                 </h2>
-                <p className="small px-4 mb-2" style={{ color: '#6b7280' }}>
+                <p className="px-3 mb-2" style={{ color: '#545F71', fontSize: '13px' }}>
                   {STRINGS.VERIFICATION.SUBTITLE}
                 </p>
-                {email ? <p className="small mb-0" style={{ color: '#0f1d3a', fontWeight: '600' }}>{email}</p> : null}
+                {email ? <p className="small mb-0" style={{ color: 'var(--color-navy-primary)', fontWeight: '600' }}>{email}</p> : null}
                 {helperText ? <p className="small mt-2 mb-0 text-muted">{helperText}</p> : null}
               </div>
 
@@ -155,7 +155,8 @@ const Verification = () => {
                       name="otp"
                       maxLength="1"
                       className="form-control text-center fw-bold fs-5"
-                      style={{ width: '56px', height: '56px', borderRadius: '8px', borderColor: '#e2e8f0', boxShadow: 'none' }}
+                      placeholder="-"
+                      style={{ width: '77px', height: '65px', borderRadius: '8px', borderColor: '#C8C8C8', boxShadow: 'none', borderWidth: '1px' }}
                       value={data}
                       onChange={(e) => handleChange(e.target, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
@@ -177,7 +178,7 @@ const Verification = () => {
                         {STRINGS.VERIFICATION.RESEND_TIMER} {timer}s
                       </span>
                     ) : (
-                      <Link to="#" onClick={handleResend} className="text-decoration-none fw-medium" style={{ color: '#2c3e50' }}>
+                      <Link to="#" onClick={handleResend} className="text-decoration-none fw-medium" style={{ color: 'var(--color-navy-primary)' }}>
                         {isResending ? 'Sending...' : STRINGS.VERIFICATION.RESEND_LINK}
                       </Link>
                     )}

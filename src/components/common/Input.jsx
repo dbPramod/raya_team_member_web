@@ -8,7 +8,7 @@ const Input = ({ label, type = 'text', placeholder, className, error, ...props }
         type={type} 
         placeholder={placeholder} 
         className={`bg-white border py-2 ps-3 shadow-none ${className || ''}`} 
-        style={{ borderRadius: '6px', borderColor: '#e2e8f0', fontSize: '0.95rem' }}
+        style={{ borderRadius: '6px', borderColor: 'var(--color-gray-light)', fontSize: '0.95rem' }}
         isInvalid={!!error}
         {...props} 
       />

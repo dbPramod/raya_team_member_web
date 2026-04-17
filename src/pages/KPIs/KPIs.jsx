@@ -24,7 +24,7 @@ const BarChart = ({ data, maxValue, yPrefix }) => {
                         <line x1={pad.left} y1={y} x2={pad.left + innerW} y2={y}
                             stroke="#e8edf2" strokeWidth="1" />
                         <text x={pad.left - 6} y={y + 4} textAnchor="end"
-                            fontSize="9.5" fill="#94a3b8" fontFamily="Plus Jakarta Sans, sans-serif">
+                            fontSize="9.5" fill="#94a3b8" fontFamily="DM Sans, sans-serif">
                             {yPrefix}{t}
                         </text>
                     </g>
@@ -51,7 +51,7 @@ const BarChart = ({ data, maxValue, yPrefix }) => {
                             fill="#7bc8cd" rx="3" />
                         {/* X label */}
                         <text x={cx} y={H - 6} textAnchor="middle"
-                            fontSize="9" fill="#94a3b8" fontFamily="Plus Jakarta Sans, sans-serif">
+                            fontSize="9" fill="#94a3b8" fontFamily="DM Sans, sans-serif">
                             {d.label}
                         </text>
                     </g>
@@ -60,7 +60,7 @@ const BarChart = ({ data, maxValue, yPrefix }) => {
 
             {/* Y-axis line */}
             <line x1={pad.left} y1={pad.top} x2={pad.left} y2={pad.top + innerH}
-                stroke="#e2e8f0" strokeWidth="1" />
+                stroke="var(--color-gray-light)" strokeWidth="1" />
         </svg>
     );
 };

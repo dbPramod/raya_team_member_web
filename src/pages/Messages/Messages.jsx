@@ -6,7 +6,7 @@ const MOCK_ROOMS = [
     { id: '1', name: 'Digital Wizards', subtitle: '27 Members', avatar: 'J&J', color: '#dc2626' },
     { id: '2', name: 'InnovateTech Solutions', subtitle: '89 Members', avatar: 'IT', color: '#1e3a8a' },
     { id: '3', name: 'Code Craze', subtitle: '95 Members', avatar: 'CC', color: '#ea580c' },
-    { id: '4', name: 'Robert Parker', subtitle: '34 Members', unread: 2, avatar: 'RP', color: '#ffffff', textColor: '#0f1d3a', border: true },
+    { id: '4', name: 'Robert Parker', subtitle: '34 Members', unread: 2, avatar: 'RP', color: '#ffffff', textColor: 'var(--color-navy-primary)', border: true },
     { id: '5', name: 'Tom Hardy', subtitle: '42 Members', avatar: 'TH', color: '#facc15' },
     { id: '6', name: 'Franz Kafka', subtitle: '58 Members', avatar: 'FK', color: '#000000' },
     { id: '7', name: 'Stan Smith', subtitle: '63 Members', avatar: 'SS', color: '#2563eb' },
@@ -376,7 +376,7 @@ const Messages = () => {
                                         style={{
                                             backgroundColor: item.color,
                                             color: item.textColor || 'white',
-                                            border: item.border ? '1px solid #e2e8f0' : 'none'
+                                            border: item.border ? '1px solid var(--color-gray-light)' : 'none'
                                         }}
                                     >
                                         {item.avatar}
@@ -512,7 +512,7 @@ const Messages = () => {
                                         color: selectedItem?.textColor || 'white',
                                         width: '48px',
                                         height: '48px',
-                                        border: selectedItem?.border ? '1px solid #e2e8f0' : 'none'
+                                        border: selectedItem?.border ? '1px solid var(--color-gray-light)' : 'none'
                                     }}
                                 >
                                     {selectedItem?.avatar || 'J&J'}

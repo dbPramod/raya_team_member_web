@@ -48,7 +48,7 @@ const Sidebar = ({ onClose }) => {
 
   return (
     <>
-      <aside className="bg-navy border-0 border-end border-secondary border-opacity-10 vh-100 d-flex flex-column py-4" style={{ width: '280px', minWidth: '280px', backgroundColor: '#0f1d3a' }}>
+      <aside className="bg-navy border-0 border-end border-secondary border-opacity-10 vh-100 d-flex flex-column py-4" style={{ width: '280px', minWidth: '280px', backgroundColor: 'var(--color-navy-primary)' }}>
         <div className="px-4 mb-5 pb-2 d-flex align-items-center gap-2">
           <img src={appLogo} alt="Swann Ave" height="32" style={{ filter: 'brightness(0) invert(1)' }} />
         </div>
@@ -151,7 +151,7 @@ const Sidebar = ({ onClose }) => {
               }}
             />
           </div>
-          <h5 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>Logout</h5>
+          <h5 className="fw-bold mb-2" style={{ color: 'var(--color-navy-primary)' }}>Logout</h5>
           <p className="text-muted small mb-4">Are you sure you want to logout from your account?</p>
           <div className="d-flex gap-3 justify-content-center">
             <button

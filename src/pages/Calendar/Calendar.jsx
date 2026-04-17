@@ -555,7 +555,7 @@ const Calendar = () => {
                 </div>
             </div>
 
-            <Modal show={showAddEventModal} onHide={() => setShowAddEventModal(false)} centered size="md" className="timeoff-modal view-leave-modal" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <Modal show={showAddEventModal} onHide={() => setShowAddEventModal(false)} centered size="md" className="timeoff-modal view-leave-modal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 <div className="rto-modal-header border-bottom-0 pb-0">
                     <button className="rto-close-btn" onClick={() => setShowAddEventModal(false)}>
                         <i className="bi bi-x"></i>
@@ -572,7 +572,7 @@ const Calendar = () => {
                             placeholder="Event"
                             value={eventForm.title}
                             onChange={(event) => setEventForm({ ...eventForm, title: event.target.value })}
-                            style={{ fontSize: '0.9rem', color: '#0f1d3a', fontWeight: '500' }}
+                            style={{ fontSize: '0.9rem', color: 'var(--color-navy-primary)', fontWeight: '500' }}
                         />
                     </div>
 
@@ -614,7 +614,7 @@ const Calendar = () => {
                             rows="4"
                             value={eventForm.notes}
                             onChange={(event) => setEventForm({ ...eventForm, notes: event.target.value })}
-                            style={{ fontSize: '0.9rem', color: '#0f1d3a', resize: 'none' }}
+                            style={{ fontSize: '0.9rem', color: 'var(--color-navy-primary)', resize: 'none' }}
                         ></textarea>
                     </div>
                 </div>
@@ -625,7 +625,7 @@ const Calendar = () => {
                 </div>
             </Modal>
 
-            <Modal show={Boolean(selectedEvent)} onHide={() => setSelectedEvent(null)} centered size="md" className="timeoff-modal view-leave-modal" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <Modal show={Boolean(selectedEvent)} onHide={() => setSelectedEvent(null)} centered size="md" className="timeoff-modal view-leave-modal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 <div className="rto-modal-header border-bottom-0 pb-0">
                     <button className="rto-close-btn" onClick={() => setSelectedEvent(null)}>
                         <i className="bi bi-x"></i>

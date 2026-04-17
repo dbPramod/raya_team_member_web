@@ -85,7 +85,7 @@ const MeetHistory = ({ onBack }) => {
             </div>
 
             {/* ── Add Notes Modal ── */}
-            <Modal show={showNotesModal} onHide={() => setShowNotesModal(false)} centered size="md" className="timeoff-modal view-leave-modal" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <Modal show={showNotesModal} onHide={() => setShowNotesModal(false)} centered size="md" className="timeoff-modal view-leave-modal" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 <div className="rto-modal-header border-bottom-0 pb-0">
                     <button className="rto-close-btn" onClick={() => setShowNotesModal(false)}>
                         <i className="bi bi-x"></i>
@@ -102,12 +102,12 @@ const MeetHistory = ({ onBack }) => {
                             rows="4"
                             value={noteContent}
                             onChange={(e) => setNoteContent(e.target.value)}
-                            style={{ fontSize: '0.9rem', color: '#0f1d3a', resize: 'none' }}
+                            style={{ fontSize: '0.9rem', color: 'var(--color-navy-primary)', resize: 'none' }}
                         ></textarea>
                     </div>
                 </div>
 
-                <div className="rto-modal-footer vlm-footer pb-4 pt-0">
+                <div className="rto-modal-footer vlm-footer pb-4 pt-0" style={{ fontFamily: "'DM Sans', sans-serif !important" }}>
                     <button className="rto-btn-cancel vlm-btn" onClick={() => setShowNotesModal(false)}>Cancel</button>
                     <button className="rto-btn-apply vlm-btn" onClick={() => setShowNotesModal(false)}>Add</button>
                 </div>

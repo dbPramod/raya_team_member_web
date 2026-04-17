@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
@@ -55,6 +55,7 @@ const AppRoutes = () => {
         <Route path="/settings/terms" element={<TermsConditions />} />
         <Route path="/settings/privacy" element={<PrivacyPolicy />} />
       </Route>
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot" element={<ForgotPassword />} />
@@ -63,7 +64,7 @@ const AppRoutes = () => {
       <Route path="/reset-success" element={<ResetSuccess />} />
       <Route path="/complete-profile" element={<CompleteProfile />} />
       <Route path="/logout" element={<Logout />} />
-      <Route path="*" element={<MainLayout><div className="container text-center py-5"><h1>404</h1></div></MainLayout>} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };

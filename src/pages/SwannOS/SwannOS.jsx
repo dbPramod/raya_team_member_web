@@ -102,7 +102,7 @@ const SwannOS = () => {
 
     const renderAssessments = () => (
         <div className="mt-0">
-            <h1 className="fw-bold mb-4" style={{ color: '#0f1d3a' }}>Assessments</h1>
+            <h1 className="fw-bold mb-4" style={{ color: 'var(--color-navy-primary)' }}>Assessments</h1>
             <div className="border rounded-4 overflow-hidden shadow-sm bg-white">
                 <div className="assessment-header">Assessments</div>
                 {assessments.map((item, index) => (
@@ -126,7 +126,7 @@ const SwannOS = () => {
 
     const renderProfile = () => (
         <div className="mt-4">
-            <h1 className="fw-bold mb-4" style={{ color: '#0f1d3a' }}>Swann OS</h1>
+            <h1 className="fw-bold mb-4" style={{ color: 'var(--color-navy-primary)' }}>Swann OS</h1>
 
             {/* Overall Personality Header */}
             <div className="personality-card mb-5 shadow-sm">
@@ -187,7 +187,7 @@ const SwannOS = () => {
                     </Col>
                     <Col md={12} lg={5} className="ps-lg-5 pt-0 pt-lg-4">
                         <div className="border-start-md-0 border-start-lg ps-lg-5 h-100 d-flex flex-column justify-content-center" style={{ minHeight: '250px' }}>
-                            <h2 className="fw-bold mb-4" style={{ color: '#0f1d3a', fontSize: '1.8rem' }}>You are dual mode operator</h2>
+                            <h2 className="fw-bold mb-4" style={{ color: 'var(--color-navy-primary)', fontSize: '1.8rem' }}>You are dual mode operator</h2>
                             <div className="mb-4">
                                 <h5 className="fw-bold text-dark mb-3" style={{ fontSize: '1.1rem' }}>Primary Mode: <span className="text-secondary fw-normal">Engine (D)</span></h5>
                                 <h5 className="fw-bold text-dark mb-0" style={{ fontSize: '1.1rem' }}>Secondary Mode: <span className="text-secondary fw-normal">Navigation System (C)</span></h5>

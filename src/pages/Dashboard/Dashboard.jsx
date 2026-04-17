@@ -1,17 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Card, ProgressBar, Badge, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import AnimatedCounter from '../../components/common/AnimatedCounter';
+import { trainingdashboard, calendardashboard, dashboardchart, dashboardmessages } from '../../constants/svgImages';
 
 const MENTAL_HEALTH_HISTORY_KEY = 'swann-mental-health-history';
+const MENTAL_HEALTH_MIN = 1;
+const MENTAL_HEALTH_MAX = 10;
+const MENTAL_HEALTH_THUMB_SIZE = 14;
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [mentalHealthValue, setMentalHealthValue] = useState(1);
+  const [mentalHealthValue, setMentalHealthValue] = useState(MENTAL_HEALTH_MIN);
   const [mentalHealthNote, setMentalHealthNote] = useState('');
   const [isMentalHealthCheckedIn, setIsMentalHealthCheckedIn] = useState(false);
   const [latestMentalEntry, setLatestMentalEntry] = useState(null);
+  const [mentalHealthSliderWidth, setMentalHealthSliderWidth] = useState(0);
+  const mentalHealthSliderRef = useRef(null);
+  const mentalHealthSliderPosition = ((mentalHealthValue - MENTAL_HEALTH_MIN) / (MENTAL_HEALTH_MAX - MENTAL_HEALTH_MIN)) * 100;
+  const mentalHealthBubbleOffset = mentalHealthSliderWidth > 0
+    ? ((mentalHealthSliderWidth - MENTAL_HEALTH_THUMB_SIZE) * mentalHealthSliderPosition) / 100 + (MENTAL_HEALTH_THUMB_SIZE / 2)
+    : 0;
+
+  useEffect(() => {
+    const updateSliderWidth = () => {
+      if (mentalHealthSliderRef.current) {
+        setMentalHealthSliderWidth(mentalHealthSliderRef.current.offsetWidth);
+      }
+    };
+
+    updateSliderWidth();
+    window.addEventListener('resize', updateSliderWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateSliderWidth);
+    };
+  }, []);
 
   const getDefaultFeelingText = (value) => {
     const numericValue = Number(value);
@@ -73,23 +98,6 @@ const Dashboard = () => {
 
   return (
     <Container fluid className="px-lg-4 py-3 h-100 d-flex flex-column" style={{ maxWidth: '1400px' }}>
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in-up {
-          opacity: 0;
-          animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-      `}</style>
       <Row className="flex-grow-1 gx-4 gy-4">
         {/* LEFT COLUMN */}
         <Col lg={7} xl={8} className="d-flex flex-column gap-4">
@@ -100,8 +108,9 @@ const Dashboard = () => {
           <div className="animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
             <div className="rounded-4 p-4" style={{ backgroundColor: '#D6E5F2' }}>
               <div className="d-flex align-items-center mb-4 gap-2">
-                <i className="bi bi-bullseye fs-5" style={{ color: '#0f1d3a' }}></i>
-                <h5 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>Trainings</h5>
+                {/* <i className="bi bi-bullseye fs-5" style={{ color: 'var(--color-navy-primary)' }}></i> */}
+                <img src={trainingdashboard} alt="Training Dashboard" />
+                <h5 className="fw-bold mb-0" style={{ color: 'var(--color-text-black)' }}>Trainings</h5>
               </div>
 
               <div className="bg-white p-3 pt-4 rounded-4 shadow-sm border-0 d-flex flex-column gap-4 mb-4">
@@ -109,11 +118,11 @@ const Dashboard = () => {
                   <div key={i}>
                     <div className="d-flex justify-content-between align-items-center mb-2 px-1">
                       <span className="fw-medium text-dark" style={{ fontSize: '0.95rem' }}>{t.name}</span>
-                      <span className="fw-bold" style={{ fontSize: '0.9rem', color: '#0f1d3a' }}>{t.progress}%</span>
+                      <span className="fw-bold" style={{ fontSize: '0.9rem', color: 'var(--color-navy-primary)' }}>{t.progress}%</span>
                     </div>
                     <ProgressBar
                       now={t.progress}
-                      style={{ height: '6px', backgroundColor: '#e2e8f0', border: 'none', borderRadius: '10px' }}
+                      style={{ height: '6px', backgroundColor: 'var(--color-gray-light)', border: 'none', borderRadius: '10px' }}
                       variant="info"
                       className="trainings-progress"
                     />
@@ -136,8 +145,9 @@ const Dashboard = () => {
           <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <div className="rounded-4 p-4" style={{ backgroundColor: '#D6E5F2' }}>
               <div className="d-flex align-items-center mb-4 gap-2">
-                <i className="bi bi-bar-chart-line fs-5" style={{ color: '#0f1d3a' }}></i>
-                <h5 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>Leaderboard</h5>
+                {/* <i className="bi bi-bar-chart-line fs-5" style={{ color: 'var(--color-navy-primary)' }}></i> */}
+                <img src={dashboardchart} width="24" height="24" style={{ color: 'var(--color-text-black)' }} alt="Chart Icon" />
+                <h5 className="fw-bold mb-0" style={{ color: 'var(--color-text-black)' }}>Leaderboard</h5>
               </div>
 
               <div className="bg-white p-3 pt-4 pb-2 rounded-4 shadow-sm border-0 d-flex flex-column gap-4">
@@ -155,8 +165,8 @@ const Dashboard = () => {
                       <span className="fw-medium text-dark" style={{ fontSize: '0.95rem' }}>{user.name}</span>
                     </div>
                     <div className="d-flex align-items-center gap-3 flex-grow-1 ms-4 justify-content-end">
-                      <ProgressBar now={user.score} style={{ height: '6px', backgroundColor: '#e2e8f0', borderRadius: '10px', width: '100%' }} className="leaderboard-progress" />
-                      <span className="fw-bold" style={{ fontSize: '0.9rem', color: '#0f1d3a', minWidth: '35px', textAlign: 'right' }}>{user.score}%</span>
+                      <ProgressBar now={user.score} style={{ height: '6px', backgroundColor: 'var(--color-gray-light)', borderRadius: '10px', width: '100%' }} className="leaderboard-progress" />
+                      <span className="fw-bold" style={{ fontSize: '0.9rem', color: 'var(--color-navy-primary)', minWidth: '35px', textAlign: 'right' }}>{user.score}%</span>
                     </div>
                   </div>
                 ))}
@@ -180,7 +190,7 @@ const Dashboard = () => {
 
           {/* Mental Health Check In Widget */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <div className="rounded-4 p-4 position-relative" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, #40878E 99.17%)', color: '#ffffff' }}>
+            <div className="rounded-4 p-4 position-relative" style={{ background: 'linear-gradient(259.82deg, #EFECE4 -24.5%, var(--color-teal-brand) 99.17%)', color: '#ffffff' }}>
               <div className="d-flex align-items-center justify-content-between mb-4 gap-2">
                 <div className="d-flex align-items-center gap-2">
                   <i className="bi bi-heart fs-5"></i>
@@ -210,7 +220,7 @@ const Dashboard = () => {
                     className="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
                     style={{ width: '96px', height: '96px' }}
                   >
-                    <span className="fw-bold" style={{ fontSize: '2.7rem', lineHeight: 1, color: '#40878E' }}>
+                    <span className="fw-bold" style={{ fontSize: '2.7rem', lineHeight: 1, color: 'var(--color-teal-brand)' }}>
                       <AnimatedCounter value={Number(latestMentalEntry.score)} duration={300} />
                     </span>
                   </div>
@@ -235,16 +245,24 @@ const Dashboard = () => {
               ) : (
                 <>
                   <div className="mb-4 pt-3 position-relative">
-                    <div className="d-flex align-items-center position-relative">
-                      <div className="position-absolute" style={{ left: `calc(${mentalHealthValue * 10}% - 14px)`, top: '-30px', transition: 'left 0.2s' }}>
+                    <div className="d-flex align-items-center position-relative" ref={mentalHealthSliderRef}>
+                      <div
+                        className="position-absolute"
+                        style={{
+                          left: `${mentalHealthBubbleOffset}px`,
+                          top: '-33px',
+                          transform: 'translateX(-50%)',
+                          transition: 'left 0.2s ease'
+                        }}
+                      >
                         <div className="bg-white text-dark rounded-1 fw-bold text-center d-flex align-items-center justify-content-center" style={{ width: '28px', height: '22px', fontSize: '11px' }}>
                           <AnimatedCounter value={mentalHealthValue} duration={300} />
                         </div>
                         <div style={{ width: 0, height: 0, borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '4px solid white', margin: '0 auto' }}></div>
                       </div>
                       <Form.Range
-                        min={1}
-                        max={10}
+                        min={MENTAL_HEALTH_MIN}
+                        max={MENTAL_HEALTH_MAX}
                         value={mentalHealthValue}
                         onChange={(e) => setMentalHealthValue(Number(e.target.value))}
                         className="custom-range-slider"
@@ -278,8 +296,9 @@ const Dashboard = () => {
           <div className="animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
             <div className="rounded-4 p-4 d-flex flex-column" style={{ backgroundColor: '#D6E5F2' }}>
               <div className="d-flex align-items-center mb-4 gap-2">
-                <i className="bi bi-calendar-event fs-5" style={{ color: '#0f1d3a' }}></i>
-                <h5 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>Upcoming Events</h5>
+                {/* <i className="bi bi-calendar-event fs-5" style={{ color: 'var(--color-navy-primary)' }}></i> */}
+                <img src={calendardashboard} width="24" height="24" style={{ color: 'var(--color-text-black)' }} alt="Calendar Dashboard" />
+                <h5 className="fw-bold mb-0" style={{ color: 'var(--color-text-black)' }}>Upcoming Events</h5>
               </div>
 
               <div className="d-flex flex-column gap-3 mb-4 flex-grow-1 bg-white p-3 rounded-4 shadow-sm">
@@ -316,10 +335,11 @@ const Dashboard = () => {
             <div className="rounded-4 p-4 d-flex flex-column" style={{ backgroundColor: '#D6E5F2' }}>
               <div className="d-flex align-items-center justify-content-between mb-4">
                 <div className="d-flex align-items-center gap-2">
-                  <i className="bi bi-chat-dots fs-5" style={{ color: '#0f1d3a' }}></i>
-                  <h5 className="fw-bold mb-0" style={{ color: '#0f1d3a' }}>Messages</h5>
+                  {/* <i className="bi bi-chat-dots fs-5" style={{ color: 'var(--color-navy-primary)' }}></i> */}
+                  <img src={dashboardmessages} width="24" height="24" style={{ color: 'var(--color-text-black)' }} alt="Chat Icon" />
+                  <h5 className="fw-bold mb-0" style={{ color: 'var(--color-text-black)' }}>Messages</h5>
                 </div>
-                <Badge bg="navy" className="rounded-circle d-flex align-items-center justify-content-center" style={{ backgroundColor: '#0f1d3a', width: '28px', height: '28px' }}>3</Badge>
+                <Badge bg="navy" className="rounded-circle d-flex align-items-center justify-content-center" style={{ backgroundColor: 'var(--color-navy-primary)', width: '28px', height: '28px' }}>3</Badge>
               </div>
 
               <div className="d-flex flex-column gap-4 mb-4 flex-grow-1 bg-white p-4 rounded-4 shadow-sm">

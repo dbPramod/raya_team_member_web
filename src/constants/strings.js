@@ -58,8 +58,9 @@ export const STRINGS = {
   COMPLETE_PROFILE: {
     STEP_1: 'STEP 1 OF 2',
     STEP_2: 'STEP 2 OF 2',
-    TITLE: 'Help Us Get to Know You',
-    SUBTITLE: 'Please provide a few more details to complete your profile setup.',
+    TITLE: 'Complete Your Profile',
+    SUBTITLE1: 'This information allows us to costomize your profile',
+    SUBTITLE2: 'Help us know more about you',
     NAME: {
       LABEL: 'Name',
       PLACEHOLDER: 'Enter your name'
@@ -138,6 +139,20 @@ export const STRINGS = {
       PETS: 'Do you own any pets?',
       YES: 'Yes',
       NO: 'No'
+    },
+    FAMILY: {
+      SPOUSE_NAME: {
+        LABEL: 'Spouse Name',
+        PLACEHOLDER: 'Enter spouse name'
+      },
+      GENDER: {
+        LABEL: 'Gender',
+        PLACEHOLDER: 'Select gender'
+      },
+      ANNIVERSARY: {
+        LABEL: 'Anniversary',
+        PLACEHOLDER: 'Select anniversary'
+      }
     },
     FAVORITES: {
       FLOWER: {

@@ -1,0 +1,47 @@
+:root {
+  /* Primary Palette */
+  --color-navy-primary: #19305A;
+  --color-navy-dark: #19305A;
+  --color-navy-light: #2c4a85;
+
+  /* Brand Teal Palette */
+  --color-teal-brand: #40878E;
+  --color-teal-dark: #357379;
+  --color-teal-light: #D6E5F2;
+  --color-teal-bg: #f0f9f9;
+
+  /* UI Grays & Backgrounds */
+  --color-bg-main: #f8fafc;
+  --color-bg-white: #ffffff;
+  --color-bg-light-gray: #f1f5f9;
+  --color-gray-soft: #f8fafc;
+  --color-gray-light: #e2e8f0;
+  --color-gray-medium: #94a3b8;
+  --color-gray-dark: #64748b;
+  --color-gray-x-dark: #334155;
+
+  /* Text Colors */
+  --color-text-primary: #19305A;
+  --color-text-dark: #334155;
+  --color-text-muted: #64748b;
+  --color-text-slate: #545F71;
+  --color-text-light: #94a3b8;
+  --color-text-x-light: #cbd5e0;
+
+  /* Border Colors */
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #cbd5e0;
+  --color-border-navy: #19305A;
+
+  /* Accent / Status Colors */
+  --color-error: #CC5247;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+
+  /* Text Colors */
+  --color-text-black: #141414;
+  
+  --color-text-gray: #C8C8C8;
+  --color-text-gray-light: #545F71;
+}

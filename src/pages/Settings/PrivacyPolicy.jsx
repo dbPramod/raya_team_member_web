@@ -48,9 +48,9 @@ const PrivacyPolicy = () => {
                     onClick={() => navigate('/settings')}
                     className="border-0 bg-transparent p-0 d-flex align-items-center justify-content-center"
                 >
-                    <i className="bi bi-arrow-left fs-3" style={{ color: '#0f1d3a' }}></i>
+                    <i className="bi bi-arrow-left fs-3" style={{ color: 'var(--color-navy-primary)' }}></i>
                 </button>
-                <h2 className="fw-bold m-0" style={{ color: '#0f1d3a' }}>Privacy Policy</h2>
+                <h2 className="fw-bold m-0" style={{ color: 'var(--color-navy-primary)' }}>Privacy Policy</h2>
             </div>
 
             <Card className="border-0 shadow-sm rounded-4 overflow-hidden" style={{ backgroundColor: '#f0f7ff' }}>
@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
                     <div className="d-flex flex-column gap-4">
                         {sections.map((section) => (
                             <div key={section.title}>
-                                <h5 className="fw-bold mb-2" style={{ color: '#0f1d3a' }}>{section.title}</h5>
+                                <h5 className="fw-bold mb-2" style={{ color: 'var(--color-navy-primary)' }}>{section.title}</h5>
                                 <p className="mb-0 text-muted" style={{ lineHeight: '1.8' }}>{section.body}</p>
                             </div>
                         ))}

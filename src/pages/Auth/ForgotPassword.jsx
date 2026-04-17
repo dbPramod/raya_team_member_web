@@ -58,8 +58,8 @@ const ForgotPassword = () => {
               </div>
 
               <div className="mb-4 text-center">
-                <h2 className="fw-bold fs-3 mb-2" style={{ color: '#0f1d3a' }}>{STRINGS.FORGOT_PASSWORD.TITLE}</h2>
-                <p className="small" style={{ color: '#6b7280' }}>{STRINGS.FORGOT_PASSWORD.SUBTITLE}</p>
+                <h2 className="fw-bold fs-3 mb-2" style={{ color: 'var(--color-navy-primary)' }}>{STRINGS.FORGOT_PASSWORD.TITLE}</h2>
+                <p className="small text-nowrap" style={{ color: "var(--color-text-slate)" }}>{STRINGS.FORGOT_PASSWORD.SUBTITLE}</p>
               </div>
 
               <Form onSubmit={handleSubmit} className="px-lg-4">

@@ -10,7 +10,7 @@ const MainLayout = () => {
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
   return (
-    <div className="d-flex vh-100 position-relative w-100 overflow-hidden" style={{ backgroundColor: '#0f1d3a' }}>
+    <div className="d-flex vh-100 position-relative w-100 overflow-hidden" style={{ backgroundColor: 'var(--color-navy-primary)' }}>
       
       {/* Mobile Overlay */}
       {sidebarOpen && (
